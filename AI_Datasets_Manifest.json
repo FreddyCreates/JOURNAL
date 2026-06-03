@@ -1,0 +1,116 @@
+{
+  "manifestVersion": "1.0.0",
+  "architect": "Medina",
+  "description": "AI Datasets Manifest — maps all registered training and benchmark datasets to organism rings, intelligence classes, and routing protocols",
+  "generatedAt": "2026-06-03T08:30:00.000Z",
+  "registers": {
+    "training": {
+      "file": "AI_Training_Datasets_Register.csv",
+      "entryCount": 40,
+      "idPrefix": "AID",
+      "description": "Foundational training corpora powering the organism's knowledge substrate"
+    },
+    "benchmarks": {
+      "file": "AI_Benchmark_Datasets_Register.csv",
+      "entryCount": 40,
+      "idPrefix": "AIB",
+      "description": "Evaluation and benchmark datasets for organism capability verification"
+    }
+  },
+  "ringDistribution": {
+    "Memory Ring": {
+      "description": "Knowledge substrate and long-term memory datasets",
+      "trainingDatasets": ["AID-001", "AID-002", "AID-006", "AID-008", "AID-010", "AID-011", "AID-023", "AID-026", "AID-028", "AID-029"],
+      "benchmarkDatasets": ["AIB-014", "AIB-029", "AIB-032", "AIB-036", "AIB-038"]
+    },
+    "Interface Ring": {
+      "description": "Reasoning, routing, and orchestration datasets",
+      "trainingDatasets": ["AID-012", "AID-013", "AID-015", "AID-016", "AID-017", "AID-022", "AID-025", "AID-033", "AID-034", "AID-035", "AID-039", "AID-040"],
+      "benchmarkDatasets": ["AIB-001", "AIB-004", "AIB-007", "AIB-008", "AIB-010", "AIB-011", "AIB-012", "AIB-013", "AIB-015", "AIB-017", "AIB-022", "AIB-024", "AIB-026", "AIB-027", "AIB-028", "AIB-030", "AIB-033", "AIB-034", "AIB-040"]
+    },
+    "Sovereign Ring": {
+      "description": "Self-hosted sovereign compute datasets",
+      "trainingDatasets": ["AID-003", "AID-007", "AID-024"],
+      "benchmarkDatasets": []
+    },
+    "Build Ring": {
+      "description": "Code generation and mathematical reasoning datasets",
+      "trainingDatasets": ["AID-005", "AID-009", "AID-030"],
+      "benchmarkDatasets": ["AIB-002", "AIB-003", "AIB-006", "AIB-009", "AIB-016", "AIB-023", "AIB-035", "AIB-037", "AIB-039"]
+    },
+    "Geometry Ring": {
+      "description": "Vision, scene, and multi-modal datasets",
+      "trainingDatasets": ["AID-004", "AID-018", "AID-019", "AID-026", "AID-031", "AID-032", "AID-036", "AID-037", "AID-038"],
+      "benchmarkDatasets": ["AIB-018", "AIB-019", "AIB-025"]
+    },
+    "Counsel Ring": {
+      "description": "Governance, safety, and alignment datasets",
+      "trainingDatasets": ["AID-014", "AID-027"],
+      "benchmarkDatasets": ["AIB-005", "AIB-021", "AIB-031"]
+    },
+    "Native Capability Ring": {
+      "description": "Speech, audio, and native device capability datasets",
+      "trainingDatasets": ["AID-020", "AID-021"],
+      "benchmarkDatasets": ["AIB-020"]
+    }
+  },
+  "modalityIndex": {
+    "Text": {
+      "trainingCount": 24,
+      "benchmarkCount": 26,
+      "description": "Pure text corpora and text-based evaluations"
+    },
+    "Text + Code": {
+      "trainingCount": 2,
+      "benchmarkCount": 8,
+      "description": "Source code and programming task datasets"
+    },
+    "Image + Text": {
+      "trainingCount": 6,
+      "benchmarkCount": 5,
+      "description": "Vision-language paired and interleaved datasets"
+    },
+    "Audio + Text": {
+      "trainingCount": 2,
+      "benchmarkCount": 1,
+      "description": "Speech and audio with transcription datasets"
+    },
+    "Video + Text": {
+      "trainingCount": 2,
+      "benchmarkCount": 0,
+      "description": "Video-language understanding corpora"
+    },
+    "3D + Text": {
+      "trainingCount": 1,
+      "benchmarkCount": 0,
+      "description": "3D object understanding corpora"
+    }
+  },
+  "organismWiring": {
+    "pretraining": {
+      "description": "Foundational knowledge used to initialize the organism's cognitive substrate",
+      "primaryDatasets": ["AID-002", "AID-003", "AID-007", "AID-008", "AID-012"],
+      "supportingDatasets": ["AID-001", "AID-005", "AID-006", "AID-010", "AID-024"]
+    },
+    "alignment": {
+      "description": "Safety and instruction-following data for organism governance alignment",
+      "primaryDatasets": ["AID-014", "AID-015", "AID-017", "AID-033"],
+      "supportingDatasets": ["AID-016", "AID-025", "AID-034", "AID-035", "AID-040"]
+    },
+    "evaluation": {
+      "description": "Continuous organism capability verification pipeline",
+      "coreMetrics": ["AIB-001", "AIB-002", "AIB-005", "AIB-011", "AIB-016", "AIB-017"],
+      "extendedMetrics": ["AIB-010", "AIB-013", "AIB-015", "AIB-022", "AIB-027", "AIB-034"]
+    },
+    "specialization": {
+      "description": "Domain-specific corpora for organism capability branches",
+      "code": ["AID-005", "AID-009"],
+      "math": ["AID-030"],
+      "science": ["AID-028", "AID-029"],
+      "legal": ["AID-027"],
+      "multilingual": ["AID-012", "AID-013", "AID-022", "AID-033"],
+      "vision": ["AID-004", "AID-018", "AID-032", "AID-037"],
+      "speech": ["AID-020", "AID-021"]
+    }
+  }
+}

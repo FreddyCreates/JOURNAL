@@ -37,6 +37,9 @@ Every external frontend technology is a **fracture**. Each fracture is reduced t
 | `Phantom_Blockchain_Model_Register.csv` | Phantom/substrate model families for parallel blockchain intelligence mapping |
 | `Architectural_Laws_Register.csv` | 40 architectural laws governing the organism across all layers |
 | `SDK_Model_Manifest.json` | Unified manifest wiring all 5 SDKs to the frontier register and laws |
+| `AI_Training_Datasets_Register.csv` | 40 foundational training corpora with modality, size class, ring affinity, and organism placement |
+| `AI_Benchmark_Datasets_Register.csv` | 40 evaluation/benchmark datasets with metrics, task counts, and capability domains |
+| `AI_Datasets_Manifest.json` | Unified manifest wiring all datasets to organism rings, modalities, and evaluation pipelines |
 
 ## Sovereign SDKs
 
