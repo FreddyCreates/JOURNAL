@@ -122,6 +122,17 @@ async function copyOutput(elementId) {
       }, 2000);
     }
   } catch (_) {
-    /* clipboard not available in all contexts */
+    /* clipboard API not available — show manual copy prompt */
+    const btn = document.querySelector(`[onclick="copyOutput('${elementId}')"]`);
+    if (btn) {
+      const original = btn.textContent;
+      btn.textContent = 'Select & copy manually';
+      btn.style.color = 'var(--gold)';
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.style.color = '';
+      }, 3000);
+    }
+    if (el) el.focus();
   }
 }
