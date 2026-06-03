@@ -369,6 +369,13 @@ const runtime = new ProtocolRuntimeManager();
 const eit = new EncryptedIntelligenceTransport();
 runtime.register('encrypted-intelligence-transport', eit);
 
+// HTML escape utility to prevent XSS
+function esc(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(String(str)));
+  return div.innerHTML;
+}
+
 // Initialize on page load
 let platformReady = false;
 
@@ -466,10 +473,10 @@ async function demoDecrypt() {
 
     output.className = `demo-output ${result.verified ? 'success' : 'warning'}`;
     output.innerHTML = `
-<span class="out-label">⬤ Plaintext:</span> ${result.plaintext}
+<span class="out-label">⬤ Plaintext:</span> ${esc(result.plaintext)}
 <span class="out-label">⬤ Integrity:</span> <span class="${result.verified ? 'verified' : 'failed'}">${result.verified ? '✓ VERIFIED' : '✗ INTEGRITY FAILED'}</span>
-<span class="out-label">⬤ Algorithm:</span> ${result.algorithm}
-<span class="out-label">⬤ Level:</span> <span class="level-${result.level}">${result.level.toUpperCase()}</span>
+<span class="out-label">⬤ Algorithm:</span> ${esc(result.algorithm)}
+<span class="out-label">⬤ Level:</span> <span class="level-${esc(result.level)}">${esc(result.level.toUpperCase())}</span>
 <span class="out-label">⬤ Decrypted At:</span> ${new Date(result.decryptedAt).toISOString()}`;
 
     updateMetricsDisplay();
@@ -554,12 +561,12 @@ async function demoCreateChannel() {
 
     output.className = 'demo-output success';
     output.innerHTML = `
-<span class="out-label">⬤ Channel ID:</span> ${channel.channelId}
-<span class="out-label">⬤ Endpoint A:</span> ${channel.endpointA}
-<span class="out-label">⬤ Endpoint B:</span> ${channel.endpointB}
-<span class="out-label">⬤ Algorithm:</span> ${channel.algorithm}
+<span class="out-label">⬤ Channel ID:</span> ${esc(channel.channelId)}
+<span class="out-label">⬤ Endpoint A:</span> ${esc(channel.endpointA)}
+<span class="out-label">⬤ Endpoint B:</span> ${esc(channel.endpointB)}
+<span class="out-label">⬤ Algorithm:</span> ${esc(channel.algorithm)}
 <span class="out-label">⬤ Established:</span> <span class="verified">✓ SECURE</span>
-<span class="out-label">⬤ Key Fingerprint:</span> ${channel.keyFingerprint}`;
+<span class="out-label">⬤ Key Fingerprint:</span> ${esc(channel.keyFingerprint)}`;
 
     updateMetricsDisplay();
   } catch (err) {
@@ -608,7 +615,7 @@ function showRuntimeLog() {
   const logs = runtime.logs.slice(-20).reverse();
   let html = `<div class="log-header">Uptime: ${(status.uptime / 1000).toFixed(1)}s | Protocols: ${status.protocolCount} | Events: ${status.logCount}</div>`;
   for (const entry of logs) {
-    html += `<div class="log-entry"><span class="log-time">[+${(entry.uptime / 1000).toFixed(2)}s]</span> ${entry.message}</div>`;
+    html += `<div class="log-entry"><span class="log-time">[+${(entry.uptime / 1000).toFixed(2)}s]</span> ${esc(entry.message)}</div>`;
   }
   el.innerHTML = html;
 }
