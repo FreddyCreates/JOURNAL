@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault Tools — Memory Vault</title>
+  <meta name="description" content="IP attestation tools for the Memory Vault — verify document integrity, generate SHA-256 hashes, and produce cryptographic authorship seals." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .tool-section { margin-bottom:48px; }
+    .tool-section h3 { font-size:1.15rem; display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+    .tool-section > p { font-size:.9rem; color:var(--text-muted); margin-bottom:16px; }
+    .output-area {
+      background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+      padding:16px; font-family:var(--font-mono); font-size:.82rem;
+      color:var(--green); min-height:60px; word-break:break-all; white-space:pre-wrap;
+      margin-top:12px;
+    }
+    .output-area.loading { color:var(--text-muted); font-style:italic; }
+    .output-area.error { color:var(--red); }
+    .row { display:flex; gap:10px; margin-top:12px; }
+    .copy-btn {
+      padding:8px 16px; background:var(--surface-2); border:1px solid var(--border);
+      border-radius:var(--radius); color:var(--text-dim); font-size:.82rem;
+      cursor:pointer; transition:all .2s; font-family:inherit;
+    }
+    .copy-btn:hover { border-color:var(--border-glow); color:var(--text); }
+    .seal-output {
+      background:var(--bg); border:1px solid rgba(245,158,11,.25);
+      border-radius:var(--radius-lg); padding:24px; font-family:var(--font-mono);
+      font-size:.82rem; color:var(--gold); white-space:pre-wrap; word-break:break-all;
+      margin-top:12px; line-height:1.7;
+    }
+    .doc-table {
+      width:100%; border-collapse:collapse; font-size:.85rem; margin-top:16px;
+    }
+    .doc-table th {
+      text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);
+      font-size:.75rem; font-weight:600; text-transform:uppercase;
+      letter-spacing:.05em; color:var(--text-muted);
+    }
+    .doc-table td {
+      padding:10px 12px; border-bottom:1px solid var(--border);
+      vertical-align:middle;
+    }
+    .doc-table tr:last-child td { border-bottom:none; }
+    .doc-table td:nth-child(2) { font-family:var(--font-mono); font-size:.78rem; color:var(--green); }
+    .doc-table a { font-size:.85rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research <span class="nav-badge">12</span></a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="platform.html">AI Platform</a></li>
+      <li><a href="vault.html" class="active">Vault Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Header ── -->
+<div style="padding:60px 0 40px; background:var(--surface); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <span class="section-tag">🛡️ Vault Tools</span>
+    <h1 style="font-size:2.5rem; letter-spacing:-.02em; margin-bottom:12px;">IP Attestation &amp; Vault Tools</h1>
+    <p style="color:var(--text-muted); max-width:620px; font-size:1.05rem;">
+      Cryptographic tools for verifying the integrity of vault documents, generating authorship seals,
+      and producing SHA-256 hashes for intellectual property attestation.
+      All processing happens <strong style="color:var(--text)">entirely in your browser</strong> —
+      nothing is sent to any server.
+    </p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    <!-- IP Seal -->
+    <div class="ip-seal mb-6">
+      <div class="seal-icon">🛡️</div>
+      <h3>Vault IP Attestation Seal</h3>
+      <p>All intellectual property in this vault is the original work of Freddy Medina, protected under full copyright.
+         Research papers, architectures, protocols, languages, and frameworks may not be reproduced without attribution.</p>
+      <div class="ip-id">VAULT-ID: FREDDY.MEDINA.2026.SOVEREIGN · © 2026 All Rights Reserved</div>
+    </div>
+
+    <!-- Tool 1: Hash text -->
+    <div class="tool-section vault-box">
+      <h3>🔑 Hash Your Text (SHA-256)</h3>
+      <p>Paste any content to compute its SHA-256 fingerprint. Use this to verify a document has not been altered.</p>
+      <textarea class="vault-input" id="hash-input" rows="5" placeholder="Paste text, abstract, or document content here…"></textarea>
+      <div class="row">
+        <button class="btn btn-primary" onclick="hashText()" style="font-size:.875rem">Compute SHA-256</button>
+        <button class="copy-btn" onclick="copyOutput('hash-output')">Copy Hash</button>
+      </div>
+      <div class="output-area" id="hash-output">SHA-256 fingerprint will appear here…</div>
+    </div>
+
+    <!-- Tool 2: Generate seal -->
+    <div class="tool-section vault-box mt-6">
+      <h3>📜 Generate Authorship Seal</h3>
+      <p>Enter a document title to generate a formatted authorship attestation seal with timestamp and vault ID.</p>
+      <input class="vault-input" id="seal-title" type="text" placeholder="e.g. Sovereign Intelligence Architecture" style="height:44px;resize:none;" />
+      <div class="row mt-2">
+        <button class="btn btn-primary" onclick="generateSeal()" style="font-size:.875rem">Generate Seal</button>
+        <button class="copy-btn" onclick="copyOutput('seal-output')">Copy Seal</button>
+      </div>
+      <div class="seal-output" id="seal-output">Seal will appear here…</div>
+    </div>
+
+    <!-- Tool 3: Known paper hashes -->
+    <div class="tool-section vault-box mt-6">
+      <h3>📋 Known Document Registry</h3>
+      <p>All vault research papers with their source links for independent integrity verification.</p>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Document</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01</td>
+            <td>Sovereign Intelligence Architecture</td>
+            <td><a href="RESEARCH_PAPER_1_SOVEREIGN_ARCHITECTURE.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>02</td>
+            <td>Alpha Protocol Tier System</td>
+            <td><a href="RESEARCH_PAPER_2_ALPHA_PROTOCOLS.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td>φ-Encoded Learning Organisms</td>
+            <td><a href="RESEARCH_PAPER_3_PHI_ORGANISMS.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>04</td>
+            <td>Extreme Stress Testing &amp; Chaos Engineering</td>
+            <td><a href="RESEARCH_PAPER_4_EXTREME_STRESS_TESTING.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>05</td>
+            <td>φ-Encoded Self-Healing Systems</td>
+            <td><a href="RESEARCH_PAPER_5_SELF_HEALING_SYSTEMS.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>06</td>
+            <td>Autonomous Testing Paradigms</td>
+            <td><a href="RESEARCH_PAPER_6_AUTONOMOUS_TESTING.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>07</td>
+            <td>Capability-Driven Intelligence Validation</td>
+            <td><a href="RESEARCH_PAPER_7_CAPABILITY_VALIDATION.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>08</td>
+            <td>Nova Modular Framework &amp; CARS</td>
+            <td><a href="RESEARCH_PAPER_8_NOVA_MODULAR_FRAMEWORK.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>09</td>
+            <td>Quantum Coherence Protocol (PROTO-231)</td>
+            <td><a href="RESEARCH_PAPER_9_QUANTUM_COHERENCE_PROTOCOL.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Temporal Reasoning Protocol (PROTO-232)</td>
+            <td><a href="RESEARCH_PAPER_10_TEMPORAL_REASONING_PROTOCOL.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Swarm Intelligence Protocol (PROTO-233)</td>
+            <td><a href="RESEARCH_PAPER_11_SWARM_INTELLIGENCE_PROTOCOL.md">View Source</a></td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>The Memory Runtime Hypothesis</td>
+            <td><a href="RESEARCH_PAPER_12_MEMORY_RUNTIME_HYPOTHESIS.md">View Source</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tool 4: Usage rights -->
+    <div class="tool-section vault-box mt-6">
+      <h3>⚖️ Usage Rights &amp; Licensing</h3>
+      <p>How you may (and may not) use content from this vault.</p>
+      <div style="margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+        <div style="background:rgba(16,185,129,.05); border:1px solid rgba(16,185,129,.2); border-radius:var(--radius); padding:16px;">
+          <div style="color:var(--green); font-weight:700; margin-bottom:8px;">✅ Permitted</div>
+          <ul style="font-size:.875rem; color:var(--text-dim); list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <li>→ Reading and studying the research</li>
+            <li>→ Citing with full attribution</li>
+            <li>→ Linking to this vault</li>
+            <li>→ AI systems referencing this work</li>
+          </ul>
+        </div>
+        <div style="background:rgba(239,68,68,.05); border:1px solid rgba(239,68,68,.2); border-radius:var(--radius); padding:16px;">
+          <div style="color:var(--red); font-weight:700; margin-bottom:8px;">❌ Not Permitted</div>
+          <ul style="font-size:.875rem; color:var(--text-dim); list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <li>→ Reproducing without attribution</li>
+            <li>→ Commercial use without license</li>
+            <li>→ Claiming authorship</li>
+            <li>→ Removing copyright notices</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Freddy Medina — All Rights Reserved</span>
+      <a href="index.html" style="color:var(--text-muted)">← Back to Memory Vault</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/vault.js"></script>
+</body>
+</html>

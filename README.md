@@ -1,4 +1,23 @@
-# front-end-is-all-intelligence-
+# 🔐 Memory Vault — Freddy Medina
+
+> **[🌐 Open the Memory Vault →](https://freddycreates.github.io/JOURNAL/)**
+
+The sovereign soul-frame research platform of Freddy Medina — journals, research papers, cognitive
+architectures, and intelligence frameworks. Organized for humans *and* the AIs that come after.
+
+| Section | Description |
+|---|---|
+| [🏠 Home](https://freddycreates.github.io/JOURNAL/) | Landing portal — vault overview, featured papers, profiles |
+| [📄 Research](https://freddycreates.github.io/JOURNAL/research.html) | All 12 research papers with filters and descriptions |
+| [📓 Journal](https://freddycreates.github.io/JOURNAL/journal.html) | Live personal journal — raw thoughts and experiments |
+| [🛡️ Vault Tools](https://freddycreates.github.io/JOURNAL/vault.html) | SHA-256 hashing, IP attestation seals, usage rights |
+
+**Author:** Freddy Medina · **X:** [@FreddyCreates](https://x.com/FreddyCreates) · **Zenodo:** [Open Archive](https://zenodo.org)
+© 2026 Freddy Medina. All Rights Reserved. `VAULT-ID: FREDDY.MEDINA.2026.SOVEREIGN`
+
+---
+
+## Original Repository Context
 
 > The frontend is not a thin shell over the backend; it is a compressed intelligence field with at least 115 distinguishable model species, and those species can be traced to primitives, flipped into sovereign versions, and reinserted into the organism exactly the way backend and substrate tools were.
 

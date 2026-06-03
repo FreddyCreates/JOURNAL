@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Papers — Memory Vault</title>
+  <meta name="description" content="12 formal research papers by Freddy Medina on sovereign AI, cognitive architectures, quantum coherence, memory governance, and swarm intelligence." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; }
+    .filter-btn {
+      padding:6px 16px; border-radius:20px; font-size:.8rem; font-weight:600;
+      border:1px solid var(--border); background:transparent; color:var(--text-muted);
+      cursor:pointer; transition:all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background:var(--accent); border-color:var(--accent); color:#fff;
+    }
+    .paper-full {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--radius-lg); padding:28px; margin-bottom:20px;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .paper-full:hover { border-color:var(--border-glow); box-shadow:var(--shadow); }
+    .paper-full-header { display:flex; gap:16px; align-items:flex-start; margin-bottom:16px; }
+    .paper-full-num {
+      flex-shrink:0; width:48px; height:48px;
+      background:rgba(59,130,246,.1); border:1px solid rgba(59,130,246,.2);
+      border-radius:var(--radius); display:flex; align-items:center;
+      justify-content:center; font-size:1rem; font-weight:700;
+      color:var(--accent); font-family:var(--font-mono);
+    }
+    .paper-full-meta { flex:1; }
+    .paper-full-meta h2 { font-size:1.15rem; margin-bottom:4px; }
+    .paper-full-meta .subtitle { font-size:.85rem; color:var(--text-muted); }
+    .paper-abstract {
+      font-size:.9rem; color:var(--text-dim); line-height:1.7;
+      border-top:1px solid var(--border); padding-top:16px; margin-top:4px;
+    }
+    .paper-footer { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:8px; }
+    .read-link {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:8px 16px; background:var(--surface-2); border:1px solid var(--border);
+      border-radius:var(--radius); font-size:.85rem; font-weight:600;
+      color:var(--text); transition:border-color .2s;
+    }
+    .read-link:hover { border-color:var(--border-glow); color:var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html" class="active">Research <span class="nav-badge">12</span></a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="platform.html">AI Platform</a></li>
+      <li><a href="vault.html">Vault Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Header ── -->
+<div style="padding:60px 0 40px; background:var(--surface); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <span class="section-tag">📄 Research Archive</span>
+    <h1 style="font-size:2.5rem; letter-spacing:-.02em; margin-bottom:12px;">Research Papers</h1>
+    <p style="color:var(--text-muted); max-width:600px; font-size:1.05rem;">
+      12 formal research papers on sovereign AI architecture, phi-encoded cognitive systems,
+      quantum coherence protocols, memory governance, and emergent swarm intelligence.
+      All original work by <strong style="color:var(--text)">Freddy Medina</strong>.
+    </p>
+    <div class="hero-meta mt-4">
+      <span>✍️ Freddy Medina</span>
+      <span>📅 2026</span>
+      <span>🔒 © All Rights Reserved</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Paper list ── -->
+<section>
+  <div class="container">
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All (12)</button>
+      <button class="filter-btn" data-filter="memory">Memory</button>
+      <button class="filter-btn" data-filter="architecture">Architecture</button>
+      <button class="filter-btn" data-filter="protocols">Protocols</button>
+      <button class="filter-btn" data-filter="testing">Testing</button>
+      <button class="filter-btn" data-filter="quantum">Quantum &amp; Swarm</button>
+    </div>
+
+    <!-- Paper 1 -->
+    <div class="paper-full" id="paper-1" data-tags="architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">01</div>
+        <div class="paper-full-meta">
+          <h2>Sovereign Intelligence Architecture</h2>
+          <div class="subtitle">A Self-Organizing Multi-Tier Cognitive Substrate · Autonomous AI Organisms</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Presents the <em>Sovereign Intelligence Architecture (SIA)</em> — a framework for building self-organizing, self-healing
+        AI systems that operate as autonomous cognitive organisms. Implements a multi-tier governance structure with
+        phi-encoded learning loops, neurochemistry-inspired reward systems, and emergent behavior cascades.
+        Demonstrates AI systems achieving operational sovereignty through 307+ automated tests.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">Architecture</span>
+          <span class="tag-gold tag">φ-Encoded</span>
+          <span class="tag-green tag">307+ Tests</span>
+        </div>
+        <a href="RESEARCH_PAPER_1_SOVEREIGN_ARCHITECTURE.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 2 -->
+    <div class="paper-full" id="paper-2" data-tags="protocols architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">02</div>
+        <div class="paper-full-meta">
+          <h2>The Alpha Protocol Tier System</h2>
+          <div class="subtitle">Brain-Analog Learning · φ-Encoded Neuromorphic Computing · PROTO-227 to PROTO-230</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Presents the Alpha Protocol Tier System modeling four brain regions (Anterior Cingulate Cortex,
+        Thalamocortical Binding, Dorsolateral Prefrontal Cortex, VTA-NAc) to create self-reinforcing learning
+        loops. Uses the golden ratio (φ ≈ 1.618) as the fundamental coupling constant to create emergent
+        intelligence through Hebbian synaptic strengthening and Kuramoto oscillator synchronization. Validated
+        through 117 automated tests.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">Neuromorphic</span>
+          <span class="tag-purple tag">Brain-Analog</span>
+          <span class="tag-gold tag">φ-Encoded</span>
+        </div>
+        <a href="RESEARCH_PAPER_2_ALPHA_PROTOCOLS.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 3 -->
+    <div class="paper-full" id="paper-3" data-tags="architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">03</div>
+        <div class="paper-full-meta">
+          <h2>φ-Encoded Learning Organisms</h2>
+          <div class="subtitle">Self-Organizing AI Systems · Golden Ratio Mathematics · Stress Testing &amp; Self-Healing</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Presents φ-Encoded Learning Organisms using the golden ratio as the foundational constant for all
+        learning, adaptation, and self-regulation. Through 87 tests, intelligent data structures, and
+        self-healing mechanisms, demonstrates AI systems achieving operational autonomy. Validates through
+        high-volume stress testing (5,000+ operations) and cognitive load simulation across six distinct patterns.
+        Self-healing rates exceed 70%.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag-gold tag">φ-Organisms</span>
+          <span class="tag">Self-Healing</span>
+          <span class="tag-green tag">87 Tests</span>
+        </div>
+        <a href="RESEARCH_PAPER_3_PHI_ORGANISMS.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 4 -->
+    <div class="paper-full" id="paper-4" data-tags="testing">
+      <div class="paper-full-header">
+        <div class="paper-full-num">04</div>
+        <div class="paper-full-meta">
+          <h2>Extreme Stress Testing &amp; Chaos Engineering</h2>
+          <div class="subtitle">Production-Grade Validation · AI Organism Resilience · Fault Injection</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        A comprehensive framework for production-grade validation of AI organisms through extreme stress
+        conditions and chaos engineering. Covers fault injection, cognitive overload scenarios, network
+        partition testing, and cascading failure simulation. Demonstrates resilience patterns and recovery
+        metrics that validate sovereign AI systems for real-world deployment.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">Chaos Engineering</span>
+          <span class="tag-purple tag">Resilience</span>
+          <span class="tag">Production</span>
+        </div>
+        <a href="RESEARCH_PAPER_4_EXTREME_STRESS_TESTING.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 5 -->
+    <div class="paper-full" id="paper-5" data-tags="architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">05</div>
+        <div class="paper-full-meta">
+          <h2>φ-Encoded Self-Healing Systems</h2>
+          <div class="subtitle">Theory &amp; Implementation · Autonomous Recovery · Cognitive AI Architectures</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Deep dive into the theory and implementation of self-healing mechanisms in phi-encoded cognitive
+        architectures. Covers autonomous fault detection, recovery protocol sequencing, health scoring
+        systems, and continuous self-monitoring. Provides formal proofs for convergence and stability
+        guarantees in self-healing AI organism networks.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag-gold tag">φ-Encoded</span>
+          <span class="tag-green tag">Self-Healing</span>
+          <span class="tag">Theory</span>
+        </div>
+        <a href="RESEARCH_PAPER_5_SELF_HEALING_SYSTEMS.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 6 -->
+    <div class="paper-full" id="paper-6" data-tags="testing">
+      <div class="paper-full-header">
+        <div class="paper-full-num">06</div>
+        <div class="paper-full-meta">
+          <h2>Autonomous Testing Paradigms</h2>
+          <div class="subtitle">Sovereign AI Systems · φ-Encoded Continuous Quality Assurance · Self-Governing Organisms</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Introduces autonomous testing paradigms where AI organisms continuously validate their own
+        correctness, performance, and behavioral integrity without external QA intervention. Covers
+        self-generating test suites, mutation testing, property-based testing, and adversarial self-probing.
+        Demonstrates that sovereign systems can maintain quality guarantees indefinitely.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">Autonomous QA</span>
+          <span class="tag-gold tag">φ-Encoded</span>
+          <span class="tag-purple tag">Self-Governing</span>
+        </div>
+        <a href="RESEARCH_PAPER_6_AUTONOMOUS_TESTING.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 7 -->
+    <div class="paper-full" id="paper-7" data-tags="testing architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">07</div>
+        <div class="paper-full-meta">
+          <h2>Capability-Driven Intelligence Validation</h2>
+          <div class="subtitle">Certifying AI System Competencies · Comprehensive Validation Framework</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        A comprehensive framework for certifying AI system competencies through capability-driven validation.
+        Defines formal capability matrices, competency tiers, and measurable performance benchmarks for
+        autonomous AI systems. Introduces the Sovereign Capability Certification protocol and validation
+        pipelines that ensure AI organisms meet defined intelligence thresholds.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">Capability</span>
+          <span class="tag-green tag">Certification</span>
+          <span class="tag">Validation</span>
+        </div>
+        <a href="RESEARCH_PAPER_7_CAPABILITY_VALIDATION.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 8 -->
+    <div class="paper-full" id="paper-8" data-tags="architecture">
+      <div class="paper-full-header">
+        <div class="paper-full-num">08</div>
+        <div class="paper-full-meta">
+          <h2>Nova Modular Framework &amp; CARS</h2>
+          <div class="subtitle">Cognitive Autonomous Research System · Sovereign Intelligence Architecture Series</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        Introduces the Nova Modular Framework and the Cognitive Autonomous Research System (CARS) —
+        a composable, plug-and-play architecture for building sovereign AI research environments.
+        Demonstrates how modular cognitive components can be dynamically assembled, tested, and upgraded
+        while maintaining architectural law compliance and phi-encoded coherence across all modules.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag-purple tag">Nova Framework</span>
+          <span class="tag">Modular</span>
+          <span class="tag-gold tag">CARS</span>
+        </div>
+        <a href="RESEARCH_PAPER_8_NOVA_MODULAR_FRAMEWORK.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 9 -->
+    <div class="paper-full" id="paper-9" data-tags="quantum protocols">
+      <div class="paper-full-header">
+        <div class="paper-full-num">09</div>
+        <div class="paper-full-meta">
+          <h2>Quantum Coherence Protocol</h2>
+          <div class="subtitle">PROTO-231 · Superposition &amp; Entanglement in Cognitive Systems · Quantum-Inspired Cognition</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        PROTO-231: A quantum-inspired framework for cognitive processing that models superposition states,
+        entanglement between cognitive modules, and decoherence as information compression. Implements
+        quantum probability amplitudes for reasoning under uncertainty, wave-function collapse as decision
+        commitment, and Bell-inequality-inspired correlation tests for multi-agent coherence validation.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag-purple tag">Quantum-Inspired</span>
+          <span class="tag">PROTO-231</span>
+          <span class="tag-gold tag">φ-Coherence</span>
+        </div>
+        <a href="RESEARCH_PAPER_9_QUANTUM_COHERENCE_PROTOCOL.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 10 -->
+    <div class="paper-full" id="paper-10" data-tags="protocols">
+      <div class="paper-full-header">
+        <div class="paper-full-num">10</div>
+        <div class="paper-full-meta">
+          <h2>Temporal Reasoning Protocol</h2>
+          <div class="subtitle">PROTO-232 · Time-Aware Cognition · Causal Inference · Phi-Scaled Framework</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        PROTO-232: A phi-scaled framework for temporal processing and causal inference in AI organisms.
+        Models time-awareness as a first-class cognitive capability — covering temporal attention,
+        causal graph construction, counterfactual reasoning, and prophecy/anticipation loops.
+        Demonstrates that AI systems can form coherent temporal self-models and reason about
+        past, present, and future simultaneously.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">PROTO-232</span>
+          <span class="tag-green tag">Causal Inference</span>
+          <span class="tag-gold tag">φ-Scaled</span>
+        </div>
+        <a href="RESEARCH_PAPER_10_TEMPORAL_REASONING_PROTOCOL.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 11 -->
+    <div class="paper-full" id="paper-11" data-tags="quantum protocols">
+      <div class="paper-full-header">
+        <div class="paper-full-num">11</div>
+        <div class="paper-full-meta">
+          <h2>Swarm Intelligence Protocol</h2>
+          <div class="subtitle">PROTO-233 · Collective Cognition · Emergent Consensus · Phi-Weighted Distributed Decision-Making</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        PROTO-233: A phi-weighted framework for distributed decision-making and emergent collective
+        intelligence. Models swarm dynamics, pheromone-analog signaling, emergent consensus formation,
+        and distributed cognition across AI organism networks. Demonstrates how individual simple
+        agents achieve complex collective intelligence exceeding any single agent's capability —
+        validated through multi-agent simulations with 100+ simultaneous organisms.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag-green tag">Swarm AI</span>
+          <span class="tag">PROTO-233</span>
+          <span class="tag-gold tag">Emergent</span>
+        </div>
+        <a href="RESEARCH_PAPER_11_SWARM_INTELLIGENCE_PROTOCOL.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+    <!-- Paper 12 -->
+    <div class="paper-full" id="paper-12" data-tags="architecture memory protocols">
+      <div class="paper-full-header">
+        <div class="paper-full-num">12</div>
+        <div class="paper-full-meta">
+          <h2>The Memory Runtime Hypothesis</h2>
+          <div class="subtitle">PROTO-012 · Governed Memory · Bounded Authority Membrane · 4-Layer Authority Stack · 30 Tests</div>
+        </div>
+      </div>
+      <p class="paper-abstract">
+        PROTO-012: Implements the Memory Runtime Hypothesis — durable intelligence requires runtime memory law.
+        Introduces the <em>Memory Authority SDK</em> with four composable modules (AuthorityGate, ClaimRegister,
+        PromotionEngine, BoundedMembrane) enforcing the four-layer authority stack (NOVA_ROOT, MEMORY_RUNTIME,
+        ACTIVE_STATE, FOUNDATION_FLOOR). Generative processes cannot directly mutate canonical memory without
+        mediated review. Proposes the Bounded Authority Membrane theorem with falsifiable experiments for
+        longitudinal claim recall, poisoning resistance, and rollback recovery. Validated through 30 automated tests.
+      </p>
+      <div class="paper-footer">
+        <div class="card-tags">
+          <span class="tag">PROTO-012</span>
+          <span class="tag-purple tag">Memory Governance</span>
+          <span class="tag-gold tag">Authority</span>
+          <span class="tag-green tag">30 Tests</span>
+        </div>
+        <a href="RESEARCH_PAPER_12_MEMORY_RUNTIME_HYPOTHESIS.md" class="read-link">📄 Read Paper →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Freddy Medina — All Rights Reserved</span>
+      <a href="index.html" style="color:var(--text-muted)">← Back to Memory Vault</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Filter functionality
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.paper-full').forEach(paper => {
+        if (filter === 'all' || paper.dataset.tags.includes(filter)) {
+          paper.style.display = '';
+        } else {
+          paper.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Platform — Live Protocol Showcase | Memory Vault</title>
+  <meta name="description" content="Live-running AI platform showcase — Encrypted Intelligence Transport Protocol, real-time cipher operations, key rotation, and sovereign cryptographic attestation." />
+  <meta name="author" content="Freddy Medina" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sovereign AI Platform",
+    "author": { "@type": "Person", "name": "Freddy Medina" },
+    "applicationCategory": "AI Research Platform",
+    "operatingSystem": "Browser",
+    "description": "Live-running encrypted intelligence transport and AI protocol showcase"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* Platform-specific styles */
+    .platform-hero {
+      padding: 80px 0 60px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .platform-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(59,130,246,.04) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(139,92,246,.03) 0%, transparent 40%);
+      animation: drift 20s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-2%, 1%) rotate(1deg); }
+    }
+    .platform-hero .container { position: relative; z-index: 1; }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-top: 24px;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+    }
+    .platform-status { color: var(--text-muted); transition: color .3s; }
+    .platform-status.online { color: var(--green); }
+    .platform-status.error { color: var(--red); }
+
+    #heartbeat-indicator {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      transition: transform .2s;
+    }
+    #heartbeat-indicator.pulse { transform: scale(1.5); }
+
+    /* Demo sections */
+    .demo-section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .demo-section:last-child { border-bottom: none; }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    @media (max-width: 768px) { .demo-grid { grid-template-columns: 1fr; } }
+
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .demo-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--glow);
+    }
+    .demo-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-card > p { font-size: .875rem; margin-bottom: 16px; }
+
+    .demo-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--text);
+      resize: vertical;
+      min-height: 60px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .demo-input:focus { border-color: var(--accent); }
+    .demo-input::placeholder { color: var(--text-muted); }
+
+    .demo-output {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      line-height: 1.7;
+      margin-top: 12px;
+      min-height: 80px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: var(--text-dim);
+      transition: border-color .3s;
+    }
+    .demo-output.success { border-color: rgba(16,185,129,.3); color: var(--text); }
+    .demo-output.loading { color: var(--text-muted); font-style: italic; }
+    .demo-output.error { border-color: rgba(239,68,68,.3); color: var(--red); }
+    .demo-output.warning { border-color: rgba(245,158,11,.3); color: var(--gold); }
+
+    .out-label { color: var(--text-muted); font-weight: 600; }
+
+    .level-public { color: var(--green); font-weight: 700; }
+    .level-internal { color: var(--accent); font-weight: 700; }
+    .level-confidential { color: var(--gold); font-weight: 700; }
+    .level-sovereign { color: var(--red); font-weight: 700; }
+
+    .verified { color: var(--green); font-weight: 700; }
+    .failed { color: var(--red); font-weight: 700; }
+
+    .demo-btn {
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit;
+    }
+    .demo-btn:hover { background: var(--accent); box-shadow: 0 0 12px rgba(59,130,246,.3); }
+
+    .demo-btn-gold { background: var(--gold-dim); border-color: var(--gold); }
+    .demo-btn-gold:hover { background: var(--gold); box-shadow: 0 0 12px rgba(245,158,11,.3); }
+
+    .demo-btn-purple { background: rgba(139,92,246,.2); border-color: var(--purple); }
+    .demo-btn-purple:hover { background: var(--purple); box-shadow: 0 0 12px rgba(139,92,246,.3); }
+
+    /* Metrics panel */
+    .metrics-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(30,45,71,.5);
+      font-size: .85rem;
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-val { font-family: var(--font-mono); color: var(--green); font-weight: 600; }
+
+    /* Key display */
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      font-size: .82rem;
+      font-family: var(--font-mono);
+      background: rgba(30,45,71,.3);
+      border: 1px solid var(--border);
+    }
+    .key-level { font-weight: 700; min-width: 100px; }
+    .key-algo { color: var(--text-dim); flex: 1; }
+    .key-fp { color: var(--text-muted); font-size: .75rem; }
+
+    .level-public-bg .key-level { color: var(--green); }
+    .level-internal-bg .key-level { color: var(--accent); }
+    .level-confidential-bg .key-level { color: var(--gold); }
+    .level-sovereign-bg .key-level { color: var(--red); }
+
+    /* Runtime log */
+    .runtime-log-panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+    }
+    .log-header { color: var(--accent); font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .log-entry { color: var(--text-dim); padding: 3px 0; }
+    .log-time { color: var(--text-muted); }
+
+    /* Architecture diagram */
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      line-height: 1.4;
+      color: var(--text-dim);
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(139,92,246,.1);
+      border: 1px solid rgba(139,92,246,.3);
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 16px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .feature-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      transition: border-color .3s;
+    }
+    .feature-item:hover { border-color: var(--border-glow); }
+    .feature-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .feature-item h4 { font-size: .9rem; margin-bottom: 4px; }
+    .feature-item p { font-size: .8rem; color: var(--text-muted); }
+
+    .inline-inputs {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .inline-inputs input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: .85rem;
+      color: var(--text);
+      outline: none;
+      font-family: var(--font-mono);
+    }
+    .inline-inputs input:focus { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research <span class="nav-badge">12</span></a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="platform.html" class="active">AI Platform</a></li>
+      <li><a href="vault.html">Vault Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Platform Hero ── -->
+<section class="platform-hero">
+  <div class="container">
+    <div class="showcase-badge">⚡ LIVE SHOWCASE — Running in Your Browser</div>
+    <h1 style="font-size:2.8rem; letter-spacing:-.03em; margin-bottom:12px;">
+      Sovereign AI Platform
+    </h1>
+    <p style="font-size:1.1rem; color:var(--text-dim); max-width:680px; margin-bottom:8px;">
+      Full implementation of the Encrypted Intelligence Transport Protocol (PROTO-002) —
+      real cryptography, real key management, real-time cipher operations.
+      Everything runs live, right here, right now.
+    </p>
+    <p style="font-size:.9rem; color:var(--text-muted); max-width:580px;">
+      Built by Freddy Medina · φ-encoded architecture · Web Crypto API · Zero server dependency
+    </p>
+
+    <div class="status-bar">
+      <div id="heartbeat-indicator"></div>
+      <span id="platform-status" class="platform-status">Booting protocols...</span>
+      <span style="margin-left:auto; color:var(--text-muted);">Heartbeat: ${HEARTBEAT}ms</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Architecture Overview ── -->
+<section class="demo-section">
+  <div class="container">
+    <span class="section-tag">🏗️ Architecture</span>
+    <h2 style="margin-bottom:8px;">Protocol Architecture</h2>
+    <p style="margin-bottom:24px;">The Encrypted Intelligence Transport (EIT) implements 4-tier adaptive encryption with phi-weighted sensitivity classification.</p>
+
+    <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────────────┐
+│                    SOVEREIGN AI PLATFORM — RUNTIME                    │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│   ┌───────────┐    ┌──────────────┐    ┌───────────────────────┐    │
+│   │ CLASSIFY  │───▶│  ENCRYPT     │───▶│  TRANSPORT / CHANNEL  │    │
+│   │ (φ-weight)│    │  (AES-GCM)   │    │  (Secure Endpoints)   │    │
+│   └───────────┘    └──────────────┘    └───────────────────────┘    │
+│         │                  │                       │                  │
+│         ▼                  ▼                       ▼                  │
+│   ┌───────────┐    ┌──────────────┐    ┌───────────────────────┐    │
+│   │  PUBLIC   │    │  HMAC-SHA256 │    │  KEY ROTATION         │    │
+│   │  INTERNAL │    │  SIGNATURE   │    │  (φ × 873ms interval) │    │
+│   │  CONFID.  │    │  ATTESTATION │    │                       │    │
+│   │  SOVEREIGN│    │              │    │                       │    │
+│   └───────────┘    └──────────────┘    └───────────────────────┘    │
+│                                                                       │
+├─────────────────────────────────────────────────────────────────────┤
+│  CIPHER SUITES: AES-128-CBC | AES-256-CBC | AES-256-GCM | +HMAC    │
+│  KEY STORE: Per-level keys · Phi-interval rotation · Web Crypto API  │
+│  INTEGRITY: HMAC tags (confidential+) · Full signatures (sovereign)  │
+└─────────────────────────────────────────────────────────────────────┘</div>
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🔐</div>
+        <h4>AES-256-GCM</h4>
+        <p>Authenticated encryption with associated data</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧬</div>
+        <h4>φ-Weighted Classification</h4>
+        <p>Golden ratio scoring for sensitivity detection</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔄</div>
+        <h4>Key Rotation</h4>
+        <p>Phi-interval automatic key lifecycle</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✍️</div>
+        <h4>HMAC Signatures</h4>
+        <p>Cryptographic attestation & integrity proofs</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📡</div>
+        <h4>Secure Channels</h4>
+        <p>Point-to-point encrypted endpoints</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧠</div>
+        <h4>Zero Server</h4>
+        <p>100% client-side — nothing leaves your browser</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Demo: Encrypt & Decrypt ── -->
+<section class="demo-section" style="background:var(--surface);">
+  <div class="container">
+    <span class="section-tag">🔒 Live Demo</span>
+    <h2 style="margin-bottom:8px;">Encrypt & Decrypt</h2>
+    <p style="margin-bottom:8px;">Type anything below. The protocol auto-classifies sensitivity, selects the appropriate cipher suite, and encrypts with real AES-256-GCM via Web Crypto API.</p>
+
+    <div class="demo-grid">
+      <div class="demo-card">
+        <h3>⬆️ Encrypt</h3>
+        <p>Enter plaintext — sensitivity is auto-detected and cipher is selected accordingly.</p>
+        <textarea class="demo-input" id="encrypt-input" rows="3" placeholder="Try: &quot;This is a classified sovereign document with top-secret national-security data&quot;&#10;Or: &quot;Hello world — this is a public announcement&quot;"></textarea>
+        <button class="demo-btn" onclick="demoEncrypt()">🔐 Encrypt</button>
+        <div class="demo-output" id="encrypt-output">Encrypted output will appear here...</div>
+      </div>
+      <div class="demo-card">
+        <h3>⬇️ Decrypt</h3>
+        <p>Decrypts the last encrypted message with full integrity verification.</p>
+        <button class="demo-btn demo-btn-gold" onclick="demoDecrypt()">🔓 Decrypt Last Message</button>
+        <div class="demo-output" id="decrypt-output">Decrypt the encrypted message to verify integrity...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Demo: Sensitivity Classification ── -->
+<section class="demo-section">
+  <div class="container">
+    <span class="section-tag">🎯 Intelligence</span>
+    <h2 style="margin-bottom:8px;">Sensitivity Classification Engine</h2>
+    <p style="margin-bottom:8px;">The φ-weighted keyword density analyzer classifies content into 4 tiers and recommends the appropriate cipher suite.</p>
+
+    <div class="demo-card" style="max-width:700px;">
+      <h3>🧬 Classify Content</h3>
+      <p>Enter text to see how the protocol classifies its sensitivity level.</p>
+      <textarea class="demo-input" id="classify-input" rows="3" placeholder="Try different keywords:&#10;• &quot;public announcement press-release&quot;&#10;• &quot;internal draft review team-only&quot;&#10;• &quot;confidential password credential sensitive personal-data&quot;&#10;• &quot;sovereign classified top-secret national-security eyes-only&quot;"></textarea>
+      <button class="demo-btn demo-btn-purple" onclick="demoClassify()">🎯 Classify</button>
+      <div class="demo-output" id="classify-output">Classification results will appear here...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Demo: Key Management ── -->
+<section class="demo-section" style="background:var(--surface);">
+  <div class="container">
+    <span class="section-tag">🔑 Cryptography</span>
+    <h2 style="margin-bottom:8px;">Key Management & Rotation</h2>
+    <p style="margin-bottom:8px;">Live key store with per-level cryptographic keys and phi-interval rotation. Keys are generated via Web Crypto API (CSPRNG).</p>
+
+    <div class="demo-grid">
+      <div class="demo-card">
+        <h3>🗝️ Active Key Store</h3>
+        <p>Current keys loaded in the protocol runtime.</p>
+        <div id="key-display" style="margin-top:12px;">Loading keys...</div>
+        <button class="demo-btn demo-btn-gold" onclick="demoRotateKeys()">🔄 Rotate All Keys</button>
+        <div class="demo-output" id="rotate-output">Key rotation results...</div>
+      </div>
+      <div class="demo-card">
+        <h3>📡 Secure Channel</h3>
+        <p>Establish an encrypted point-to-point channel between two endpoints.</p>
+        <div class="inline-inputs">
+          <input type="text" id="channel-a" placeholder="Endpoint A (e.g. Agent-Alpha)" />
+          <input type="text" id="channel-b" placeholder="Endpoint B (e.g. Agent-Omega)" />
+        </div>
+        <button class="demo-btn" onclick="demoCreateChannel()">📡 Create Channel</button>
+        <div class="demo-output" id="channel-output">Channel info will appear here...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Metrics & Runtime Log ── -->
+<section class="demo-section">
+  <div class="container">
+    <span class="section-tag">📊 Telemetry</span>
+    <h2 style="margin-bottom:8px;">Runtime Metrics & Event Log</h2>
+    <p style="margin-bottom:24px;">Real-time protocol telemetry — every operation is tracked and logged.</p>
+
+    <div class="demo-grid">
+      <div class="metrics-panel">
+        <h3 style="font-size:1rem; margin-bottom:16px;">📈 Protocol Metrics</h3>
+        <div id="metrics-display">Initializing...</div>
+      </div>
+      <div class="metrics-panel">
+        <h3 style="font-size:1rem; margin-bottom:16px;">📋 Runtime Event Log</h3>
+        <div id="runtime-log" class="runtime-log-panel">Waiting for events...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What's Under The Hood ── -->
+<section class="demo-section" style="background:var(--surface);">
+  <div class="container">
+    <span class="section-tag">⚡ The Stack</span>
+    <h2 style="margin-bottom:8px;">What Powers This</h2>
+    <p style="margin-bottom:24px;">This isn't a mockup. Every cryptographic operation is real, using browser-native APIs.</p>
+
+    <div class="grid grid-3 gap-6">
+      <div class="card">
+        <span class="card-icon">🔐</span>
+        <h3>Web Crypto API</h3>
+        <p>AES-GCM encryption, HMAC-SHA256 signing, and CSPRNG key generation — all native browser cryptography.</p>
+        <div class="card-tags"><span class="tag-green tag">Native</span><span class="tag">Hardware-accelerated</span></div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🧬</span>
+        <h3>φ-Encoded Logic</h3>
+        <p>Golden ratio (1.618...) weights sensitivity scoring, key rotation intervals, and cipher selection algorithms.</p>
+        <div class="card-tags"><span class="tag-gold tag">φ = 1.618</span><span class="tag">Mathematical</span></div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏛️</span>
+        <h3>20 Protocols</h3>
+        <p>From sovereign routing to visual scene intelligence — a complete organism-grade protocol suite.</p>
+        <div class="card-tags"><span class="tag-purple tag">Full Suite</span><span class="tag">Production</span></div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <h3>54 SDKs</h3>
+        <p>Production-grade packages spanning encryption, memory, routing, analytics, orchestration, and more.</p>
+        <div class="card-tags"><span class="tag">Open-Core</span><span class="tag-green tag">MIT</span></div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📄</span>
+        <h3>12 Research Papers</h3>
+        <p>Peer-level theoretical frameworks on sovereign AI, cognitive architectures, and autonomous organisms.</p>
+        <div class="card-tags"><span class="tag">Theory</span><span class="tag-gold tag">Original</span></div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <h3>Multi-Language</h3>
+        <p>Implementations in JavaScript, TypeScript, Rust, Haskell, Julia, Mathematica, and Motoko.</p>
+        <div class="card-tags"><span class="tag-purple tag">Polyglot</span><span class="tag">7 Languages</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="demo-section">
+  <div class="container" style="text-align:center; padding:60px 0;">
+    <h2 style="font-size:2rem; margin-bottom:12px;">This Is What We Built.</h2>
+    <p style="color:var(--text-dim); max-width:560px; margin:0 auto 28px; font-size:1.05rem;">
+      A sovereign, cryptographically attested AI research platform — from theory to running code.
+      Every protocol. Every SDK. Every paper. All in one vault.
+    </p>
+    <div class="hero-ctas" style="justify-content:center;">
+      <a href="research.html" class="btn btn-primary">📄 Read the Research</a>
+      <a href="vault.html" class="btn btn-outline">🛡️ Verify Integrity</a>
+      <a href="https://github.com/FreddyCreates/JOURNAL" target="_blank" class="btn btn-outline">🐙 View Source</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Freddy Medina — All Rights Reserved</span>
+      <span style="color:var(--text-muted);">Sovereign AI Platform · VAULT-ID: FREDDY.MEDINA.2026.SOVEREIGN</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/platform.js"></script>
+</body>
+</html>
