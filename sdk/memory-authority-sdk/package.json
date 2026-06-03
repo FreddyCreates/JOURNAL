@@ -1,0 +1,12 @@
+{
+  "name": "memory-authority-sdk",
+  "version": "1.0.0",
+  "description": "Authority-governed memory system enforcing the Bounded Authority Membrane — separation between generative processes and canonical memory with phi-weighted promotion gates",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["memory", "authority", "governance", "phi", "membrane", "canonical", "promotion", "claims"],
+  "license": "MIT"
+}

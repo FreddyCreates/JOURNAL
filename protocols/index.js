@@ -22,3 +22,4 @@ export { BlueprintAssemblyProtocol } from './blueprint-assembly-protocol.js';
 export { LensIntelligenceProtocol } from './lens-intelligence-protocol.js';
 export { HookLifecycleProtocol } from './hook-lifecycle-protocol.js';
 export { TriggerEventProtocol } from './trigger-event-protocol.js';
+export { MemoryRuntimeGovernanceProtocol, CLAIM_CLASS, AUTHORITY_LAYER, EVIDENCE_POSTURE } from './memory-runtime-governance-protocol.js';

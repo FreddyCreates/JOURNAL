@@ -161,7 +161,46 @@ It does not claim victory. It claims a **research direction** — one that trans
 
 ---
 
-### 10. Conclusions
+### 10. Platform Implementation
+
+This hypothesis is not merely theoretical — it is implemented as working code in the Memory Vault Research Platform:
+
+#### PROTO-012: Memory Runtime Governance Protocol (`protocols/memory-runtime-governance-protocol.js`)
+- Full protocol implementing the four-layer authority stack
+- Claim lifecycle management (register → promote → supersede → rollback)
+- Phi-weighted resonance scoring for promotion decisions
+- Integrity verification and poisoning resistance
+- Wire: `intelligence-wire/mrgp` | Ring: Memory Ring
+
+#### Memory Authority SDK (`sdk/memory-authority-sdk/`)
+Four composable modules:
+
+| Module | File | Purpose |
+|--------|------|---------|
+| `AuthorityGate` | `authority-gate.js` | Enforcement of the Bounded Authority Membrane — evaluates resonance, evidence, class, source |
+| `ClaimRegister` | `claim-register.js` | Append-only registry with SHA-256 integrity, lineage tracking, source/class indexing |
+| `PromotionEngine` | `promotion-engine.js` | Manages claim lifecycle with cooldowns, denial limits, NOVA_ROOT override |
+| `BoundedMembrane` | `bounded-membrane.js` | Four-layer write/read rules — the architectural boundary enforcement |
+
+#### Integration with Existing Platform
+
+- **Sovereign Memory SDK** — ClaimRegister extends the spatial memory store with authority metadata
+- **Organism Lifecycle Protocol (PROTO-010)** — Claims participate in 873ms heartbeat cycle
+- **Phi-Resonance Sync Protocol (PROTO-003)** — Resonance scoring uses Kuramoto coupling for multi-organism claim validation
+- **Memory Lineage Protocol (PROTO-009)** — Supersession chains integrate with full lineage tracking
+
+#### Validated: 30 Automated Tests
+
+```
+✔ AuthorityGate (6 tests)  — resonance floor, class enforcement, evidence, trust, audit
+✔ ClaimRegister (8 tests)  — append-only, indexing, integrity, tampering detection, lineage
+✔ PromotionEngine (6 tests) — path enforcement, denial freeze, NOVA override, decision log
+✔ BoundedMembrane (10 tests) — write rules, read rules, component registration, metrics
+```
+
+---
+
+### 11. Conclusions
 
 The Memory Runtime Hypothesis proposes that:
 
@@ -177,9 +216,11 @@ The Memory Runtime Hypothesis proposes that:
 
 1. Medina, F. (2026). Sovereign Intelligence Architecture. Memory Vault Research Archive.
 2. Medina, F. (2026). Nova Modular Framework & CARS. Memory Vault Research Archive.
-3. Friston, K. (2010). The Free-Energy Principle: A Unified Brain Theory?
-4. Baars, B. (1988). A Cognitive Theory of Consciousness.
-5. Tononi, G. (2004). An Information Integration Theory of Consciousness.
+3. Medina, F. (2026). Memory Runtime Governance Protocol (PROTO-012). `protocols/memory-runtime-governance-protocol.js`.
+4. Medina, F. (2026). Memory Authority SDK. `sdk/memory-authority-sdk/`.
+5. Friston, K. (2010). The Free-Energy Principle: A Unified Brain Theory?
+6. Baars, B. (1988). A Cognitive Theory of Consciousness.
+7. Tononi, G. (2004). An Information Integration Theory of Consciousness.
 
 ---
 
