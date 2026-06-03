@@ -1,0 +1,38 @@
+{
+  "name": "@medina/production-intelligence-sdk",
+  "version": "1.0.0",
+  "description": "Enterprise-grade Production Intelligence SDK - Commercial scalable day-1 deployment with PROTO-231/232/233 unified protocols",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./core": "./src/core/index.js",
+    "./adapters": "./src/adapters/index.js",
+    "./platforms": "./src/platforms/index.js",
+    "./assertions": "./src/assertions/index.js",
+    "./enterprise": "./src/enterprise/index.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage test/*.test.js",
+    "benchmark": "node test/benchmark.js",
+    "validate": "node test/validate-production.js"
+  },
+  "keywords": [
+    "intelligence",
+    "quantum-coherence",
+    "temporal-reasoning",
+    "swarm-intelligence",
+    "phi-encoding",
+    "enterprise",
+    "production",
+    "commercial"
+  ],
+  "author": "Medina Intelligence Systems",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "peerDependencies": {}
+}

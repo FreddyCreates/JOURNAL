@@ -1,0 +1,324 @@
+id: "pipeline://governance/bot_cycle"
+
+PIPELINE bot_governance_cycle {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIPELINE.BOT.GOV.001"
+  RUNTIME: cpl-p-executor
+
+  // ================================================================
+  // STAGE 1: Collect Bot State
+  // ================================================================
+  STAGE collect_state {
+    NOMEN_LATINUM: COLLECTIO_STATUS
+
+    INPUTS {
+      bot_event: {
+        TYPE: BotEvent
+        REQUIRED: TRUE
+      }
+    }
+
+    ACTIONS {
+      fetch_bot_entity: {
+        USE: "governance.fetch_entity"
+        ARGS: {
+          entity_id: "${bot_event.entity_id}"
+        }
+      }
+
+      collect_context: {
+        USE: "governance.collect_bot_context"
+        ARGS: {
+          bot_id: "${bot_event.entity_id}",
+          event_type: "${bot_event.op}",
+          include_history: TRUE
+        }
+      }
+
+      assess_health: {
+        USE: "governance.assess_system_health"
+        ARGS: {
+          check_tests: TRUE,
+          check_security: TRUE,
+          check_dependencies: TRUE
+        }
+      }
+    }
+
+    OUTPUTS {
+      bot_entity: "${fetch_bot_entity.result}"
+      context: "${collect_context.result}"
+      health: "${assess_health.result}"
+    }
+
+    NEXT: apply_laws
+  }
+
+  // ================================================================
+  // STAGE 2: Apply CPL-L Laws
+  // ================================================================
+  STAGE apply_laws {
+    NOMEN_LATINUM: APPLICATIO_LEGUM
+
+    INPUTS {
+      bot_entity: { TYPE: Entity }
+      context: { TYPE: Object }
+      health: { TYPE: HealthStatus }
+    }
+
+    ACTIONS {
+      load_laws: {
+        USE: "governance.load_applicable_laws"
+        ARGS: {
+          entity_type: "Bot",
+          law_ids: ["LAW.BOT.FLEET.SAFETY.001"]
+        }
+      }
+
+      evaluate_rules: {
+        USE: "governance.evaluate_cpl_l"
+        ARGS: {
+          laws: "${load_laws.result}",
+          context: "${context}",
+          entity: "${bot_entity}"
+        }
+      }
+
+      collect_decisions: {
+        USE: "governance.collect_decisions"
+        ARGS: {
+          evaluation_results: "${evaluate_rules.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      laws_applied: "${load_laws.result}"
+      decisions: "${collect_decisions.result}"
+      actions_required: "${collect_decisions.actions}"
+    }
+
+    NEXT: route_escalations
+  }
+
+  // ================================================================
+  // STAGE 3: Route Escalations
+  // ================================================================
+  STAGE route_escalations {
+    NOMEN_LATINUM: DIRECTIO_ESCALATIONUM
+
+    INPUTS {
+      decisions: { TYPE: Array }
+      actions_required: { TYPE: Array }
+      context: { TYPE: Object }
+    }
+
+    ACTIONS {
+      calculate_risk: {
+        USE: "governance.calculate_risk_score"
+        ARGS: {
+          decisions: "${decisions}",
+          context: "${context}"
+        }
+      }
+
+      determine_escalation: {
+        USE: "governance.determine_escalation_path"
+        ARGS: {
+          risk_score: "${calculate_risk.risk_score}",
+          actions: "${actions_required}",
+          severity: "${decisions.max_severity}"
+        }
+      }
+
+      notify_stakeholders: {
+        USE: "governance.notify_stakeholders"
+        ARGS: {
+          escalation: "${determine_escalation.result}",
+          context: "${context}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      risk_score: "${calculate_risk.risk_score}"
+      escalation_path: "${determine_escalation.result}"
+      notifications_sent: "${notify_stakeholders.result}"
+    }
+
+    NEXT: conditional_branch
+  }
+
+  // ================================================================
+  // CONDITIONAL BRANCHING
+  // ================================================================
+  BRANCH conditional_branch {
+    CONDITION: "${risk_score > 0.7}"
+
+    IF_TRUE {
+      NEXT: high_risk_escalation
+    }
+
+    IF_FALSE {
+      NEXT: standard_completion
+    }
+  }
+
+  // ================================================================
+  // STAGE 4A: High Risk Escalation
+  // ================================================================
+  STAGE high_risk_escalation {
+    NOMEN_LATINUM: ESCALATIO_PERICULOSA
+
+    INPUTS {
+      context: { TYPE: Object }
+      decisions: { TYPE: Array }
+      risk_score: { TYPE: Number }
+    }
+
+    ACTIONS {
+      escalate_to_human: {
+        USE: "governance.escalate_to_human"
+        ARGS: {
+          target: "human://freddy",
+          reason: "High risk bot operation detected",
+          context: "${context}",
+          decisions: "${decisions}",
+          risk_score: "${risk_score}"
+        }
+      }
+
+      block_automatic_proceed: {
+        USE: "governance.block_automatic_proceed"
+        ARGS: {
+          entity_id: "${context.entity_id}",
+          reason: "Awaiting human review for high-risk operation"
+        }
+      }
+
+      log_escalation: {
+        USE: "governance.log_escalation"
+        ARGS: {
+          escalation_type: "HIGH_RISK",
+          context: "${context}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      escalation_id: "${escalate_to_human.escalation_id}"
+      blocked: TRUE
+      awaiting_human: TRUE
+    }
+
+    NEXT: completion
+  }
+
+  // ================================================================
+  // STAGE 4B: Standard Completion
+  // ================================================================
+  STAGE standard_completion {
+    NOMEN_LATINUM: COMPLETIO_NORMALIS
+
+    INPUTS {
+      decisions: { TYPE: Array }
+      actions_required: { TYPE: Array }
+    }
+
+    ACTIONS {
+      execute_actions: {
+        USE: "governance.execute_required_actions"
+        ARGS: {
+          actions: "${actions_required}"
+        }
+      }
+
+      update_organism_state: {
+        USE: "governance.update_organism_state"
+        ARGS: {
+          entity_id: "${context.entity_id}",
+          decisions: "${decisions}",
+          actions_executed: "${execute_actions.result}"
+        }
+      }
+
+      record_in_cil: {
+        USE: "governance.record_cil_entry"
+        ARGS: {
+          entity_id: "${context.entity_id}",
+          cycle_result: "${decisions}",
+          timestamp: "${now()}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      actions_executed: "${execute_actions.result}"
+      state_updated: TRUE
+      cil_recorded: TRUE
+    }
+
+    NEXT: completion
+  }
+
+  // ================================================================
+  // STAGE 5: Final Completion
+  // ================================================================
+  STAGE completion {
+    NOMEN_LATINUM: FINALIS
+
+    INPUTS {
+      ALL_PREVIOUS: TRUE
+    }
+
+    ACTIONS {
+      generate_report: {
+        USE: "governance.generate_cycle_report"
+        ARGS: {
+          context: "${context}",
+          decisions: "${decisions}",
+          actions: "${actions_required}",
+          risk_score: "${risk_score}",
+          escalated: "${escalation_path != null}"
+        }
+      }
+
+      feed_to_meta_engine: {
+        USE: "governance.feed_meta_engine"
+        ARGS: {
+          cycle_report: "${generate_report.result}",
+          entity_type: "Bot",
+          enable_learning: TRUE
+        }
+      }
+
+      archive_cycle: {
+        USE: "governance.archive_cycle"
+        ARGS: {
+          cycle_id: "${pipeline_execution_id}",
+          report: "${generate_report.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      cycle_report: "${generate_report.result}"
+      meta_engine_fed: TRUE
+      archived: TRUE
+    }
+  }
+
+  // ================================================================
+  // ERROR HANDLING
+  // ================================================================
+  ON_ERROR {
+    USE: "governance.handle_pipeline_error"
+    ARGS: {
+      error: "${error}",
+      stage: "${current_stage}",
+      context: "${context}"
+    }
+    ESCALATE: TRUE
+    TARGET: "human://freddy"
+  }
+}

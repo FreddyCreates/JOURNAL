@@ -1,0 +1,38 @@
+{
+  "id": "atlas://bot/organism-learning-bot",
+  "name": "organism-learning-bot",
+  "class": "Bot",
+  "division": "Learn & Evolve",
+  "divisionId": "division-vi",
+  "emoji": "🎓",
+  "domain": "Protocol evolution and learning",
+  "triggers": ["schedule:weekly", "manual"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/cil",
+    "atlas://language/ril",
+    "atlas://language/nal"
+  ],
+  "governance_pipeline": "pipeline://governance/learning_cycle",
+  "capabilities": [
+    "pattern_detection",
+    "protocol_evolution_tracking",
+    "meta_learning",
+    "optimization_suggestion",
+    "feedback_loop_analysis"
+  ],
+  "constraints": [
+    "require_human_review_proposals",
+    "validate_learning_impact",
+    "preserve_core_principles",
+    "track_evolution_history"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "medium"
+  }
+}

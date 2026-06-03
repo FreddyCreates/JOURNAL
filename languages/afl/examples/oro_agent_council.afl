@@ -1,0 +1,129 @@
+// ORO Agent Council Flow
+// "ORO.GOV.TRACE" — Four Agents orchestrated via AFL
+// Latin names for internal identification
+
+FLUXUS ORO_AGENT_COUNCIL {
+  VERSION "1.0.0"
+  NOMEN: CONSILIUM_AGENTUM_ORO
+
+  AGENTES {
+    ARCHON: {
+      NOMEN_LATINUM: INTEGRITAS_CUSTOS
+      MUNUS: INTEGRITY_CHECK
+      POTENTIAE: payload_analysis, claim_verification, mismatch_detection
+      NEXUS: VECTOR, LUMEN
+    }
+
+    VECTOR: {
+      NOMEN_LATINUM: EXECUTIO_VESTIGATOR
+      MUNUS: EXECUTION_TRACE
+      POTENTIAE: target_identification, method_resolution, state_tracking
+      NEXUS: ARCHON, FORGE
+    }
+
+    LUMEN: {
+      NOMEN_LATINUM: CONTEXTUS_ILLUMINATOR
+      MUNUS: CONTEXT_MAP
+      POTENTIAE: precedent_search, forum_analysis, history_linking
+      NEXUS: ARCHON, FORGE
+    }
+
+    FORGE: {
+      NOMEN_LATINUM: VERIFICATIO_FABRICATOR
+      MUNUS: VERIFICATION_LAB
+      POTENTIAE: verification_steps, hash_checks, evidence_validation
+      NEXUS: VECTOR, LUMEN
+    }
+  }
+
+  STADIA {
+    INGESTA_PROPOSITIO: {
+      NOMEN_LATINUM: ACCEPTIO_PRIMARIA
+      ACTIONES: fetch_from_nns, parse_proposal, extract_metadata
+      REQUISITA: valid_proposal_id
+      EXITUS: proposal_record
+    }
+
+    ANALYSIS_INTEGRITAS: {
+      NOMEN_LATINUM: EXAMINATIO_INTEGRITATIS
+      ACTIONES: compare_payload_claim, identify_discrepancies, assess_completeness
+      REQUISITA: proposal_record
+      EXITUS: integrity_findings
+    }
+
+    RESOLUTIO_EXECUTIO: {
+      NOMEN_LATINUM: DETERMINATIO_EXECUTIONIS
+      ACTIONES: identify_target_canister, resolve_method, trace_state_changes
+      REQUISITA: proposal_record, integrity_findings
+      EXITUS: execution_trace
+    }
+
+    MAPPING_CONTEXTUS: {
+      NOMEN_LATINUM: CONSTRUCTIO_CONTEXTUS
+      ACTIONES: search_precedents, scan_forum, link_related_proposals
+      REQUISITA: proposal_record
+      EXITUS: context_map
+    }
+
+    GENERATIO_VERIFICATIO: {
+      NOMEN_LATINUM: CREATIO_PLANORUM
+      ACTIONES: generate_verification_steps, identify_hash_checks, specify_queries
+      REQUISITA: execution_trace, context_map
+      EXITUS: verification_plan
+    }
+
+    SYNTHESIS_FINALIS: {
+      NOMEN_LATINUM: COMPOSITIO_CONCLUSIVA
+      ACTIONES: consolidate_findings, assess_risk, generate_summary
+      REQUISITA: integrity_findings, execution_trace, context_map, verification_plan
+      EXITUS: effect_trace_record
+    }
+  }
+
+  TRANSITIONES {
+    INGESTA_PROPOSITIO -> ANALYSIS_INTEGRITAS: {
+      CONDITIO: "proposal_record.status == VALID"
+      TEMPUS: 100
+    }
+
+    ANALYSIS_INTEGRITAS -> RESOLUTIO_EXECUTIO: {
+      CONDITIO: "integrity_findings.critical_issues == FALSE"
+      TEMPUS: 200
+    }
+
+    INGESTA_PROPOSITIO -> MAPPING_CONTEXTUS: {
+      CONDITIO: "proposal_record.status == VALID"
+      TEMPUS: 50
+    }
+
+    RESOLUTIO_EXECUTIO -> GENERATIO_VERIFICATIO: {
+      CONDITIO: "execution_trace.target_identified == TRUE"
+      TEMPUS: 150
+    }
+
+    MAPPING_CONTEXTUS -> GENERATIO_VERIFICATIO: {
+      CONDITIO: "context_map.precedents_found >= 0"
+      TEMPUS: 100
+    }
+
+    ANALYSIS_INTEGRITAS -> SYNTHESIS_FINALIS: {
+      CONDITIO: "TRUE"
+      TEMPUS: 300
+    }
+
+    RESOLUTIO_EXECUTIO -> SYNTHESIS_FINALIS: {
+      CONDITIO: "TRUE"
+      TEMPUS: 300
+    }
+
+    MAPPING_CONTEXTUS -> SYNTHESIS_FINALIS: {
+      CONDITIO: "TRUE"
+      TEMPUS: 300
+    }
+
+    GENERATIO_VERIFICATIO -> SYNTHESIS_FINALIS: {
+      CONDITIO: "verification_plan.steps_count > 0"
+      TEMPUS: 200
+    }
+  }
+}

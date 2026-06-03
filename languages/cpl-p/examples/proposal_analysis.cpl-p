@@ -1,0 +1,100 @@
+PIPELINE PROPOSAL_ANALYSIS {
+  VERSION "1.0.0"
+  ENCODED_ID "CPL.P.PROPOSAL.ANALYSIS"
+  DETERMINISTIC: TRUE
+  IDEMPOTENT: TRUE
+
+  INPUT {
+    SCHEMA: {
+      proposal_id: STRING
+      proposal_text: STRING
+      metadata: OBJECT
+      timestamp: NUMBER
+    }
+    VALIDATION: proposal_id != "" && proposal_text.length > 100
+    REQUIRED: proposal_id, proposal_text
+  }
+
+  STAGES {
+    parse_proposal: {
+      TYPE: MAP
+      TRANSFORM: extract_structured_data(input.proposal_text)
+      PARALLEL: FALSE
+      TIMEOUT: 5000
+    }
+
+    extract_claims: {
+      TYPE: MAP
+      TRANSFORM: identify_claims(parsed_data)
+      PARALLEL: FALSE
+      TIMEOUT: 10000
+    }
+
+    verify_claims: {
+      TYPE: MAP
+      TRANSFORM: check_claim_validity(claims)
+      PARALLEL: TRUE
+      TIMEOUT: 30000
+      RETRY: {
+        MAX_ATTEMPTS: 3
+        BACKOFF: EXPONENTIAL
+      }
+    }
+
+    calculate_confidence: {
+      TYPE: REDUCE
+      AGGREGATE: compute_confidence_score(verified_claims)
+      PARALLEL: FALSE
+      TIMEOUT: 5000
+    }
+
+    enrich_context: {
+      TYPE: ENRICH
+      TRANSFORM: fetch_historical_data(proposal_id)
+      PARALLEL: FALSE
+      TIMEOUT: 15000
+    }
+
+    filter_low_confidence: {
+      TYPE: FILTER
+      FILTER: confidence_score >= 0.7
+      PARALLEL: FALSE
+    }
+
+    route_decision: {
+      TYPE: ROUTE
+      TRANSFORM: determine_routing(confidence_score, context)
+      PARALLEL: FALSE
+    }
+  }
+
+  OUTPUT {
+    SCHEMA: {
+      proposal_id: STRING
+      confidence_score: NUMBER
+      verified_claims: ARRAY
+      recommendation: STRING
+      routing_decision: STRING
+    }
+    DESTINATION: "archon_decision_queue"
+    FORMAT: "JSON"
+  }
+
+  ON_ERROR {
+    PARSE_ERROR: {
+      log_error
+      return_default_analysis
+      notify_operator
+    }
+
+    VERIFICATION_TIMEOUT: {
+      retry_with_backoff
+      if_still_fails_mark_inconclusive
+    }
+
+    DATA_UNAVAILABLE: {
+      proceed_with_partial_analysis
+      flag_incomplete_data
+    }
+  }
+}

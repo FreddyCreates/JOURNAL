@@ -1,0 +1,12 @@
+{
+  "name": "mega-genesis-sdk",
+  "version": "1.0.0",
+  "description": "Entity creation and lifecycle bootstrapping engine with phi-encoded genesis protocols",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["genesis", "creation", "phi", "lifecycle", "bootstrapping"],
+  "license": "MIT"
+}

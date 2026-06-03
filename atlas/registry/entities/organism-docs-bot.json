@@ -1,0 +1,36 @@
+{
+  "id": "atlas://bot/organism-docs-bot",
+  "name": "organism-docs-bot",
+  "class": "Bot",
+  "division": "Document & Report",
+  "divisionId": "division-iv",
+  "emoji": "📚",
+  "domain": "Automated documentation generation",
+  "triggers": ["push:src/**", "push:languages/**", "schedule:weekly"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/mdl"
+  ],
+  "governance_pipeline": "pipeline://governance/documentation_cycle",
+  "capabilities": [
+    "api_documentation_generation",
+    "markdown_rendering",
+    "language_reference_creation",
+    "changelog_generation",
+    "readme_maintenance"
+  ],
+  "constraints": [
+    "maintain_doc_freshness",
+    "validate_code_examples",
+    "enforce_doc_standards",
+    "track_documentation_coverage"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "low"
+  }
+}

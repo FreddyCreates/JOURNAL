@@ -1,0 +1,35 @@
+{
+  "name": "@medina/legal-ai-sdk",
+  "version": "1.0.0",
+  "description": "Lawyer and paralegal AI technology — case analysis, contract review, legal research, document drafting, compliance checking, and citation management with phi-weighted intelligence",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./case-analyzer": "./src/case-analyzer.js",
+    "./contract-reviewer": "./src/contract-reviewer.js",
+    "./legal-researcher": "./src/legal-researcher.js",
+    "./document-drafter": "./src/document-drafter.js",
+    "./compliance-checker": "./src/compliance-checker.js",
+    "./citation-manager": "./src/citation-manager.js"
+  },
+  "keywords": [
+    "legal",
+    "lawyer",
+    "paralegal",
+    "AI",
+    "case-analysis",
+    "contract-review",
+    "legal-research",
+    "document-drafting",
+    "compliance",
+    "citation",
+    "phi",
+    "sovereign",
+    "organism"
+  ],
+  "files": [
+    "src/"
+  ]
+}

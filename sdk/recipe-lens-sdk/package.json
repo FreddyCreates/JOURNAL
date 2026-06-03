@@ -1,0 +1,32 @@
+{
+  "name": "@medina/recipe-lens-sdk",
+  "version": "1.0.0",
+  "description": "Organism recipes and lenses — 6 intelligent components for AI workflow composition, data transformation optics, and phi-weighted orchestration blueprints",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./recipe-builder": "./src/recipe-builder.js",
+    "./recipe-executor": "./src/recipe-executor.js",
+    "./recipe-catalog": "./src/recipe-catalog.js",
+    "./focus-lens": "./src/focus-lens.js",
+    "./transform-lens": "./src/transform-lens.js",
+    "./analysis-lens": "./src/analysis-lens.js"
+  },
+  "keywords": [
+    "recipe",
+    "lens",
+    "workflow",
+    "composition",
+    "optics",
+    "transform",
+    "analysis",
+    "phi-weighted",
+    "orchestration",
+    "AI"
+  ],
+  "files": [
+    "src/"
+  ]
+}

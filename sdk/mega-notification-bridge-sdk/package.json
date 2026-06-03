@@ -1,0 +1,1 @@
+{"name":"mega-notification-bridge-sdk","version":"1.0.0","description":"Notification hub bridge with phi-weighted priority, multi-channel delivery, and preference management","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["notification","multi-channel","priority","preferences","phi"],"license":"MIT"}

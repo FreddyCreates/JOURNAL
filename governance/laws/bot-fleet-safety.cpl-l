@@ -1,0 +1,200 @@
+LAW BOT_FLEET_SAFETY {
+  VERSION "1.0.0"
+  ENCODED_ID: "LAW.BOT.FLEET.SAFETY.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  RATIFIED: 2026-05-03
+  ENFORCEMENT: RUNTIME
+
+  // ================================================================
+  // RULE 1: Secret Protection — organism-sentinel-bot
+  // ================================================================
+  RULE BLOCK_SECRETS {
+    CLAUSE when_secret_detected {
+      IF context.findings.contains("secret_leak")
+      OR context.findings.contains("api_key_exposed")
+      OR context.findings.contains("token_hardcoded")
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        SEVERITY: CRITICAL
+        MESSAGE: "Secret detected in code. Merge blocked pending remediation."
+      }
+      AND {
+        ACTION: REQUIRE
+        TARGET: human_review
+        ARG: security_team
+        ESCALATION: immediate
+      }
+    }
+
+    CLAUSE when_suspicious_pattern {
+      IF context.scan_results.suspicious_patterns > 0
+      AND context.confidence < 0.7
+      THEN {
+        ACTION: REQUIRE
+        TARGET: manual_review
+        MESSAGE: "Suspicious pattern detected. Human verification required."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 2: Release Health Check — organism-release-bot
+  // ================================================================
+  RULE NO_RELEASE_ON_RED {
+    CLAUSE health_dashboard_check {
+      IF context.health_dashboard.overall == "red"
+      OR context.critical_test_failures > 0
+      OR context.security_scan_failed == TRUE
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        SEVERITY: CRITICAL
+        MESSAGE: "System health is RED. Release blocked until stability restored."
+      }
+      AND {
+        ACTION: REQUIRE
+        TARGET: stability_review
+        ARG: engineering_lead
+      }
+    }
+
+    CLAUSE test_coverage_check {
+      IF context.test_coverage < 0.7
+      AND context.release_type == "production"
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        MESSAGE: "Test coverage below 70% threshold for production release."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 3: High-Risk Build Protection
+  // ================================================================
+  RULE HIGH_RISK_BUILD_GUARD {
+    CLAUSE risk_score_threshold {
+      IF context.risk_score > 0.7
+      AND context.changes.includes("core_infrastructure")
+      THEN {
+        ACTION: REQUIRE
+        TARGET: senior_review
+        ARG: architect
+        MESSAGE: "High-risk changes detected in core infrastructure."
+      }
+    }
+
+    CLAUSE breaking_change_check {
+      IF context.analysis.breaking_changes > 0
+      AND context.release_type != "major"
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        MESSAGE: "Breaking changes detected in non-major release."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 4: Dependency Safety — organism-deps-bot
+  // ================================================================
+  RULE DEPENDENCY_SAFETY {
+    CLAUSE vulnerable_dependency {
+      IF context.dependencies.critical_vulnerabilities > 0
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        SEVERITY: CRITICAL
+        MESSAGE: "Critical vulnerabilities in dependencies. Must upgrade before merge."
+      }
+    }
+
+    CLAUSE stale_dependency {
+      IF context.dependencies.days_behind_latest > 365
+      AND context.dependencies.has_security_updates == TRUE
+      THEN {
+        ACTION: REQUIRE
+        TARGET: dependency_review
+        MESSAGE: "Critical dependencies over 1 year old with security updates available."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 5: Test Integrity — organism-test-bot
+  // ================================================================
+  RULE TEST_INTEGRITY {
+    CLAUSE all_tests_must_pass {
+      IF context.test_results.failed > 0
+      AND context.test_results.total > 0
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        MESSAGE: "Tests failing. Fix before merge."
+      }
+    }
+
+    CLAUSE flaky_test_detection {
+      IF context.test_results.flaky_count > 3
+      THEN {
+        ACTION: REQUIRE
+        TARGET: test_stability_review
+        MESSAGE: "Multiple flaky tests detected. Investigate before release."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 6: Deployment Safety — organism-deploy-bot
+  // ================================================================
+  RULE DEPLOYMENT_SAFETY {
+    CLAUSE canister_upgrade_check {
+      IF context.deployment.target == "icp_mainnet"
+      AND context.deployment.canister_upgrade == TRUE
+      AND context.review.senior_approved == FALSE
+      THEN {
+        ACTION: FORBID
+        TARGET: deployment
+        MESSAGE: "ICP mainnet canister upgrades require senior approval."
+      }
+    }
+
+    CLAUSE rollback_plan_required {
+      IF context.deployment.production == TRUE
+      AND context.deployment.rollback_plan == NULL
+      THEN {
+        ACTION: REQUIRE
+        TARGET: rollback_plan
+        MESSAGE: "Production deployments require rollback plan."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 7: Alpha Bot Override Authority
+  // ================================================================
+  RULE ALPHA_OVERRIDE_PROTOCOL {
+    CLAUSE emergency_override {
+      IF context.override_requester.bot == "organism-alpha-bot"
+      AND context.override_reason.emergency == TRUE
+      AND context.override_reason.human_approved == TRUE
+      THEN {
+        ACTION: PERMIT
+        TARGET: override_any_forbid
+        AUDIT: mandatory
+        MESSAGE: "Alpha bot emergency override with human approval."
+      }
+    }
+
+    CLAUSE fleet_coordination {
+      IF context.bot == "organism-alpha-bot"
+      THEN {
+        ACTION: PERMIT
+        TARGET: coordinate_fleet
+        TARGET: escalate_to_human
+        TARGET: analyze_patterns
+      }
+    }
+  }
+}

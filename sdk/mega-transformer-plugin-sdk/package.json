@@ -1,0 +1,1 @@
+{"name":"mega-transformer-plugin-sdk","version":"1.0.0","description":"Data transformer plugin with phi-weighted mapping, schema conversion, and pipeline composition","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["transformer","mapping","schema","pipeline","phi"],"license":"MIT"}

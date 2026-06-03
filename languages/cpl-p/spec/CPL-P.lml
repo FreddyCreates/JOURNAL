@@ -1,0 +1,126 @@
+LANGUAGE CPL_P {
+  NAME "Cognitive Processing Language"
+  VERSION "1.0.0"
+  ENCODED_ID "CPL.P.PROCESSING"
+
+  METADATA {
+    PURPOSE: "Deterministic cognitive processing pipelines"
+    TARGET: "motoko"
+    STACK: "CORE_COGNITIVE_LAW"
+    PRIORITY: "P0"
+  }
+
+  GRAMMAR {
+    RULE Program {
+      PRODUCTION Pipeline+
+    }
+
+    RULE Pipeline {
+      PRODUCTION "PIPELINE" Identifier "{" PipelineBody "}"
+    }
+
+    RULE PipelineBody {
+      PRODUCTION (Metadata | Input | Stages | Output | ErrorHandling)*
+    }
+
+    RULE Metadata {
+      PRODUCTION "VERSION" String
+      PRODUCTION "ENCODED_ID" String
+      PRODUCTION "DETERMINISTIC" ":" Boolean
+      PRODUCTION "IDEMPOTENT" ":" Boolean
+    }
+
+    RULE Input {
+      PRODUCTION "INPUT" "{" InputFields "}"
+    }
+
+    RULE InputFields {
+      PRODUCTION "SCHEMA" ":" TypeSpec
+      PRODUCTION "VALIDATION" ":" Expression
+      PRODUCTION "REQUIRED" ":" FieldList
+    }
+
+    RULE Stages {
+      PRODUCTION "STAGES" "{" Stage+ "}"
+    }
+
+    RULE Stage {
+      PRODUCTION Identifier ":" "{" StageBody "}"
+    }
+
+    RULE StageBody {
+      PRODUCTION "TYPE" ":" StageType
+      PRODUCTION "TRANSFORM" ":" Expression
+      PRODUCTION "FILTER" ":" Expression
+      PRODUCTION "AGGREGATE" ":" Expression
+      PRODUCTION "PARALLEL" ":" Boolean
+      PRODUCTION "TIMEOUT" ":" Number
+      PRODUCTION "RETRY" ":" RetryPolicy
+    }
+
+    RULE StageType {
+      PRODUCTION ("MAP" | "FILTER" | "REDUCE" | "VALIDATE" | "ENRICH" | "ROUTE")
+    }
+
+    RULE RetryPolicy {
+      PRODUCTION "MAX_ATTEMPTS" ":" Number
+      PRODUCTION "BACKOFF" ":" ("LINEAR" | "EXPONENTIAL")
+    }
+
+    RULE Output {
+      PRODUCTION "OUTPUT" "{" OutputFields "}"
+    }
+
+    RULE OutputFields {
+      PRODUCTION "SCHEMA" ":" TypeSpec
+      PRODUCTION "DESTINATION" ":" String
+      PRODUCTION "FORMAT" ":" String
+    }
+
+    RULE ErrorHandling {
+      PRODUCTION "ON_ERROR" "{" ErrorHandler+ "}"
+    }
+
+    RULE ErrorHandler {
+      PRODUCTION ErrorType ":" Block
+    }
+  }
+
+  TYPES {
+    Pipeline := "actor { process: (Input) -> async Output }"
+    Stage := "Input -> Output"
+    Transform := "A -> B"
+    Filter := "A -> Bool"
+    Aggregate := "[A] -> B"
+  }
+
+  SEMANTICS {
+    ENFORCEMENT "Pipelines must be deterministic if DETERMINISTIC: TRUE"
+    ENFORCEMENT "Stages execute in declared order unless PARALLEL: TRUE"
+    ENFORCEMENT "Errors propagate unless caught by ON_ERROR"
+    ENFORCEMENT "Idempotent pipelines produce same output for same input"
+  }
+
+  COMPILATION_TARGET MOTOKO {
+    TEMPLATE """
+actor {{pipeline_name}}Pipeline {
+  type Input = {{input_schema}};
+  type Output = {{output_schema}};
+
+  public shared func process(input: Input): async Output {
+    // Input validation
+    {{input_validation}}
+
+    // Stages
+    {{stages}}
+
+    // Output
+    {{output_generation}}
+  };
+
+  // Error handlers
+  {{error_handlers}}
+}
+"""
+  }
+}

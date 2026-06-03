@@ -1,0 +1,32 @@
+{
+  "name": "@medina/sovereign-encryption-sdk",
+  "version": "1.0.0",
+  "description": "Sovereign encryption technology — cipher engines, key management, envelope encryption, homomorphic primitives, and phi-weighted cryptographic operations",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./cipher-engine": "./src/cipher-engine.js",
+    "./key-manager": "./src/key-manager.js",
+    "./envelope-encryption": "./src/envelope-encryption.js",
+    "./hash-engine": "./src/hash-engine.js",
+    "./signature-engine": "./src/signature-engine.js",
+    "./zero-knowledge": "./src/zero-knowledge.js"
+  },
+  "keywords": [
+    "encryption",
+    "cipher",
+    "key-management",
+    "envelope",
+    "hash",
+    "signature",
+    "zero-knowledge",
+    "phi",
+    "sovereign",
+    "organism"
+  ],
+  "files": [
+    "src/"
+  ]
+}

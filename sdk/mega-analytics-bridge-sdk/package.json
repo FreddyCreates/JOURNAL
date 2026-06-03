@@ -1,0 +1,12 @@
+{
+  "name": "mega-analytics-bridge-sdk",
+  "version": "1.0.0",
+  "description": "Phi-weighted analytics pipeline bridge with multi-source aggregation and intelligence routing",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["analytics", "bridge", "pipeline", "phi", "intelligence"],
+  "license": "MIT"
+}

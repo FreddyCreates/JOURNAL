@@ -1,0 +1,12 @@
+{
+  "name": "mega-synthesis-sdk",
+  "version": "1.0.0",
+  "description": "Knowledge synthesis and cross-domain fusion engine with phi-harmonic integration",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["synthesis", "knowledge-fusion", "phi", "cross-domain", "integration"],
+  "license": "MIT"
+}

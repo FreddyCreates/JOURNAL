@@ -1,0 +1,12 @@
+{
+  "name": "capability-testing-sdk",
+  "version": "1.0.0",
+  "description": "Framework for discovering, validating, and certifying system capabilities",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["capability", "testing", "certification"],
+  "license": "MIT"
+}

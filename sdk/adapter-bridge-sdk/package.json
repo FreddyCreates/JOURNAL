@@ -1,0 +1,12 @@
+{
+  "name": "adapter-bridge-sdk",
+  "version": "1.0.0",
+  "description": "Protocol, format, model, storage, stream, and event adapters",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["adapter", "bridge", "protocol", "format", "storage"],
+  "license": "MIT"
+}

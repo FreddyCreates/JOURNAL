@@ -1,0 +1,33 @@
+{
+  "name": "@medina/encryption-token-sdk",
+  "version": "1.0.0",
+  "description": "Sovereign token technology — phi-weighted minting, verification, rotation, revocation, and lifecycle management for AI-intelligent bearer and proof tokens",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./token-mint": "./src/token-mint.js",
+    "./token-verifier": "./src/token-verifier.js",
+    "./token-vault": "./src/token-vault.js",
+    "./token-rotator": "./src/token-rotator.js",
+    "./token-lifecycle": "./src/token-lifecycle.js",
+    "./token-chain": "./src/token-chain.js"
+  },
+  "keywords": [
+    "token",
+    "encryption",
+    "mint",
+    "verifier",
+    "vault",
+    "rotation",
+    "lifecycle",
+    "chain",
+    "phi",
+    "sovereign",
+    "organism"
+  ],
+  "files": [
+    "src/"
+  ]
+}

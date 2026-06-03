@@ -1,0 +1,1 @@
+{"name":"mega-feature-flag-plugin-sdk","version":"1.0.0","description":"Feature flag plugin with phi-weighted rollout, audience targeting, and A/B experimentation","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["feature-flag","rollout","targeting","experiment","phi"],"license":"MIT"}

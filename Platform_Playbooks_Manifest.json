@@ -1,0 +1,160 @@
+{
+  "manifestVersion": "1.0.0",
+  "architect": "Medina",
+  "description": "Platform Playbooks – maps each deployable AI platform to its constituent SDKs and extensions",
+  "generatedAt": "2026-06-02T00:57:00.000Z",
+  "platforms": [
+    {
+      "name": "AI App Store",
+      "slug": "ai-app-store",
+      "description": "All SDKs as installable capabilities; extensions as storefronts",
+      "sdks": [
+        "sdk/sovereign-memory-sdk",
+        "sdk/enterprise-integration-sdk",
+        "sdk/intelligence-routing-sdk",
+        "sdk/encryption-token-sdk",
+        "sdk/organism-runtime-sdk",
+        "sdk/mega-autonomy-sdk",
+        "sdk/mega-orchestration-sdk",
+        "sdk/nova-modular-framework",
+        "sdk/shield-defense-sdk",
+        "sdk/sovereign-encryption-sdk",
+        "sdk/capability-testing-sdk",
+        "sdk/stress-testing-framework",
+        "sdk/autonomous-testing-sdk",
+        "sdk/mega-reasoning-sdk",
+        "sdk/mega-cognition-sdk",
+        "sdk/mega-evolution-sdk",
+        "sdk/backend-intelligence-engines",
+        "sdk/mega-perception-sdk",
+        "sdk/mega-prediction-sdk",
+        "sdk/mega-synthesis-sdk",
+        "sdk/mega-resonance-sdk",
+        "sdk/mega-genesis-sdk",
+        "sdk/adapter-bridge-sdk",
+        "sdk/hook-trigger-sdk",
+        "sdk/sensor-array-sdk",
+        "sdk/production-intelligence-sdk",
+        "sdk/document-absorption-engine",
+        "sdk/recipe-lens-sdk",
+        "sdk/legal-ai-sdk",
+        "sdk/frontend-intelligence-models",
+        "sdk/sovereign-field-models",
+        "sdk/ai-model-engines"
+      ],
+      "extensions": [
+        "extensions/cipher-shield",
+        "extensions/code-sovereign",
+        "extensions/contract-forge",
+        "extensions/creative-muse",
+        "extensions/data-alchemist",
+        "extensions/edge-runner",
+        "extensions/jarvis-side-panel",
+        "extensions/knowledge-cartographer",
+        "extensions/logic-prover",
+        "extensions/memory-palace",
+        "extensions/organism-dashboard",
+        "extensions/polyglot-oracle",
+        "extensions/protocol-bridge",
+        "extensions/research-nexus",
+        "extensions/sentinel-watch",
+        "extensions/social-cortex",
+        "extensions/sovereign-mind",
+        "extensions/sovereign-nexus",
+        "extensions/video-architect",
+        "extensions/vision-weaver",
+        "extensions/voice-forge"
+      ],
+      "deploymentModel": "marketplace",
+      "notes": "Every SDK is exposed as an installable capability; every extension acts as a storefront"
+    },
+    {
+      "name": "Enterprise AI Platform",
+      "slug": "enterprise-ai-platform",
+      "description": "Full enterprise integration with intelligent routing, persistent memory, and sovereign encryption",
+      "sdks": [
+        "sdk/enterprise-integration-sdk",
+        "sdk/intelligence-routing-sdk",
+        "sdk/sovereign-memory-sdk",
+        "sdk/encryption-token-sdk",
+        "sdk/sovereign-encryption-sdk"
+      ],
+      "extensions": [],
+      "deploymentModel": "on-premise / private-cloud",
+      "notes": "Core enterprise bundle: onboarding, connectors, routing, memory persistence, and end-to-end encryption"
+    },
+    {
+      "name": "Agent Builder Studio",
+      "slug": "agent-builder-studio",
+      "description": "Visual and programmatic studio for building autonomous AI agents",
+      "sdks": [
+        "sdk/organism-runtime-sdk",
+        "sdk/mega-autonomy-sdk",
+        "sdk/mega-orchestration-sdk",
+        "sdk/nova-modular-framework"
+      ],
+      "extensions": [
+        "extensions/organism-dashboard",
+        "extensions/sovereign-mind"
+      ],
+      "deploymentModel": "cloud-ide / desktop",
+      "notes": "Organism runtime provides living agent substrate; mega-autonomy grants self-direction; orchestration coordinates multi-agent flows; nova-framework supplies modular intelligence scribes"
+    },
+    {
+      "name": "AI Security Platform",
+      "slug": "ai-security-platform",
+      "description": "Defense-in-depth security stack for AI workloads",
+      "sdks": [
+        "sdk/shield-defense-sdk",
+        "sdk/encryption-token-sdk",
+        "sdk/sovereign-encryption-sdk"
+      ],
+      "extensions": [
+        "extensions/cipher-shield",
+        "extensions/sentinel-watch"
+      ],
+      "deploymentModel": "sidecar / gateway",
+      "notes": "Shield-defense provides threat detection; encryption-token handles token-level security; sovereign-encryption enforces data sovereignty; sentinel-watch monitors in real-time"
+    },
+    {
+      "name": "Developer Toolkit / CLI",
+      "slug": "developer-toolkit-cli",
+      "description": "Command-line tools and testing frameworks for SDK development and validation",
+      "sdks": [
+        "sdk/capability-testing-sdk",
+        "sdk/stress-testing-framework",
+        "sdk/autonomous-testing-sdk"
+      ],
+      "languages": [
+        "languages/gml",
+        "languages/snl",
+        "languages/irl",
+        "languages/rfl",
+        "languages/csl"
+      ],
+      "extensions": [
+        "extensions/code-sovereign",
+        "extensions/logic-prover"
+      ],
+      "deploymentModel": "npm-cli / standalone-binary",
+      "notes": "Languages/ stack provides cognitive DSLs; testing SDKs provide capability validation, stress testing, and autonomous test generation"
+    },
+    {
+      "name": "AI Research Platform",
+      "slug": "ai-research-platform",
+      "description": "Advanced reasoning, cognition, evolution, and intelligence engine research tools",
+      "sdks": [
+        "sdk/mega-reasoning-sdk",
+        "sdk/mega-cognition-sdk",
+        "sdk/mega-evolution-sdk",
+        "sdk/backend-intelligence-engines"
+      ],
+      "extensions": [
+        "extensions/research-nexus",
+        "extensions/knowledge-cartographer"
+      ],
+      "deploymentModel": "research-cluster / notebook",
+      "notes": "Mega-reasoning provides multi-step logical inference; mega-cognition adds metacognitive awareness; mega-evolution enables self-improving architectures; backend-intelligence-engines supply alpha-tier protocols (PROTO-227–233)"
+    }
+  ]
+}

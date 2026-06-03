@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "JARVIS — Sovereign Intelligence Assistant",
+  "version": "1.0.0",
+  "description": "Full Jarvis AI side-panel — tab control, document creation, PDF generation, notes, screen reading. Wires all 20 organism extensions + all SDKs into one unified command surface.",
+  "permissions": [
+    "sidePanel",
+    "activeTab",
+    "tabs",
+    "scripting",
+    "storage",
+    "downloads",
+    "contextMenus",
+    "notifications",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Open JARVIS",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "minimum_chrome_version": "114"
+}

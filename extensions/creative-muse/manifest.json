@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Creative Muse",
+  "version": "1.0.0",
+  "description": "Generative Art Intelligence — SD + DALL-E + MusicGen + Suno",
+  "permissions": ["activeTab", "storage", "downloads"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "minimum_chrome_version": "110"
+}

@@ -1,0 +1,111 @@
+ROLE PROPOSAL_REVIEWER {
+  VERSION "1.0.0"
+  DESCRIPTION: "Trusted reviewer with ability to analyze and comment on governance proposals"
+
+  PERMISSIONS {
+    read_proposals: {
+      RESOURCE: "nns.governance.proposals"
+      ACTIONS: read, query, subscribe
+      CONDITIONS: proposal_is_public
+    }
+
+    write_reviews: {
+      RESOURCE: "nns.governance.reviews"
+      ACTIONS: create, update, publish
+      CONDITIONS: review_is_substantive, evidence_provided
+    }
+
+    access_data: {
+      RESOURCE: "nns.data.analytics"
+      ACTIONS: read, query
+      CONDITIONS: data_is_public, usage_logged
+    }
+
+    participate_discussion: {
+      RESOURCE: "nns.forums.threads"
+      ACTIONS: read, comment, react
+      CONDITIONS: civil_discourse, on_topic
+    }
+  }
+
+  CONSTRAINTS {
+    rate_limit: "max_10_reviews_per_day"
+    quality_threshold: "min_evidence_score_0.7"
+    conflict_of_interest: "must_declare_if_involved"
+    transparency: "reviews_must_be_public"
+  }
+
+  INHERITS: COMMUNITY_MEMBER, VERIFIED_PARTICIPANT
+}
+
+ROLE TERMINAL_OWNER {
+  VERSION "1.0.0"
+  DESCRIPTION: "Owner of terminal canister with full administrative control"
+
+  PERMISSIONS {
+    manage_terminal: {
+      RESOURCE: "terminal.canister"
+      ACTIONS: deploy, upgrade, delete, configure
+      CONDITIONS: owner_verified
+    }
+
+    manage_organisms: {
+      RESOURCE: "terminal.organisms"
+      ACTIONS: create, update, delete, assign_roles
+      CONDITIONS: within_capacity_limits
+    }
+
+    manage_access: {
+      RESOURCE: "terminal.access"
+      ACTIONS: grant, revoke, modify_permissions
+      CONDITIONS: logged, reversible
+    }
+
+    monitor_system: {
+      RESOURCE: "terminal.metrics"
+      ACTIONS: read, export, analyze
+      CONDITIONS: always_allowed
+    }
+  }
+
+  CONSTRAINTS {
+    sovereignty_maintained: "cannot_transfer_ownership_without_protocol"
+    audit_trail: "all_actions_logged_immutably"
+    safety_checks: "destructive_actions_require_confirmation"
+  }
+
+  INHERITS: PRINCIPAL_HOLDER
+}
+
+ROLE ORGANISM_USER {
+  VERSION "1.0.0"
+  DESCRIPTION: "User of organism services with limited execution permissions"
+
+  PERMISSIONS {
+    execute_tasks: {
+      RESOURCE: "terminal.tasks"
+      ACTIONS: create, execute, query_status
+      CONDITIONS: within_quota, task_authorized
+    }
+
+    view_results: {
+      RESOURCE: "terminal.results"
+      ACTIONS: read, export
+      CONDITIONS: user_owns_task
+    }
+
+    manage_profile: {
+      RESOURCE: "terminal.user.profile"
+      ACTIONS: read, update
+      CONDITIONS: self_only
+    }
+  }
+
+  CONSTRAINTS {
+    quota_limit: "max_100_tasks_per_day"
+    resource_limit: "max_10_cycles_per_task"
+    priority: "best_effort"
+  }
+
+  INHERITS: AUTHENTICATED_USER
+}

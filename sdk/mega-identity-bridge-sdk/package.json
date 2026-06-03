@@ -1,0 +1,1 @@
+{"name":"mega-identity-bridge-sdk","version":"1.0.0","description":"Identity federation bridge with phi-weighted trust scores and multi-provider SSO","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["identity","federation","SSO","trust","phi"],"license":"MIT"}

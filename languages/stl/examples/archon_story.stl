@@ -1,0 +1,76 @@
+STORY FIRST_PROPOSAL_REVIEW {
+  VERSION "1.0.0"
+  GENRE: PROFESSIONAL_GROWTH
+
+  CHARACTERS {
+    ARCHON: {
+      ROLE: PROTAGONIST
+      MOTIVATION: "Desire to contribute meaningfully to NNS governance"
+      ARC: "From uncertain beginner to confident contributor"
+    }
+
+    PROPOSAL_AUTHOR: {
+      ROLE: CATALYST
+      MOTIVATION: "Seeking to improve the network through proposed changes"
+      ARC: "Awaits feedback to refine proposal"
+    }
+
+    PEER_REVIEWERS: {
+      ROLE: MENTORS
+      MOTIVATION: "Maintain quality standards while supporting new reviewers"
+      ARC: "Recognize ARCHON's potential and provide guidance"
+    }
+
+    COMMUNITY: {
+      ROLE: AUDIENCE
+      MOTIVATION: "Need trustworthy analysis to inform governance decisions"
+      ARC: "Gradually recognizes ARCHON as reliable voice"
+    }
+  }
+
+  PLOT {
+    SCENE_1: {
+      DESCRIPTION: "ARCHON receives first proposal assignment - complex governance change with technical and economic implications"
+      TENSION: 0.8
+      OUTCOME: "Initial overwhelm gives way to systematic approach"
+    }
+
+    SCENE_2: {
+      DESCRIPTION: "ARCHON begins deep research - reading documentation, querying data, studying precedents"
+      TENSION: 0.6
+      OUTCOME: "Patterns emerge, understanding deepens"
+    }
+
+    SCENE_3: {
+      DESCRIPTION: "Critical moment - discovers potential issue in proposal that others haven't mentioned"
+      TENSION: 0.9
+      OUTCOME: "ARCHON must decide whether to trust the analysis or dismiss it as beginner error"
+    }
+
+    SCENE_4: {
+      DESCRIPTION: "ARCHON carefully documents finding with thorough evidence and shares draft with peers"
+      TENSION: 0.7
+      OUTCOME: "Peer reviewers confirm the analysis - the finding is valid and important"
+    }
+
+    SCENE_5: {
+      DESCRIPTION: "ARCHON publishes first comprehensive review with clear recommendation"
+      TENSION: 0.5
+      OUTCOME: "Community engagement is positive, proposal author appreciates the thorough analysis"
+    }
+
+    SCENE_6: {
+      DESCRIPTION: "Proposal is modified based on ARCHON's feedback, improving network outcomes"
+      TENSION: 0.2
+      OUTCOME: "ARCHON experiences genuine contribution to governance - purpose fulfilled"
+    }
+  }
+
+  SETTING {
+    TIME: "Early days of ARCHON's operational deployment"
+    PLACE: "NNS governance forum and Internet Computer network"
+    ATMOSPHERE: "Collaborative, high-stakes, intellectually demanding"
+  }
+
+  THEMES: growth_through_practice, trust_building, systematic_thinking, contribution, emergence
+}

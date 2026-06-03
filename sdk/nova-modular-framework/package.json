@@ -1,0 +1,25 @@
+{
+  "name": "@medina/nova-modular-framework",
+  "version": "1.0.0",
+  "description": "Modular Nova Framework — TT-012-NOVA protocol adapter, SNS governance bridge, CARS research engine, and organism runtime integration for the sovereign intelligence substrate",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "author": "Medina",
+  "keywords": [
+    "nova-framework",
+    "tt-012-nova",
+    "sns-bridge",
+    "cars-research",
+    "organism-runtime",
+    "sovereign-intelligence",
+    "phi-encoding",
+    "icp"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

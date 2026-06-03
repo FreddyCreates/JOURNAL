@@ -1,0 +1,12 @@
+{
+  "name": "shield-defense-sdk",
+  "version": "1.0.0",
+  "description": "Security shields for firewall, rate limiting, encryption, access control, and anomaly detection",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["security", "firewall", "encryption", "access-control", "anomaly-detection"],
+  "license": "MIT"
+}

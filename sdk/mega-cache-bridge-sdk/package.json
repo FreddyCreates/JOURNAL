@@ -1,0 +1,1 @@
+{"name":"mega-cache-bridge-sdk","version":"1.0.0","description":"Distributed cache bridge with phi-weighted eviction, multi-tier caching, and cache coherence","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["cache","distributed","eviction","coherence","phi"],"license":"MIT"}

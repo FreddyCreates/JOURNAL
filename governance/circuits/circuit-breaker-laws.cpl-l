@@ -1,0 +1,363 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════════════════
+ *  CIRCUIT BREAKER LAWS — CPL-L GOVERNANCE FOR TOKEN CIRCUIT STATES
+ *  "Lex Circuitus — The Law of Circuit Protection"
+ *
+ *  "Fluxus protegit. Coherentia servat. Organism vivit."
+ *  (Flow protects. Coherence preserves. The organism lives.)
+ *
+ *  These laws govern when circuit breakers trip, how recovery proceeds,
+ *  and what operations are permitted in each circuit state.
+ *
+ *  Attribution: Alfredo "Freddy" Medina Hernandez
+ *  Medina Sovereign Intelligence — PROPRIETARY AND CONFIDENTIAL
+ * ═══════════════════════════════════════════════════════════════════════════════════════════
+ */
+
+LAW CIRCUIT_BREAKER_GOVERNANCE {
+  VERSION "1.0.0"
+  ENCODED_ID: "LAW.CIRCUIT.BREAKER.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  RATIFIED: 2026-05-10
+  ENFORCEMENT: RUNTIME
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // CONSTANTS — PHI-ENCODED THRESHOLDS
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  CONSTANT PHI = 1.618033988749895
+  CONSTANT PHI_INVERSE = 0.6180339887498949
+  CONSTANT PHI_COMPLEMENT = 0.3819660112501051
+  
+  CONSTANT COHERENCE_COLLAPSE_THRESHOLD = 0.382  // PHI_COMPLEMENT
+  CONSTANT ENERGY_CRITICAL_THRESHOLD = 0.1
+  CONSTANT ATTESTATION_FAILURE_LIMIT = 5
+  CONSTANT RECOVERY_WINDOW_MS = 3819  // PHI_COMPLEMENT × 10000
+  CONSTANT HALF_OPEN_TEST_LIMIT = 3
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // RULE 1: Circuit Trip Conditions
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  RULE CIRCUIT_TRIP_CONDITIONS {
+    CLAUSE coherence_collapse {
+      IF token.coherence < COHERENCE_COLLAPSE_THRESHOLD
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "CoherenceCollapse"
+        SEVERITY: CRITICAL
+        MESSAGE: """
+          Token coherence has collapsed below φ-complement threshold.
+          Circuit breaker must trip to protect organism integrity.
+          Coherence: ${token.coherence}, Threshold: ${COHERENCE_COLLAPSE_THRESHOLD}
+        """
+      }
+    }
+    
+    CLAUSE energy_depletion {
+      IF token.energy < ENERGY_CRITICAL_THRESHOLD
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "EnergyDepletion"
+        SEVERITY: CRITICAL
+        MESSAGE: """
+          Token energy critically depleted.
+          Circuit breaker must trip to prevent complete drain.
+          Energy: ${token.energy}, Threshold: ${ENERGY_CRITICAL_THRESHOLD}
+        """
+      }
+    }
+    
+    CLAUSE attestation_failure_cascade {
+      IF token.attestation_failures >= ATTESTATION_FAILURE_LIMIT
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "AttestationFailure"
+        SEVERITY: HIGH
+        MESSAGE: """
+          ${ATTESTATION_FAILURE_LIMIT} consecutive attestation failures detected.
+          Token integrity cannot be verified. Circuit must trip.
+        """
+      }
+    }
+    
+    CLAUSE resonance_desync {
+      IF token.resonance_bond_coherence < PHI_COMPLEMENT
+      AND token.has_active_bonds == TRUE
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "ResonanceDesync"
+        SEVERITY: HIGH
+        MESSAGE: """
+          Token has lost synchronization with bonded tokens.
+          Resonance coherence below threshold. Circuit must trip.
+        """
+      }
+    }
+    
+    CLAUSE external_threat {
+      IF security.threat_detected == TRUE
+      AND security.threat_severity >= "HIGH"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "ExternalThreat"
+        SEVERITY: CRITICAL
+        ESCALATION: immediate
+        MESSAGE: """
+          External security threat detected targeting token.
+          Immediate circuit trip required for protection.
+          Threat: ${security.threat_description}
+        """
+      }
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // RULE 2: Circuit State Operations
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  RULE CIRCUIT_STATE_OPERATIONS {
+    CLAUSE closed_state_permits {
+      IF circuit.state == "Closed"
+      THEN {
+        ACTION: PERMIT
+        TARGET: transfer
+        TARGET: merge
+        TARGET: split
+        TARGET: evolve
+        TARGET: attest
+        TARGET: governance_vote
+        TARGET: query
+        MESSAGE: "Circuit closed — all operations permitted under flow governor limits."
+      }
+    }
+    
+    CLAUSE open_state_forbids {
+      IF circuit.state == "Open"
+      THEN {
+        ACTION: FORBID
+        TARGET: transfer
+        TARGET: merge
+        TARGET: split
+        TARGET: evolve
+        SEVERITY: CRITICAL
+        MESSAGE: """
+          Circuit OPEN — token operations forbidden.
+          Wait for recovery window (${RECOVERY_WINDOW_MS}ms) before attempting recovery.
+          Trip reason: ${circuit.last_trip_reason}
+        """
+      }
+      AND {
+        ACTION: PERMIT
+        TARGET: query
+        TARGET: attest  // Attestation allowed to verify recovery
+        MESSAGE: "Query and attestation permitted for recovery verification."
+      }
+    }
+    
+    CLAUSE half_open_state_limited {
+      IF circuit.state == "HalfOpen"
+      THEN {
+        ACTION: PERMIT
+        TARGET: attest
+        TARGET: query
+        TARGET: evolve
+        ARG: max_operations = HALF_OPEN_TEST_LIMIT
+        MESSAGE: """
+          Circuit HALF-OPEN — limited test operations permitted.
+          ${HALF_OPEN_TEST_LIMIT} successful operations required to close circuit.
+          Tests completed: ${circuit.half_open_successes}
+        """
+      }
+      AND {
+        ACTION: FORBID
+        TARGET: transfer
+        TARGET: merge
+        TARGET: split
+        MESSAGE: "High-risk operations forbidden during half-open testing."
+      }
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // RULE 3: Recovery Protocol
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  RULE RECOVERY_PROTOCOL {
+    CLAUSE recovery_window {
+      IF circuit.state == "Open"
+      AND time.now - circuit.last_trip >= RECOVERY_WINDOW_MS
+      AND circuit.auto_recovery == TRUE
+      THEN {
+        ACTION: PERMIT
+        TARGET: attempt_recovery
+        MESSAGE: """
+          Recovery window elapsed. Attempting transition to HalfOpen state.
+          Time since trip: ${time.now - circuit.last_trip}ms
+        """
+      }
+    }
+    
+    CLAUSE recovery_conditions {
+      IF circuit.state == "Open"
+      AND recovery.requested == TRUE
+      THEN {
+        ACTION: REQUIRE
+        TARGET: verify_conditions
+        ARG: coherence_minimum = PHI_COMPLEMENT
+        ARG: energy_minimum = ENERGY_CRITICAL_THRESHOLD * 2
+        MESSAGE: """
+          Recovery requested. Verifying minimum conditions:
+          - Coherence >= ${PHI_COMPLEMENT}
+          - Energy >= ${ENERGY_CRITICAL_THRESHOLD * 2}
+        """
+      }
+    }
+    
+    CLAUSE half_open_success {
+      IF circuit.state == "HalfOpen"
+      AND circuit.half_open_successes >= HALF_OPEN_TEST_LIMIT
+      THEN {
+        ACTION: REQUIRE
+        TARGET: close_circuit
+        MESSAGE: """
+          Half-open test threshold reached. Circuit closing.
+          Successful tests: ${circuit.half_open_successes}
+        """
+      }
+    }
+    
+    CLAUSE half_open_failure {
+      IF circuit.state == "HalfOpen"
+      AND test.result == "FAILED"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_circuit
+        ARG: reason = "RecoveryTestFailed"
+        MESSAGE: """
+          Half-open test failed. Circuit re-opening.
+          Recovery must be re-attempted after cooling period.
+        """
+      }
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // RULE 4: Manual Override Authority
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  RULE MANUAL_OVERRIDE {
+    CLAUSE operator_trip {
+      IF operator.authority >= "SENIOR"
+      AND override.type == "TRIP"
+      AND override.reason != NULL
+      THEN {
+        ACTION: PERMIT
+        TARGET: trip_circuit
+        ARG: reason = "ManualOverride"
+        AUDIT: mandatory
+        MESSAGE: """
+          Operator manual circuit trip.
+          Operator: ${operator.id}
+          Reason: ${override.reason}
+        """
+      }
+    }
+    
+    CLAUSE operator_force_close {
+      IF operator.authority >= "ADMIN"
+      AND override.type == "FORCE_CLOSE"
+      AND override.justification != NULL
+      AND override.risk_acknowledged == TRUE
+      THEN {
+        ACTION: PERMIT
+        TARGET: close_circuit
+        AUDIT: mandatory
+        ESCALATION: notify_governance
+        MESSAGE: """
+          Operator forced circuit close. USE WITH CAUTION.
+          This bypasses normal recovery procedures.
+          Operator: ${operator.id}
+          Justification: ${override.justification}
+        """
+      }
+    }
+    
+    CLAUSE emergency_halt {
+      IF governance.emergency_vote == "HALT"
+      OR operator.authority == "EMERGENCY"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: trip_all_circuits
+        SEVERITY: CRITICAL
+        AUDIT: mandatory
+        MESSAGE: """
+          EMERGENCY HALT — All circuits tripping.
+          This is a system-wide protective measure.
+          Initiator: ${initiator.id}
+        """
+      }
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // RULE 5: Monitoring & Alerts
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  RULE CIRCUIT_MONITORING {
+    CLAUSE coherence_warning {
+      IF token.coherence < PHI_INVERSE
+      AND token.coherence >= COHERENCE_COLLAPSE_THRESHOLD
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: emit_warning
+        ARG: level = "COHERENCE_LOW"
+        MESSAGE: """
+          Coherence approaching collapse threshold.
+          Current: ${token.coherence}, Threshold: ${COHERENCE_COLLAPSE_THRESHOLD}
+          Consider reducing operations or increasing energy input.
+        """
+      }
+    }
+    
+    CLAUSE energy_warning {
+      IF token.energy < 0.3
+      AND token.energy >= ENERGY_CRITICAL_THRESHOLD
+      AND circuit.state == "Closed"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: emit_warning
+        ARG: level = "ENERGY_LOW"
+        MESSAGE: """
+          Energy approaching critical threshold.
+          Current: ${token.energy}, Critical: ${ENERGY_CRITICAL_THRESHOLD}
+        """
+      }
+    }
+    
+    CLAUSE trip_notification {
+      IF circuit.state == "Open"
+      AND circuit.trip_just_occurred == TRUE
+      THEN {
+        ACTION: REQUIRE
+        TARGET: notify_stakeholders
+        ARG: urgency = "HIGH"
+        MESSAGE: """
+          Circuit breaker has tripped for token ${token.id}.
+          Reason: ${circuit.last_trip_reason}
+          Recovery will be attempted in ${RECOVERY_WINDOW_MS}ms.
+        """
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@medina/ai-model-engines",
+  "version": "1.0.0",
+  "description": "AI model family registry, alpha resolver, capability matrix, and organism wiring engine — routes intelligence through 40 AI families to the sovereign frontend organism",
+  "type": "module",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Medina",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "ai-model-engines",
+    "intelligence-routing",
+    "model-families",
+    "alpha-resolver",
+    "sovereign-intelligence",
+    "organism-wiring"
+  ]
+}

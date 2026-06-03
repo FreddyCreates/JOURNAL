@@ -1,0 +1,12 @@
+{
+  "name": "mega-prediction-sdk",
+  "version": "1.0.0",
+  "description": "Temporal prediction engine with phi-weighted forecasting and probabilistic inference",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["prediction", "temporal", "phi", "forecasting", "probabilistic"],
+  "license": "MIT"
+}

@@ -1,0 +1,163 @@
+LANGUAGE CIL {
+  NAME "Cognitive Internal Language"
+  VERSION "1.0.0"
+  ENCODED_ID "CIL.INTERNAL.MIND"
+
+  METADATA {
+    PURPOSE: "Internal cognitive representation language"
+    TARGET: "javascript"
+    STACK: "INNER_MIND_DOCTRINE"
+    PRIORITY: "P0"
+  }
+
+  GRAMMAR {
+    RULE Program {
+      PRODUCTION CognitiveSpace+
+    }
+
+    RULE CognitiveSpace {
+      PRODUCTION "COGNITIVE_SPACE" Identifier "{" SpaceBody "}"
+    }
+
+    RULE SpaceBody {
+      PRODUCTION (Metadata | Dimensions | Concepts | Relations | Operations)*
+    }
+
+    RULE Metadata {
+      PRODUCTION "VERSION" String
+      PRODUCTION "ENCODED_ID" String
+      PRODUCTION "TOPOLOGY" ":" Topology
+      PRODUCTION "DIMENSIONALITY" ":" Number
+    }
+
+    RULE Topology {
+      PRODUCTION ("EUCLIDEAN" | "HYPERBOLIC" | "MANIFOLD" | "GRAPH")
+    }
+
+    RULE Dimensions {
+      PRODUCTION "DIMENSIONS" "{" Dimension+ "}"
+    }
+
+    RULE Dimension {
+      PRODUCTION Identifier ":" "{" DimensionBody "}"
+    }
+
+    RULE DimensionBody {
+      PRODUCTION "TYPE" ":" DimensionType
+      PRODUCTION "RANGE" ":" Range
+      PRODUCTION "METRIC" ":" MetricFunction
+    }
+
+    RULE DimensionType {
+      PRODUCTION ("CONTINUOUS" | "DISCRETE" | "CATEGORICAL" | "TEMPORAL")
+    }
+
+    RULE Concepts {
+      PRODUCTION "CONCEPTS" "{" Concept+ "}"
+    }
+
+    RULE Concept {
+      PRODUCTION Identifier ":" "{" ConceptBody "}"
+    }
+
+    RULE ConceptBody {
+      PRODUCTION "COORDINATES" ":" Vector
+      PRODUCTION "EMBEDDING" ":" Vector
+      PRODUCTION "RELATIONS" ":" RelationList
+      PRODUCTION "ACTIVATION" ":" Number
+      PRODUCTION "DECAY_RATE" ":" Number
+    }
+
+    RULE Relations {
+      PRODUCTION "RELATIONS" "{" Relation+ "}"
+    }
+
+    RULE Relation {
+      PRODUCTION Identifier "->" Identifier ":" "{" RelationBody "}"
+    }
+
+    RULE RelationBody {
+      PRODUCTION "TYPE" ":" RelationType
+      PRODUCTION "STRENGTH" ":" Number
+      PRODUCTION "BIDIRECTIONAL" ":" Boolean
+      PRODUCTION "TRANSITIVE" ":" Boolean
+    }
+
+    RULE RelationType {
+      PRODUCTION ("IS_A" | "PART_OF" | "CAUSES" | "IMPLIES" | "CONTRADICTS" | "SIMILAR_TO")
+    }
+
+    RULE Operations {
+      PRODUCTION "OPERATIONS" "{" Operation+ "}"
+    }
+
+    RULE Operation {
+      PRODUCTION Identifier ":" "{" OperationBody "}"
+    }
+
+    RULE OperationBody {
+      PRODUCTION "FUNCTION" ":" OperationType
+      PRODUCTION "PARAMETERS" ":" ParameterList
+      PRODUCTION "EFFECT" ":" Expression
+    }
+
+    RULE OperationType {
+      PRODUCTION ("ACTIVATE" | "PROPAGATE" | "INHIBIT" | "ASSOCIATE" | "DISSOCIATE" | "REASON")
+    }
+  }
+
+  TYPES {
+    CognitiveSpace := "Map<String, Concept>"
+    Concept := "{ coordinates: Vector, embedding: Vector, activation: Float }"
+    Relation := "{ from: Concept, to: Concept, strength: Float }"
+    Vector := "[Float]"
+  }
+
+  SEMANTICS {
+    ENFORCEMENT "Concepts exist in multidimensional cognitive space"
+    ENFORCEMENT "Relations form directed graph with weighted edges"
+    ENFORCEMENT "Activation spreads through relation network"
+    ENFORCEMENT "Operations modify space state deterministically"
+  }
+
+  COMPILATION_TARGET JAVASCRIPT {
+    TEMPLATE """
+export class {{space_name}}CognitiveSpace {
+  constructor() {
+    this.dimensions = {{dimensions}};
+    this.concepts = new Map();
+    this.relations = new Map();
+    this.topology = '{{topology}}';
+
+    this.initializeConcepts();
+    this.initializeRelations();
+  }
+
+  initializeConcepts() {
+    {{concepts}}
+  }
+
+  initializeRelations() {
+    {{relations}}
+  }
+
+  // Operations
+  {{operations}}
+
+  activate(conceptId, strength) {
+    const concept = this.concepts.get(conceptId);
+    concept.activation += strength;
+    this.propagateActivation(conceptId);
+  }
+
+  propagateActivation(sourceId) {
+    const relations = this.relations.get(sourceId) || [];
+    for (const rel of relations) {
+      const targetConcept = this.concepts.get(rel.target);
+      targetConcept.activation += rel.strength * this.concepts.get(sourceId).activation;
+    }
+  }
+}
+"""
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@medina/ux-ai-multi-engine",
+  "version": "1.0.0",
+  "description": "Full UX AI system with multi-engine orchestration — perception, interaction, adaptation, prediction, and generation engines running in parallel with phi-encoded load balancing and autonomous failover",
+  "type": "module",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Medina",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "ux-ai",
+    "multi-engine",
+    "intelligence-orchestration",
+    "adaptive-ux",
+    "perception-engine",
+    "interaction-engine",
+    "phi-encoded",
+    "autonomous-runtime",
+    "sovereign-intelligence"
+  ]
+}

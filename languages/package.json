@@ -1,0 +1,49 @@
+{
+  "name": "@medina/cognitive-languages",
+  "version": "1.0.0",
+  "description": "The Cognitive Language Universe - 40 languages for AGI civilizations",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "cognitive": "./cli.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./runtime": "./runtime.js",
+    "./cli": "./cli.js",
+    "./cpl-l": "./cpl-l/src/parser.js",
+    "./cpl-c": "./cpl-c/src/parser.js",
+    "./cpl-p": "./cpl-p/src/parser.js",
+    "./tpl": "./tpl/src/parser.js",
+    "./ocl": "./ocl/src/parser.js",
+    "./acl": "./acl/src/parser.js",
+    "./cil": "./cil/src/parser.js",
+    "./cdl": "./cdl/src/parser.js",
+    "./lml": "./lml/src/compiler.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "cli": "node cli.js"
+  },
+  "keywords": [
+    "cognitive",
+    "language",
+    "agi",
+    "motoko",
+    "icp",
+    "blockchain",
+    "governance",
+    "organism",
+    "terminal",
+    "atlas"
+  ],
+  "author": "Freddy Medina",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FreddyCreates/front-end-is-all-intelligence-.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

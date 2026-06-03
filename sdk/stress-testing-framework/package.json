@@ -1,0 +1,22 @@
+{
+  "name": "@medina/stress-testing-framework",
+  "version": "1.0.0",
+  "description": "Sovereign Intelligence Stress Testing Framework — cognitive load testing, pressure systems, self-healing organism tests, and φ-encoded intelligent data structures",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "author": "Medina",
+  "keywords": [
+    "stress-testing",
+    "cognitive-load",
+    "pressure-systems",
+    "self-healing",
+    "intelligent-data",
+    "phi-encoded",
+    "sovereign-intelligence",
+    "organism-testing"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "mega-perception-sdk",
+  "version": "1.0.0",
+  "description": "Sensory fusion engine for multi-modal perception intelligence with phi-weighted signal processing",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["perception", "sensory-fusion", "phi", "multi-modal", "intelligence"],
+  "license": "MIT"
+}

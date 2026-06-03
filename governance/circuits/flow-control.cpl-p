@@ -1,0 +1,364 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════════════════
+ *  FLOW CONTROL PIPELINES — CPL-P FOR RATE LIMITING AND ENERGY DISTRIBUTION
+ *  "Aquaeductus Intelligens — Intelligent Flow Channels"
+ *
+ *  "Fluxus moderatur. Energia distribuitur. Harmonia permanet."
+ *  (Flow is moderated. Energy is distributed. Harmony endures.)
+ *
+ *  These pipelines govern how operations flow through the system,
+ *  implementing φ-weighted rate limiting and energy allocation.
+ *
+ *  Attribution: Alfredo "Freddy" Medina Hernandez
+ *  Medina Sovereign Intelligence — PROPRIETARY AND CONFIDENTIAL
+ * ═══════════════════════════════════════════════════════════════════════════════════════════
+ */
+
+PIPELINE FLOW_CONTROL {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIPELINE.FLOW.CONTROL.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  EXECUTION: RUNTIME
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // CONSTANTS
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  CONSTANT PHI = 1.618033988749895
+  CONSTANT PHI_INVERSE = 0.6180339887498949
+  CONSTANT PHI_COMPLEMENT = 0.3819660112501051
+  
+  // Window duration in ms (φ seconds)
+  CONSTANT FLOW_WINDOW_MS = 1618
+  
+  // Base operation limits per window
+  CONSTANT TRANSFER_LIMIT = 100
+  CONSTANT MERGE_LIMIT = 5
+  CONSTANT SPLIT_LIMIT = 5
+  CONSTANT EVOLVE_LIMIT = 10
+  CONSTANT ATTEST_LIMIT = 20
+  CONSTANT GOVERNANCE_LIMIT = 3
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 1: Request Intake
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE REQUEST_INTAKE {
+    DESCRIPTION: "Receive and classify incoming operation requests"
+    
+    STEP validate_request {
+      INPUT: operation_request
+      VALIDATE: {
+        request.token_id != NULL,
+        request.operation_type IN ["transfer", "merge", "split", "evolve", "attest", "governance", "query"],
+        request.timestamp != NULL,
+        request.requester != NULL
+      }
+      ON_FAILURE: REJECT with "Invalid request format"
+      OUTPUT: validated_request
+    }
+    
+    STEP classify_priority {
+      INPUT: validated_request
+      COMPUTE: {
+        base_priority = CASE request.operation_type
+          WHEN "governance" THEN 1.0
+          WHEN "attest" THEN PHI_INVERSE
+          WHEN "evolve" THEN PHI_INVERSE
+          WHEN "merge" THEN PHI_COMPLEMENT
+          WHEN "split" THEN PHI_COMPLEMENT
+          WHEN "transfer" THEN 0.3
+          WHEN "query" THEN 0.1
+        END,
+        
+        // Boost priority based on token coherence
+        coherence_boost = token.coherence * PHI_INVERSE,
+        
+        // Final priority
+        priority = base_priority * (1 + coherence_boost)
+      }
+      OUTPUT: prioritized_request
+    }
+    
+    STEP check_circuit {
+      INPUT: prioritized_request
+      CONDITION: circuit.state == "Closed" OR 
+                 (circuit.state == "HalfOpen" AND request.operation_type IN ["attest", "evolve", "query"])
+      ON_FAILURE: REJECT with "Circuit ${circuit.state} — operation not permitted"
+      OUTPUT: circuit_cleared_request
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 2: Rate Limiting
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE RATE_LIMITING {
+    DESCRIPTION: "Apply φ-weighted rate limits based on flow mode"
+    
+    STEP check_window {
+      INPUT: circuit_cleared_request
+      COMPUTE: {
+        window_elapsed = time.now - governor.window_start,
+        window_expired = window_elapsed >= FLOW_WINDOW_MS
+      }
+      IF window_expired THEN {
+        EXECUTE: reset_window_counters
+      }
+      OUTPUT: window_checked_request
+    }
+    
+    STEP get_effective_limit {
+      INPUT: window_checked_request
+      COMPUTE: {
+        base_limit = CASE request.operation_type
+          WHEN "transfer" THEN TRANSFER_LIMIT
+          WHEN "merge" THEN MERGE_LIMIT
+          WHEN "split" THEN SPLIT_LIMIT
+          WHEN "evolve" THEN EVOLVE_LIMIT
+          WHEN "attest" THEN ATTEST_LIMIT
+          WHEN "governance" THEN GOVERNANCE_LIMIT
+          WHEN "query" THEN 1000  // Nearly unlimited
+        END,
+        
+        // Scale by flow mode
+        mode_multiplier = CASE governor.mode
+          WHEN "Normal" THEN 1.0
+          WHEN "Throttled" THEN PHI_INVERSE
+          WHEN "Emergency" THEN PHI_COMPLEMENT
+          WHEN "Halted" THEN 0.0
+        END,
+        
+        effective_limit = FLOOR(base_limit * mode_multiplier)
+      }
+      OUTPUT: limit_computed_request
+    }
+    
+    STEP check_limit {
+      INPUT: limit_computed_request
+      COMPUTE: {
+        current_count = governor.get_count(request.operation_type)
+      }
+      CONDITION: current_count < effective_limit
+      ON_FAILURE: {
+        INCREMENT: governor.rejected_operations
+        REJECT with "Rate limit exceeded for ${request.operation_type}. Limit: ${effective_limit}, Current: ${current_count}"
+      }
+      OUTPUT: rate_approved_request
+    }
+    
+    STEP increment_counter {
+      INPUT: rate_approved_request
+      EXECUTE: governor.increment_count(request.operation_type)
+      OUTPUT: counted_request
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 3: Energy Allocation
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE ENERGY_ALLOCATION {
+    DESCRIPTION: "Allocate energy for operations using φ-weighted distribution"
+    
+    STEP compute_energy_cost {
+      INPUT: counted_request
+      COMPUTE: {
+        base_cost = CASE request.operation_type
+          WHEN "transfer" THEN 0.01
+          WHEN "merge" THEN 0.20
+          WHEN "split" THEN 0.15
+          WHEN "evolve" THEN 0.05
+          WHEN "attest" THEN 0.02
+          WHEN "governance" THEN 0.03
+          WHEN "query" THEN 0.0
+        END,
+        
+        // Scale cost by φ-inverse for efficiency
+        scaled_cost = base_cost * governor.energy_allocation_rate
+      }
+      OUTPUT: costed_request
+    }
+    
+    STEP check_energy_pool {
+      INPUT: costed_request
+      CONDITION: governor.energy_pool >= scaled_cost
+      ON_FAILURE: {
+        // Try to replenish from organism
+        IF organism.energy_available >= scaled_cost THEN {
+          EXECUTE: governor.replenish(scaled_cost * PHI)
+          RETRY: check_energy_pool
+        } ELSE {
+          REJECT with "Insufficient energy pool. Required: ${scaled_cost}, Available: ${governor.energy_pool}"
+        }
+      }
+      OUTPUT: energy_available_request
+    }
+    
+    STEP deduct_energy {
+      INPUT: energy_available_request
+      EXECUTE: {
+        governor.energy_pool -= scaled_cost,
+        token.energy -= scaled_cost * PHI_COMPLEMENT  // Token also pays partial cost
+      }
+      OUTPUT: energy_allocated_request
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 4: Priority Queue
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE PRIORITY_QUEUE {
+    DESCRIPTION: "Queue operations by φ-weighted priority"
+    
+    STEP enqueue {
+      INPUT: energy_allocated_request
+      EXECUTE: {
+        queue.insert(request, request.priority)
+      }
+      IF queue.length > queue.max_capacity THEN {
+        // Remove lowest priority
+        dropped = queue.pop_lowest()
+        EMIT: warning("Dropped low-priority request: ${dropped.id}")
+      }
+      OUTPUT: queued_request
+    }
+    
+    STEP schedule {
+      INPUT: queued_request
+      COMPUTE: {
+        // φ-weighted scheduling delay
+        position = queue.get_position(request.id),
+        base_delay = position * PHI_COMPLEMENT,
+        
+        // Reduce delay for high priority
+        priority_factor = 1.0 / (1.0 + request.priority),
+        
+        scheduled_delay = base_delay * priority_factor
+      }
+      OUTPUT: scheduled_request
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 5: Execution
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE EXECUTION {
+    DESCRIPTION: "Execute the operation and record results"
+    
+    STEP pre_execute_check {
+      INPUT: scheduled_request
+      // Final checks before execution
+      VALIDATE: {
+        circuit.state != "Open",
+        token.phase != "Dormant" OR request.operation_type == "query",
+        time.now - request.timestamp < request.timeout
+      }
+      ON_FAILURE: REJECT with "Pre-execution check failed"
+      OUTPUT: ready_request
+    }
+    
+    STEP execute {
+      INPUT: ready_request
+      EXECUTE: {
+        result = CASE request.operation_type
+          WHEN "transfer" THEN token.transfer(request.params)
+          WHEN "merge" THEN token.merge(request.params)
+          WHEN "split" THEN token.split(request.params)
+          WHEN "evolve" THEN token.evolve()
+          WHEN "attest" THEN token.attest()
+          WHEN "governance" THEN governance.execute(request.params)
+          WHEN "query" THEN token.query(request.params)
+        END
+      }
+      ON_ERROR: {
+        INCREMENT: governor.failed_operations
+        EXECUTE: governor.replenish(scaled_cost * PHI_INVERSE)  // Partial refund
+        REJECT with "Execution failed: ${error.message}"
+      }
+      OUTPUT: execution_result
+    }
+    
+    STEP post_execute {
+      INPUT: execution_result
+      EXECUTE: {
+        INCREMENT: governor.total_operations,
+        UPDATE: token.last_heartbeat = time.now,
+        
+        // Record metrics
+        metrics.record({
+          operation: request.operation_type,
+          duration: time.now - request.timestamp,
+          energy_used: scaled_cost,
+          success: TRUE
+        })
+      }
+      OUTPUT: completed_result
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // STAGE 6: Flow Mode Adjustment
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  STAGE FLOW_MODE_ADJUSTMENT {
+    DESCRIPTION: "Dynamically adjust flow mode based on system state"
+    
+    STEP evaluate_conditions {
+      INPUT: system_state
+      COMPUTE: {
+        rejected_ratio = governor.rejected_operations / MAX(1, governor.total_operations),
+        energy_ratio = governor.energy_pool,
+        circuit_health = circuit.state == "Closed" ? 1.0 : (circuit.state == "HalfOpen" ? 0.5 : 0.0)
+      }
+      OUTPUT: flow_conditions
+    }
+    
+    STEP determine_mode {
+      INPUT: flow_conditions
+      COMPUTE: {
+        recommended_mode = CASE
+          WHEN circuit_health == 0.0 THEN "Halted"
+          WHEN rejected_ratio > 0.5 OR energy_ratio < 0.2 THEN "Emergency"
+          WHEN rejected_ratio > 0.2 OR energy_ratio < 0.5 THEN "Throttled"
+          ELSE "Normal"
+        END
+      }
+      IF recommended_mode != governor.mode THEN {
+        EXECUTE: governor.set_mode(recommended_mode)
+        EMIT: info("Flow mode changed: ${governor.mode} → ${recommended_mode}")
+      }
+      OUTPUT: mode_adjusted
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════════════
+  // BACKGROUND: Energy Replenishment
+  // ════════════════════════════════════════════════════════════════════════════
+  
+  BACKGROUND ENERGY_REPLENISHMENT {
+    INTERVAL: 618  // PHI × 382 ms (heartbeat)
+    
+    STEP replenish {
+      COMPUTE: {
+        replenishment_amount = PHI_COMPLEMENT * 0.1  // 3.8% per heartbeat
+      }
+      EXECUTE: {
+        governor.replenish(replenishment_amount)
+      }
+    }
+    
+    STEP sync_with_organism {
+      IF organism.heartbeat_just_fired THEN {
+        // Sync energy with organism heartbeat
+        sync_amount = MIN(0.1, organism.energy_available * PHI_COMPLEMENT)
+        EXECUTE: {
+          governor.replenish(sync_amount),
+          organism.energy_available -= sync_amount
+        }
+      }
+    }
+  }
+}

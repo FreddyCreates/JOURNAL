@@ -1,0 +1,37 @@
+{
+  "id": "atlas://bot/organism-deploy-bot",
+  "name": "organism-deploy-bot",
+  "class": "Bot",
+  "division": "Deploy & Operate",
+  "divisionId": "division-v",
+  "emoji": "🌐",
+  "domain": "ICP canister and Pages deployment",
+  "triggers": ["workflow_dispatch", "tag:deploy-*"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/iml"
+  ],
+  "governance_pipeline": "pipeline://governance/deployment_cycle",
+  "capabilities": [
+    "icp_canister_deployment",
+    "cloudflare_pages_deployment",
+    "rollback_execution",
+    "health_check_validation",
+    "deployment_verification"
+  ],
+  "constraints": [
+    "require_human_approval_production",
+    "forbid_deploy_on_red",
+    "require_rollback_plan",
+    "validate_canister_upgrade",
+    "enforce_deployment_window"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "critical"
+  }
+}

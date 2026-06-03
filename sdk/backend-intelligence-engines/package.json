@@ -1,0 +1,27 @@
+{
+  "name": "@medina/backend-intelligence-engines",
+  "version": "1.0.0",
+  "description": "Backend AI engines with Latin nomenclature — 20 sovereign AI engines, 10 alpha protocols with governance laws, and 7 cognitive protocols (PROTO-227 through PROTO-233) for the organism substrate",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "author": "Medina",
+  "keywords": [
+    "backend-intelligence",
+    "latin-ai-engines",
+    "alpha-protocols",
+    "governance-laws",
+    "sovereign-backend",
+    "organism-substrate",
+    "phi-encoding",
+    "quantum-coherence",
+    "temporal-reasoning",
+    "swarm-intelligence"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

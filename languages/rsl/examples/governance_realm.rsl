@@ -1,0 +1,46 @@
+REALM NNS_GOVERNANCE_SPACE {
+  VERSION "1.0.0"
+  CAPACITY: 10000
+
+  ZONES {
+    PROPOSAL_HALL: {
+      TYPE: PUBLIC
+      CAPACITY: 5000
+      PROPERTIES: readable, commentable, votable
+    }
+
+    REVIEW_CHAMBER: {
+      TYPE: SEMI_PRIVATE
+      CAPACITY: 100
+      PROPERTIES: analytical, collaborative, documented
+    }
+
+    NEURON_VAULT: {
+      TYPE: PRIVATE
+      CAPACITY: 1000
+      PROPERTIES: secure, persistent, stakeholder_only
+    }
+
+    FORUM_SQUARE: {
+      TYPE: PUBLIC
+      CAPACITY: 3000
+      PROPERTIES: discussable, social, informal
+    }
+
+    ANALYTICS_OBSERVATORY: {
+      TYPE: PUBLIC
+      CAPACITY: 500
+      PROPERTIES: data_rich, queryable, visualizable
+    }
+  }
+
+  CONNECTIONS {
+    PROPOSAL_HALL -> REVIEW_CHAMBER: ANALYSIS_PATH
+    REVIEW_CHAMBER -> FORUM_SQUARE: DISCUSSION_PATH
+    PROPOSAL_HALL -> NEURON_VAULT: VOTING_PATH
+    FORUM_SQUARE -> ANALYTICS_OBSERVATORY: INSIGHT_PATH
+    ANALYTICS_OBSERVATORY -> REVIEW_CHAMBER: EVIDENCE_PATH
+  }
+
+  RULES: CIVILITY_REQUIRED, EVIDENCE_BASED, TRANSPARENT_PROCESS, STAKEHOLDER_VOICE
+}

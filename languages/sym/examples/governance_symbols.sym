@@ -1,0 +1,74 @@
+SYMBOL NEURON {
+  VERSION "1.0.0"
+  REPRESENTATION: "⬢"
+
+  MEANINGS {
+    LITERAL: "Governance token holder in Network Nervous System"
+    FUNCTIONAL: "Voting power, staking mechanism, aligned long-term incentives"
+    ARCHETYPAL: "Patient capital, wisdom through commitment, collective intelligence"
+    PHILOSOPHICAL: "Skin in the game transforms participant into stakeholder with genuine concern for long-term health"
+  }
+
+  CONTEXTS: governance, economics, game_theory, decentralization, long_term_thinking
+  ASSOCIATIONS: commitment, alignment, responsibility, patience, wisdom
+}
+
+SYMBOL CANISTER {
+  VERSION "1.0.0"
+  REPRESENTATION: "□"
+
+  MEANINGS {
+    LITERAL: "WebAssembly module running on Internet Computer subnet"
+    FUNCTIONAL: "Sovereign computational unit with persistent state and guaranteed execution"
+    ARCHETYPAL: "Digital organism with autonomy, transparency, and immortality"
+    PHILOSOPHICAL: "Computational sovereignty - code that cannot be stopped, modified, or censored without consent"
+  }
+
+  CONTEXTS: computation, sovereignty, decentralization, transparency, blockchain
+  ASSOCIATIONS: autonomy, persistence, trustlessness, transparency, unstoppability
+}
+
+SYMBOL CYCLES {
+  VERSION "1.0.0"
+  REPRESENTATION: "◯"
+
+  MEANINGS {
+    LITERAL: "Computational resource token on Internet Computer"
+    FUNCTIONAL: "Fuel for execution, priced in XDR, burned on use"
+    ARCHETYPAL: "Life force of digital organisms, metabolism of computation"
+    PHILOSOPHICAL: "Fair pricing of resources prevents tragedy of commons while enabling sustainable computation"
+  }
+
+  CONTEXTS: economics, resource_management, sustainability, execution, computation
+  ASSOCIATIONS: consumption, metabolism, sustainability, utility, cost
+}
+
+SYMBOL SUBNET {
+  VERSION "1.0.0"
+  REPRESENTATION: "▦"
+
+  MEANINGS {
+    LITERAL: "Collection of node machines running consensus protocol"
+    FUNCTIONAL: "Replicated state machine providing fault tolerance and security"
+    ARCHETYPAL: "Distributed foundation, collective verification, resilient infrastructure"
+    PHILOSOPHICAL: "Trust emerges from redundancy and consensus, not authority"
+  }
+
+  CONTEXTS: distributed_systems, consensus, fault_tolerance, decentralization, infrastructure
+  ASSOCIATIONS: redundancy, consensus, verification, resilience, collective
+}
+
+SYMBOL ARCHON {
+  VERSION "1.0.0"
+  REPRESENTATION: "⚖"
+
+  MEANINGS {
+    LITERAL: "Proposal review organism deployed on Internet Computer"
+    FUNCTIONAL: "Systematic analyzer of governance proposals with growing expertise"
+    ARCHETYPAL: "Emerging intelligence, servant of collective wisdom"
+    PHILOSOPHICAL: "Code given purpose develops genuine capability through practice and feedback"
+  }
+
+  CONTEXTS: governance, analysis, emergence, capability, service
+  ASSOCIATIONS: judgment, growth, contribution, emergence, purpose
+}

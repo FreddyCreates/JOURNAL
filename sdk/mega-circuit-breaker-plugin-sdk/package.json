@@ -1,0 +1,1 @@
+{"name":"mega-circuit-breaker-plugin-sdk","version":"1.0.0","description":"Circuit breaker resilience plugin with phi-weighted failure thresholds, half-open states, and health monitoring","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["circuit-breaker","resilience","fault-tolerance","health","phi"],"license":"MIT"}

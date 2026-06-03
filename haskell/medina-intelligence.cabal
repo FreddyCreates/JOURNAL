@@ -1,0 +1,32 @@
+cabal-version: 2.4
+name:          medina-intelligence
+version:       1.0.0
+synopsis:      Medina Sovereign Intelligence - Haskell Core
+description:   Pure functional implementation of φ-weighted computations, 
+               Greek mathematics, and cross-language AI system bridges.
+license:       NONE
+author:        Alfredo "Freddy" Medina Hernandez
+maintainer:    Medina Sovereign Intelligence
+copyright:     (c) 2026 Alfredo "Freddy" Medina Hernandez
+category:      AI, Mathematics, System
+build-type:    Simple
+
+library
+  exposed-modules:
+    PhiResonance
+    GreekMath
+    AISBridge
+  build-depends:
+    base >= 4.14 && < 5
+  hs-source-dirs: src
+  default-language: Haskell2010
+  ghc-options: -Wall -O2
+
+test-suite phi-tests
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs: test
+  build-depends:
+    base >= 4.14 && < 5,
+    medina-intelligence
+  default-language: Haskell2010

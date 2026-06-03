@@ -1,0 +1,36 @@
+{
+  "id": "atlas://bot/organism-deps-bot",
+  "name": "organism-deps-bot",
+  "class": "Bot",
+  "division": "Secure & Monitor",
+  "divisionId": "division-iii",
+  "emoji": "🔄",
+  "domain": "Dependency health monitoring",
+  "triggers": ["schedule:daily", "push:package.json", "push:package-lock.json"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/err"
+  ],
+  "governance_pipeline": "pipeline://governance/dependency_cycle",
+  "capabilities": [
+    "vulnerability_scanning",
+    "dependency_update_checking",
+    "license_compliance",
+    "supply_chain_analysis",
+    "automated_update_pr"
+  ],
+  "constraints": [
+    "forbid_critical_vulnerabilities",
+    "require_license_compatibility",
+    "track_dependency_age",
+    "validate_supply_chain"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "high"
+  }
+}

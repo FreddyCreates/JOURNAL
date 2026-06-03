@@ -1,0 +1,3 @@
+DATA SAMPLE {
+  VERSION "1.0.0"
+}

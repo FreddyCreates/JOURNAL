@@ -1,0 +1,18 @@
+{
+  "name": "@medina/document-absorption-engine",
+  "version": "1.0.0",
+  "description": "Document intake, extraction, and knowledge absorption — turning raw documents into structured intelligence.",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "type": "module",
+  "keywords": [
+    "document",
+    "absorption",
+    "extraction",
+    "knowledge-graph",
+    "intelligence"
+  ],
+  "files": [
+    "src"
+  ]
+}

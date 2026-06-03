@@ -1,0 +1,12 @@
+{
+  "name": "hook-trigger-sdk",
+  "version": "1.0.0",
+  "description": "Lifecycle hooks, data hooks, error hooks, and trigger systems",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["hooks", "triggers", "lifecycle", "events"],
+  "license": "MIT"
+}

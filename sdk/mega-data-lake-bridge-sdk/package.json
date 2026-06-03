@@ -1,0 +1,1 @@
+{"name":"mega-data-lake-bridge-sdk","version":"1.0.0","description":"Data lake integration bridge with phi-weighted partitioning and multi-format ingestion","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["data-lake","bridge","partitioning","ingestion","phi"],"license":"MIT"}

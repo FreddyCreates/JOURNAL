@@ -1,0 +1,12 @@
+{
+  "name": "mega-resonance-sdk",
+  "version": "1.0.0",
+  "description": "Harmonic field resonance for inter-system synchronization with phi-frequency coupling",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["resonance", "harmonic", "phi", "synchronization", "frequency"],
+  "license": "MIT"
+}

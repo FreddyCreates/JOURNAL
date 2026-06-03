@@ -1,0 +1,215 @@
+EXECUTE PROPOSAL_ANALYSIS_TASK {
+  VERSION "1.0.0"
+  TIMEOUT: 3600
+
+  RESOURCES {
+    CPU: 2
+    MEMORY: 512
+    CYCLES: 100000000
+    STORAGE: 1024
+  }
+
+  STEPS {
+    fetch_proposal: {
+      COMMAND: "fetch_from_nns"
+      ARGS {
+        proposal_id: 12345
+        include_metadata: TRUE
+      }
+      RETRY: 3
+      DEPENDENCIES: none
+    }
+
+    validate_structure: {
+      COMMAND: "validate_proposal_format"
+      ARGS {
+        schema_version: latest
+        strict_mode: TRUE
+      }
+      RETRY: 1
+      DEPENDENCIES: fetch_proposal
+    }
+
+    extract_claims: {
+      COMMAND: "parse_claims"
+      ARGS {
+        min_confidence: 0.7
+        include_implicit: TRUE
+      }
+      RETRY: 2
+      DEPENDENCIES: validate_structure
+    }
+
+    verify_claims: {
+      COMMAND: "verify_against_sources"
+      ARGS {
+        sources: ic_dashboard, github, forum
+        timeout_per_source: 30
+      }
+      RETRY: 3
+      DEPENDENCIES: extract_claims
+    }
+
+    analyze_impact: {
+      COMMAND: "compute_stakeholder_impact"
+      ARGS {
+        include_indirect: TRUE
+        time_horizon: 180
+      }
+      RETRY: 2
+      DEPENDENCIES: verify_claims
+    }
+
+    generate_report: {
+      COMMAND: "compile_analysis_report"
+      ARGS {
+        format: markdown
+        include_citations: TRUE
+        confidence_scores: TRUE
+      }
+      RETRY: 1
+      DEPENDENCIES: analyze_impact
+    }
+  }
+
+  ERROR_HANDLING {
+    NETWORK_ERROR: {
+      STRATEGY: RETRY_WITH_BACKOFF
+      FALLBACK: "Use cached data if available"
+    }
+
+    VALIDATION_ERROR: {
+      STRATEGY: CONTINUE_WITH_WARNING
+      FALLBACK: "Flag issues and continue analysis"
+    }
+
+    RESOURCE_EXHAUSTED: {
+      STRATEGY: TERMINATE_GRACEFULLY
+      FALLBACK: "Save partial results and report failure"
+    }
+
+    TIMEOUT: {
+      STRATEGY: SAVE_AND_RETRY
+      FALLBACK: "Save progress and attempt completion in next run"
+    }
+  }
+
+  MONITORING {
+    METRICS: execution_time, memory_usage, api_calls, verification_success_rate
+    ALERTS: timeout_approaching, high_memory_usage, verification_failures
+    LOGGING_LEVEL: INFO
+  }
+}
+
+EXECUTE TERMINAL_UPGRADE {
+  VERSION "1.0.0"
+  TIMEOUT: 7200
+
+  RESOURCES {
+    CPU: 4
+    MEMORY: 2048
+    CYCLES: 500000000
+    STORAGE: 4096
+  }
+
+  STEPS {
+    backup_state: {
+      COMMAND: "snapshot_canister_state"
+      ARGS {
+        include_heap: TRUE
+        compression: TRUE
+      }
+      RETRY: 2
+      DEPENDENCIES: none
+    }
+
+    stop_operations: {
+      COMMAND: "graceful_shutdown"
+      ARGS {
+        drain_queue: TRUE
+        timeout: 300
+      }
+      RETRY: 1
+      DEPENDENCIES: backup_state
+    }
+
+    compile_new_version: {
+      COMMAND: "compile_motoko_to_wasm"
+      ARGS {
+        optimize: TRUE
+        target: ic
+      }
+      RETRY: 2
+      DEPENDENCIES: stop_operations
+    }
+
+    run_tests: {
+      COMMAND: "execute_test_suite"
+      ARGS {
+        suite: upgrade_tests
+        coverage_threshold: 0.9
+      }
+      RETRY: 1
+      DEPENDENCIES: compile_new_version
+    }
+
+    install_code: {
+      COMMAND: "upgrade_canister_code"
+      ARGS {
+        mode: upgrade
+        preserve_state: TRUE
+      }
+      RETRY: 1
+      DEPENDENCIES: run_tests
+    }
+
+    verify_upgrade: {
+      COMMAND: "verify_canister_health"
+      ARGS {
+        check_state: TRUE
+        check_endpoints: TRUE
+        check_permissions: TRUE
+      }
+      RETRY: 3
+      DEPENDENCIES: install_code
+    }
+
+    resume_operations: {
+      COMMAND: "enable_canister_operations"
+      ARGS {
+        gradual_ramp: TRUE
+        ramp_duration: 60
+      }
+      RETRY: 2
+      DEPENDENCIES: verify_upgrade
+    }
+  }
+
+  ERROR_HANDLING {
+    COMPILATION_ERROR: {
+      STRATEGY: ROLLBACK
+      FALLBACK: "Restore from backup and report error"
+    }
+
+    TEST_FAILURE: {
+      STRATEGY: ABORT
+      FALLBACK: "Do not proceed with upgrade, investigate failures"
+    }
+
+    UPGRADE_FAILURE: {
+      STRATEGY: IMMEDIATE_ROLLBACK
+      FALLBACK: "Restore previous version from backup"
+    }
+
+    VERIFICATION_FAILURE: {
+      STRATEGY: INVESTIGATE_AND_ROLLBACK
+      FALLBACK: "Collect diagnostics, then rollback"
+    }
+  }
+
+  MONITORING {
+    METRICS: upgrade_duration, rollback_count, state_size, endpoint_availability
+    ALERTS: upgrade_failure, rollback_triggered, verification_issues
+    LOGGING_LEVEL: DEBUG
+  }
+}

@@ -1,0 +1,1 @@
+{"name":"mega-api-gateway-bridge-sdk","version":"1.0.0","description":"API gateway bridge with phi-weighted rate limiting, request routing, and transformation","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["api-gateway","routing","rate-limit","transform","phi"],"license":"MIT"}

@@ -1,0 +1,36 @@
+{
+  "id": "atlas://bot/organism-crawler-bot",
+  "name": "organism-crawler-bot",
+  "class": "Bot",
+  "division": "Secure & Monitor",
+  "divisionId": "division-iii",
+  "emoji": "🕷️",
+  "domain": "Organism discovery and mapping",
+  "triggers": ["schedule:weekly", "push:atlas/**", "manual"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/mdl"
+  ],
+  "governance_pipeline": "pipeline://governance/discovery_cycle",
+  "capabilities": [
+    "entity_discovery",
+    "relationship_mapping",
+    "atlas_registry_update",
+    "dependency_graph_generation",
+    "organism_health_tracking"
+  ],
+  "constraints": [
+    "respect_privacy_boundaries",
+    "validate_discovered_entities",
+    "maintain_atlas_integrity",
+    "track_entity_evolution"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "medium"
+  }
+}

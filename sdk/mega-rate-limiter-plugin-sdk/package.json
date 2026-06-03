@@ -1,0 +1,1 @@
+{"name":"mega-rate-limiter-plugin-sdk","version":"1.0.0","description":"Rate limiting plugin with phi-weighted token buckets, sliding windows, and adaptive throttling","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["rate-limiter","token-bucket","sliding-window","throttle","phi"],"license":"MIT"}

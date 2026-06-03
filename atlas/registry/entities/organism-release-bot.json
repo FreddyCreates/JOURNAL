@@ -1,0 +1,35 @@
+{
+  "id": "atlas://bot/organism-release-bot",
+  "name": "organism-release-bot",
+  "class": "Bot",
+  "division": "Build & Package",
+  "divisionId": "division-i",
+  "emoji": "🚀",
+  "domain": "Production releases",
+  "triggers": ["tag:v*"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/err"
+  ],
+  "governance_pipeline": "pipeline://governance/release_cycle",
+  "capabilities": [
+    "version_tagging",
+    "changelog_generation",
+    "artifact_publishing",
+    "deployment_coordination"
+  ],
+  "constraints": [
+    "forbid_release_on_red",
+    "require_all_tests_pass",
+    "require_security_scan_clear",
+    "require_stability_review"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "critical"
+  }
+}

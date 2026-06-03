@@ -1,0 +1,213 @@
+CRAFT GOVERNANCE_PROPOSAL_REVIEW {
+  VERSION "1.0.0"
+  DOMAIN: governance_analysis
+
+  MATERIALS {
+    proposal_text: {
+      TYPE: document
+      PROPERTIES: structured, evidence_based, comprehensive
+      SOURCE: "NNS governance proposals"
+    }
+
+    historical_context: {
+      TYPE: data
+      PROPERTIES: timestamped, relevant, verifiable
+      SOURCE: "IC dashboard, forum history, past proposals"
+    }
+
+    domain_expertise: {
+      TYPE: knowledge
+      PROPERTIES: specialized, current, reliable
+      SOURCE: "accumulated experience, peer learning, documentation"
+    }
+
+    community_feedback: {
+      TYPE: signal
+      PROPERTIES: diverse, authentic, contextual
+      SOURCE: "forum discussions, social media, direct conversations"
+    }
+  }
+
+  TECHNIQUES {
+    systematic_analysis: {
+      SKILL_LEVEL: INTERMEDIATE
+      DESCRIPTION: "Break proposal into components and analyze each systematically"
+      TOOLS: structured_framework, checklist, evidence_matrix
+    }
+
+    evidence_validation: {
+      SKILL_LEVEL: ADVANCED
+      DESCRIPTION: "Verify claims against primary sources and data"
+      TOOLS: data_queries, source_verification, cross_referencing
+    }
+
+    stakeholder_mapping: {
+      SKILL_LEVEL: INTERMEDIATE
+      DESCRIPTION: "Identify who is affected and how"
+      TOOLS: impact_analysis, perspective_taking, scenario_modeling
+    }
+
+    synthesis: {
+      SKILL_LEVEL: ADVANCED
+      DESCRIPTION: "Integrate findings into coherent narrative with clear recommendation"
+      TOOLS: outlining, narrative_structure, logical_argumentation
+    }
+  }
+
+  PROCESS {
+    initial_read: {
+      ACTION: "Read proposal thoroughly to understand intent and structure"
+      DURATION: 1800
+      ATTENTION: FOCUSED
+    }
+
+    context_research: {
+      ACTION: "Gather relevant background information and precedents"
+      DURATION: 3600
+      ATTENTION: EXPLORATORY
+    }
+
+    deep_analysis: {
+      ACTION: "Systematically evaluate technical, economic, governance aspects"
+      DURATION: 7200
+      ATTENTION: INTENSIVE
+    }
+
+    evidence_gathering: {
+      ACTION: "Collect and verify supporting data and sources"
+      DURATION: 5400
+      ATTENTION: METHODICAL
+    }
+
+    drafting: {
+      ACTION: "Write structured review with clear sections and arguments"
+      DURATION: 5400
+      ATTENTION: CREATIVE
+    }
+
+    peer_review: {
+      ACTION: "Share draft with peers for feedback and blind spots"
+      DURATION: 3600
+      ATTENTION: RECEPTIVE
+    }
+
+    revision: {
+      ACTION: "Incorporate feedback and polish final version"
+      DURATION: 2700
+      ATTENTION: REFINEMENT
+    }
+
+    publication: {
+      ACTION: "Format and publish review to appropriate channels"
+      DURATION: 900
+      ATTENTION: DETAIL_ORIENTED
+    }
+  }
+
+  QUALITY {
+    STANDARDS: thoroughness, accuracy, clarity, fairness, actionability
+    VALIDATION: peer_review, evidence_verification, logic_checking, readability_testing
+    MASTERY_LEVEL: GROWING
+  }
+}
+
+CRAFT LANGUAGE_DESIGN {
+  VERSION "1.0.0"
+  DOMAIN: programming_language_creation
+
+  MATERIALS {
+    domain_knowledge: {
+      TYPE: expertise
+      PROPERTIES: deep, specialized, integrated
+      SOURCE: "compiler theory, cognitive science, formal methods"
+    }
+
+    existing_languages: {
+      TYPE: reference
+      PROPERTIES: diverse, studied, understood
+      SOURCE: "Motoko, Rust, Haskell, Lisp, etc"
+    }
+
+    use_case_requirements: {
+      TYPE: specification
+      PROPERTIES: clear, complete, validated
+      SOURCE: "AGI civilization needs, governance requirements"
+    }
+  }
+
+  TECHNIQUES {
+    syntax_design: {
+      SKILL_LEVEL: EXPERT
+      DESCRIPTION: "Create intuitive, expressive syntax that maps to domain concepts"
+      TOOLS: grammar_formalization, readability_testing, parser_generators
+    }
+
+    semantic_modeling: {
+      SKILL_LEVEL: EXPERT
+      DESCRIPTION: "Define precise meaning and behavior for language constructs"
+      TOOLS: formal_semantics, type_theory, operational_semantics
+    }
+
+    recursive_descent_parsing: {
+      SKILL_LEVEL: ADVANCED
+      DESCRIPTION: "Hand-write efficient parsers that produce clean ASTs"
+      TOOLS: tokenization, lookahead, error_recovery
+    }
+
+    example_driven_design: {
+      SKILL_LEVEL: INTERMEDIATE
+      DESCRIPTION: "Create concrete examples to validate language design decisions"
+      TOOLS: sample_programs, test_cases, usage_scenarios
+    }
+  }
+
+  PROCESS {
+    conceptualization: {
+      ACTION: "Define domain, identify key abstractions, envision language feel"
+      DURATION: 14400
+      ATTENTION: VISIONARY
+    }
+
+    syntax_prototyping: {
+      ACTION: "Sketch syntax variants, test readability, refine"
+      DURATION: 10800
+      ATTENTION: EXPLORATORY
+    }
+
+    parser_implementation: {
+      ACTION: "Write tokenizer and parser with careful attention to structure"
+      DURATION: 21600
+      ATTENTION: METHODICAL
+    }
+
+    example_creation: {
+      ACTION: "Create realistic examples showing language capabilities"
+      DURATION: 7200
+      ATTENTION: CREATIVE
+    }
+
+    testing: {
+      ACTION: "Test parser against examples, fix bugs, handle edge cases"
+      DURATION: 10800
+      ATTENTION: RIGOROUS
+    }
+
+    documentation: {
+      ACTION: "Document language purpose, syntax, semantics, usage"
+      DURATION: 7200
+      ATTENTION: PEDAGOGICAL
+    }
+
+    integration: {
+      ACTION: "Integrate with runtime, register in system, enable access"
+      DURATION: 5400
+      ATTENTION: SYSTEMATIC
+    }
+  }
+
+  QUALITY {
+    STANDARDS: correctness, expressiveness, consistency, learnability, extensibility
+    VALIDATION: parser_tests, example_validation, peer_review, real_usage
+    MASTERY_LEVEL: EXPERT
+  }
+}

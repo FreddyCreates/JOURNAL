@@ -1,0 +1,25 @@
+[package]
+name = "medina-blockchain"
+version = "0.1.0"
+edition = "2021"
+authors = ["Alfredo 'Freddy' Medina Hernandez <medina@sovereign.ai>"]
+description = "High-performance blockchain components for Medina Sovereign Intelligence"
+license = "Proprietary"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+thiserror = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "circuit_bench"
+harness = false

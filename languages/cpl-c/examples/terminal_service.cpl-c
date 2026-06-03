@@ -1,0 +1,95 @@
+CONTRACT TERMINAL_SERVICE_AGREEMENT {
+  VERSION "1.0.0"
+  ENCODED_ID "CPL.C.TERMINAL.SERVICE"
+  JURISDICTION "INTERNET_COMPUTER"
+  TIMESTAMP 1735800000
+
+  PARTIES {
+    TERMINAL_OWNER: {
+      PRINCIPAL: "principal_abc123"
+      ROLE: "Service Provider"
+      CAPABILITIES: MANAGE_TERMINAL, MODIFY_CODE
+    }
+
+    ORGANISM_USER: {
+      PRINCIPAL: "principal_def456"
+      ROLE: "Service Consumer"
+      CAPABILITIES: EXECUTE_TASKS, QUERY_STATE
+    }
+  }
+
+  TERMS {
+    UPTIME_GUARANTEE: {
+      OBLIGATION: uptime_percentage >= 99.9
+      DEADLINE: PERPETUAL
+      PENALTY: refund_cycles
+    }
+
+    RESPONSE_TIME: {
+      OBLIGATION: avg_response_time_ms <= 100
+      DEADLINE: PERPETUAL
+      PENALTY: service_credit
+    }
+
+    DATA_RETENTION: {
+      OBLIGATION: retain_data_days >= 30
+      DEADLINE: PERPETUAL
+      PENALTY: breach_notification
+    }
+  }
+
+  CONDITIONS {
+    PRE: terminal_is_deployed == TRUE
+    PRE: parties_have_signed == TRUE
+    POST: contract_is_active == TRUE
+    INVARIANT: terminal_sovereignty_maintained == TRUE
+  }
+
+  ACTIONS {
+    execute_task: {
+      REQUIRES: organism_has_permission == TRUE
+      ENSURES: task_result_recorded == TRUE
+      MODIFIES: terminal_state, execution_log
+      BODY: {
+        validate_organism_identity
+        check_resource_availability
+        execute_in_sandbox
+        record_result
+      }
+    }
+
+    modify_terminal: {
+      REQUIRES: caller_is_owner == TRUE
+      REQUIRES: no_active_tasks == TRUE
+      ENSURES: terminal_version_incremented == TRUE
+      MODIFIES: terminal_code, terminal_metadata
+      BODY: {
+        backup_current_state
+        apply_modifications
+        run_validation_tests
+        commit_changes
+      }
+    }
+  }
+
+  EVENTS {
+    ON BREACH: {
+      notify_all_parties
+      suspend_contract
+      calculate_penalties
+      initiate_dispute_resolution
+    }
+
+    ON FULFILL: {
+      record_completion
+      release_escrow
+      update_reputation
+    }
+
+    ON EXPIRE: {
+      archive_contract
+      finalize_payments
+      return_deposits
+    }
+  }
+}

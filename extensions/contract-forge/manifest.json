@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Contract Forge",
+  "version": "1.0.0",
+  "description": "Intelligence Contract Studio — GPT + Claude + Guards",
+  "permissions": ["activeTab", "storage", "downloads"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "minimum_chrome_version": "110"
+}

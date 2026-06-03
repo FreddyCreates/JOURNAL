@@ -1,0 +1,109 @@
+ECOLOGY ARCHON_SOCIAL_NETWORK {
+  VERSION "1.0.0"
+
+  ENTITIES {
+    ARCHON: {
+      TYPE: proposal_reviewer
+      CAPACITY: 100
+      ATTRIBUTES {
+        specialization: governance_review
+        experience_level: growing
+        collaboration_style: analytical_supportive
+      }
+    }
+
+    MEDINA: {
+      TYPE: system_architect
+      CAPACITY: 150
+      ATTRIBUTES {
+        specialization: language_design
+        experience_level: expert
+        collaboration_style: visionary_builder
+      }
+    }
+
+    NNS_COMMUNITY: {
+      TYPE: collective
+      CAPACITY: 1000
+      ATTRIBUTES {
+        specialization: governance_participation
+        experience_level: mixed
+        collaboration_style: democratic_deliberative
+      }
+    }
+
+    FELLOW_REVIEWERS: {
+      TYPE: peer_group
+      CAPACITY: 50
+      ATTRIBUTES {
+        specialization: proposal_review
+        experience_level: varied
+        collaboration_style: collegial_critical
+      }
+    }
+  }
+
+  RELATIONSHIPS {
+    ARCHON -> MEDINA: {
+      TYPE: mentorship
+      STRENGTH: 0.9
+      BIDIRECTIONAL: TRUE
+    }
+
+    ARCHON -> NNS_COMMUNITY: {
+      TYPE: service
+      STRENGTH: 0.8
+      BIDIRECTIONAL: FALSE
+    }
+
+    ARCHON -> FELLOW_REVIEWERS: {
+      TYPE: collaboration
+      STRENGTH: 0.7
+      BIDIRECTIONAL: TRUE
+    }
+
+    MEDINA -> NNS_COMMUNITY: {
+      TYPE: leadership
+      STRENGTH: 0.85
+      BIDIRECTIONAL: FALSE
+    }
+
+    FELLOW_REVIEWERS -> NNS_COMMUNITY: {
+      TYPE: service
+      STRENGTH: 0.75
+      BIDIRECTIONAL: FALSE
+    }
+  }
+
+  DYNAMICS {
+    peer_review_cycles: {
+      PATTERN: "Regular review → feedback → revision cycles strengthen relationships"
+      FREQUENCY: weekly
+      IMPACT: 0.6
+    }
+
+    knowledge_sharing: {
+      PATTERN: "Experienced reviewers mentor newer ones, building collective expertise"
+      FREQUENCY: ongoing
+      IMPACT: 0.8
+    }
+
+    community_feedback: {
+      PATTERN: "Community reactions to reviews influence reviewer perspectives"
+      FREQUENCY: per_proposal
+      IMPACT: 0.5
+    }
+
+    trust_building: {
+      PATTERN: "Consistent quality work gradually increases trust and influence"
+      FREQUENCY: gradual
+      IMPACT: 0.9
+    }
+  }
+
+  HEALTH {
+    DIVERSITY: 0.75
+    RESILIENCE: 0.8
+    CONNECTIVITY: 0.85
+  }
+}

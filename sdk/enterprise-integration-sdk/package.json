@@ -1,0 +1,29 @@
+{
+  "name": "@medina/enterprise-integration-sdk",
+  "version": "1.0.0",
+  "description": "Plug any enterprise into a sovereign intelligence substrate — company onboarding, connector templates, campaign management, multi-channel messaging, and export pipelines.",
+  "license": "UNLICENSED",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "enterprise",
+    "integration",
+    "connectors",
+    "onboarding",
+    "campaign",
+    "messaging",
+    "export",
+    "sovereign-intelligence"
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./onboarding": "./src/onboarding.js",
+    "./connectors": "./src/connectors/index.js",
+    "./campaign-manager": "./src/campaign-manager.js",
+    "./messaging": "./src/messaging.js",
+    "./export-pipeline": "./src/export-pipeline.js"
+  }
+}

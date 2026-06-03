@@ -1,0 +1,1 @@
+{"name":"mega-telemetry-plugin-sdk","version":"1.0.0","description":"Telemetry plugin with phi-weighted trace propagation, metric collection, and distributed tracing","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["telemetry","tracing","metrics","observability","phi"],"license":"MIT"}

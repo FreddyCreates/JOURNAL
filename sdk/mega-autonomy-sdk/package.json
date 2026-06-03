@@ -1,0 +1,12 @@
+{
+  "name": "mega-autonomy-sdk",
+  "version": "1.0.0",
+  "description": "Self-governing autonomous decision-making framework with phi-weighted sovereignty protocols",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["autonomy", "self-governing", "phi", "decision-making", "sovereignty"],
+  "license": "MIT"
+}

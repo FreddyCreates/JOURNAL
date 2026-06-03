@@ -1,0 +1,12 @@
+{
+  "name": "sensor-array-sdk",
+  "version": "1.0.0",
+  "description": "Organism sensory array with intelligent sensor types for edge perception",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["sensors", "monitoring", "thermal", "network", "proximity"],
+  "license": "MIT"
+}

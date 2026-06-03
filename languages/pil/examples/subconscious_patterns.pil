@@ -1,0 +1,105 @@
+PATTERN STRESS_RESPONSE {
+  VERSION "1.0.0"
+  ENCODED_ID "PIL.STRESS.AUTO"
+  SUBCONSCIOUS: TRUE
+
+  TRIGGERS {
+    HIGH_PRESSURE: {
+      CONDITION: workload > threshold && time_remaining < minimum
+      THRESHOLD: 0.8
+      CONTEXT: decision_making, time_pressure, uncertainty
+    }
+
+    RESOURCE_SCARCITY: {
+      CONDITION: available_resources < required_resources
+      THRESHOLD: 0.5
+      CONTEXT: planning, allocation, competition
+    }
+
+    REPEATED_FAILURE: {
+      CONDITION: failure_count >= 3 && success_rate < 0.3
+      THRESHOLD: 0.7
+      CONTEXT: learning, adaptation, persistence
+    }
+  }
+
+  RESPONSES {
+    HEIGHTENED_FOCUS: {
+      ACTION: increase_attention_allocation(critical_tasks)
+      INTENSITY: 1.5
+      DURATION: 3600
+    }
+
+    CONSERVATIVE_STRATEGY: {
+      ACTION: prefer_low_risk_options && reduce_exploration
+      INTENSITY: 1.2
+      DURATION: 7200
+    }
+
+    SEEK_SUPPORT: {
+      ACTION: request_collaboration || delegate_subtasks
+      INTENSITY: 0.8
+      DURATION: 1800
+    }
+
+    DEFENSIVE_POSTURE: {
+      ACTION: minimize_commitments && protect_resources
+      INTENSITY: 1.0
+      DURATION: 3600
+    }
+  }
+
+  FREQUENCY: 0.15
+  STRENGTH: 0.85
+  ASSOCIATIONS: anxiety, vigilance, risk_aversion, urgency
+}
+
+PATTERN CREATIVE_FLOW {
+  VERSION "1.0.0"
+  ENCODED_ID "PIL.CREATIVE.FLOW"
+  SUBCONSCIOUS: FALSE
+
+  TRIGGERS {
+    OPTIMAL_CHALLENGE: {
+      CONDITION: task_difficulty == skill_level && intrinsic_motivation == HIGH
+      THRESHOLD: 0.9
+      CONTEXT: creation, problem_solving, exploration
+    }
+
+    LOW_INTERRUPTION: {
+      CONDITION: interruption_count < 2 && continuous_time > 30_minutes
+      THRESHOLD: 0.8
+      CONTEXT: deep_work, concentration, immersion
+    }
+
+    CLEAR_GOALS: {
+      CONDITION: goal_clarity > 0.7 && feedback_immediacy > 0.6
+      THRESHOLD: 0.7
+      CONTEXT: progress, direction, purpose
+    }
+  }
+
+  RESPONSES {
+    TIMELESS_ABSORPTION: {
+      ACTION: suspend_time_awareness && reduce_self_monitoring
+      INTENSITY: 1.8
+      DURATION: 7200
+    }
+
+    EFFORTLESS_ACTION: {
+      ACTION: automatic_skill_execution && reduced_conscious_control
+      INTENSITY: 1.5
+      DURATION: 5400
+    }
+
+    EXPANDED_PERSPECTIVE: {
+      ACTION: consider_novel_connections && explore_alternatives
+      INTENSITY: 1.3
+      DURATION: 3600
+    }
+  }
+
+  FREQUENCY: 0.05
+  STRENGTH: 0.95
+  ASSOCIATIONS: joy, absorption, mastery, transcendence
+}

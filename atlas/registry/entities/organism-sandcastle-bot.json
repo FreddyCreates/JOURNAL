@@ -1,0 +1,36 @@
+{
+  "id": "atlas://bot/organism-sandcastle-bot",
+  "name": "organism-sandcastle-bot",
+  "class": "Bot",
+  "division": "Validate & Test",
+  "divisionId": "division-ii",
+  "emoji": "🏰",
+  "domain": "Sandboxed build-test-land",
+  "triggers": ["pull_request:opened", "pull_request:synchronize"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/btl"
+  ],
+  "governance_pipeline": "pipeline://governance/sandcastle_cycle",
+  "capabilities": [
+    "isolated_environment_creation",
+    "sandboxed_build_execution",
+    "safe_dependency_installation",
+    "ephemeral_test_running",
+    "build_artifact_validation"
+  ],
+  "constraints": [
+    "isolate_all_executions",
+    "forbid_network_access_tests",
+    "cleanup_after_execution",
+    "limit_resource_usage"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "medium"
+  }
+}

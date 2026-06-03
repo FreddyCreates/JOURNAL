@@ -1,0 +1,12 @@
+{
+  "name": "mega-evolution-sdk",
+  "version": "1.0.0",
+  "description": "Self-evolving algorithms with genetic phi-optimization and adaptive mutation strategies",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["evolution", "genetic", "phi", "optimization", "mutation"],
+  "license": "MIT"
+}

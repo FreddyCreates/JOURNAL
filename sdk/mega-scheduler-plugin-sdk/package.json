@@ -1,0 +1,1 @@
+{"name":"mega-scheduler-plugin-sdk","version":"1.0.0","description":"Task scheduler plugin with phi-weighted priority scheduling, cron expressions, and job queues","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["scheduler","cron","jobs","queue","phi"],"license":"MIT"}

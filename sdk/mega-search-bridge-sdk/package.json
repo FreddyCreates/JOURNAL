@@ -1,0 +1,1 @@
+{"name":"mega-search-bridge-sdk","version":"1.0.0","description":"Search engine bridge with phi-weighted relevance scoring, faceting, and multi-index federation","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["search","relevance","faceting","index","phi"],"license":"MIT"}

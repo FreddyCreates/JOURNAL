@@ -1,0 +1,165 @@
+WORKFLOW PROPOSAL_REVIEW_PROCESS {
+  VERSION "1.0.0"
+  DESCRIPTION: "Complete workflow for reviewing NNS governance proposals"
+
+  INPUTS {
+    proposal_id: {
+      TYPE: text
+      REQUIRED: TRUE
+    }
+
+    reviewer_context: {
+      TYPE: object
+      REQUIRED: TRUE
+    }
+
+    deadline: {
+      TYPE: timestamp
+      REQUIRED: FALSE
+      DEFAULT: 604800
+    }
+  }
+
+  STAGES {
+    initial_triage: {
+      TASKS: fetch_proposal, validate_format, check_completeness
+      DEPENDENCIES: none
+      PARALLEL: FALSE
+    }
+
+    context_gathering: {
+      TASKS: research_background, identify_stakeholders, review_similar_proposals, gather_community_sentiment
+      DEPENDENCIES: initial_triage
+      PARALLEL: TRUE
+    }
+
+    deep_analysis: {
+      TASKS: analyze_technical_feasibility, evaluate_economic_impact, assess_governance_implications, identify_risks
+      DEPENDENCIES: context_gathering
+      PARALLEL: TRUE
+    }
+
+    evidence_synthesis: {
+      TASKS: organize_findings, verify_claims, document_sources, resolve_contradictions
+      DEPENDENCIES: deep_analysis
+      PARALLEL: FALSE
+    }
+
+    draft_review: {
+      TASKS: write_summary, detail_analysis, formulate_recommendation, add_caveats
+      DEPENDENCIES: evidence_synthesis
+      PARALLEL: FALSE
+    }
+
+    peer_review: {
+      TASKS: share_with_peers, collect_feedback, address_comments, revise_draft
+      DEPENDENCIES: draft_review
+      PARALLEL: FALSE
+    }
+
+    finalization: {
+      TASKS: final_quality_check, format_for_publication, submit_review, notify_stakeholders
+      DEPENDENCIES: peer_review
+      PARALLEL: FALSE
+    }
+  }
+
+  OUTPUTS {
+    review_document: {
+      TYPE: markdown
+      SOURCE: "finalization.formatted_review"
+    }
+
+    confidence_score: {
+      TYPE: number
+      SOURCE: "evidence_synthesis.confidence_assessment"
+    }
+
+    recommendation: {
+      TYPE: enum
+      SOURCE: "draft_review.recommendation_value"
+    }
+
+    metadata: {
+      TYPE: object
+      SOURCE: "finalization.review_metadata"
+    }
+  }
+}
+
+WORKFLOW TERMINAL_DEPLOYMENT {
+  VERSION "1.0.0"
+  DESCRIPTION: "Workflow for deploying a new terminal canister on ICP"
+
+  INPUTS {
+    terminal_config: {
+      TYPE: object
+      REQUIRED: TRUE
+    }
+
+    owner_principal: {
+      TYPE: principal
+      REQUIRED: TRUE
+    }
+
+    initial_cycles: {
+      TYPE: number
+      REQUIRED: TRUE
+    }
+  }
+
+  STAGES {
+    preparation: {
+      TASKS: validate_config, verify_principal, check_cycles_balance
+      DEPENDENCIES: none
+      PARALLEL: FALSE
+    }
+
+    compilation: {
+      TASKS: compile_motoko, optimize_wasm, generate_candid
+      DEPENDENCIES: preparation
+      PARALLEL: FALSE
+    }
+
+    deployment: {
+      TASKS: create_canister, install_code, set_controllers
+      DEPENDENCIES: compilation
+      PARALLEL: FALSE
+    }
+
+    configuration: {
+      TASKS: initialize_state, configure_access, set_parameters
+      DEPENDENCIES: deployment
+      PARALLEL: FALSE
+    }
+
+    verification: {
+      TASKS: test_endpoints, verify_state, check_permissions
+      DEPENDENCIES: configuration
+      PARALLEL: TRUE
+    }
+
+    registration: {
+      TASKS: register_in_atlas, publish_metadata, notify_owner
+      DEPENDENCIES: verification
+      PARALLEL: FALSE
+    }
+  }
+
+  OUTPUTS {
+    canister_id: {
+      TYPE: principal
+      SOURCE: "deployment.created_canister_id"
+    }
+
+    endpoints: {
+      TYPE: array
+      SOURCE: "verification.available_endpoints"
+    }
+
+    status: {
+      TYPE: enum
+      SOURCE: "registration.deployment_status"
+    }
+  }
+}

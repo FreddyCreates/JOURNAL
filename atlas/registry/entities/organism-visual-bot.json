@@ -1,0 +1,35 @@
+{
+  "id": "atlas://bot/organism-visual-bot",
+  "name": "organism-visual-bot",
+  "class": "Bot",
+  "division": "Validate & Test",
+  "divisionId": "division-ii",
+  "emoji": "📸",
+  "domain": "Visual regression testing",
+  "triggers": ["push:ui/**", "push:frontend/**"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p"
+  ],
+  "governance_pipeline": "pipeline://governance/visual_validation",
+  "capabilities": [
+    "screenshot_capture",
+    "visual_diff_analysis",
+    "baseline_management",
+    "ui_component_testing",
+    "accessibility_validation"
+  ],
+  "constraints": [
+    "require_baseline_approval",
+    "flag_visual_regressions",
+    "validate_accessibility_standards",
+    "track_ui_changes"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "medium"
+  }
+}

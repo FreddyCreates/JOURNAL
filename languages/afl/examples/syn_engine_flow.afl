@@ -1,0 +1,270 @@
+// SYN Engine 24-Hour Autonomous Flow
+// All 15 engines orchestrated with Latin nomenclature
+// "Propositio mutat. Nos recordamur. Veritas manet."
+
+FLUXUS SYN_ENGINE_CYCL US {
+  VERSION "1.0.0"
+  NOMEN: CYCLUS_SYNERGICUS_PERPETUUS
+
+  AGENTES {
+    INGESTOR: {
+      NOMEN_LATINUM: COLLECTOR_PROPOSITIONUM
+      MUNUS: PROPOSAL_INGEST
+      POTENTIAE: nns_fetch, sns_fetch, data_normalization
+      NEXUS: PARSER, RESOLVER
+    }
+
+    PARSER: {
+      NOMEN_LATINUM: INTERPRES_PAYLOADIS
+      MUNUS: PAYLOAD_PARSING
+      POTENTIAE: candid_decode, hex_parse, structure_extract
+      NEXUS: RESOLVER
+    }
+
+    RESOLVER: {
+      NOMEN_LATINUM: DETERMINATORIS_DESTINATIONIS
+      MUNUS: TARGET_RESOLUTION
+      POTENTIAE: canister_lookup, method_identification, registry_query
+      NEXUS: PATH_BUILDER
+    }
+
+    PATH_BUILDER: {
+      NOMEN_LATINUM: CONSTRUCTOR_VIARUM
+      MUNUS: EFFECT_PATH_CONSTRUCTION
+      POTENTIAE: path_synthesis, state_mapping, dependency_trace
+      NEXUS: TRUTH_ENGINE
+    }
+
+    TRUTH_ENGINE: {
+      NOMEN_LATINUM: MOTOR_VERITATIS
+      MUNUS: RUNTIME_TRUTH_VALIDATION
+      POTENTIAE: evidence_validation, state_verification, confidence_scoring
+      NEXUS: RISK_CLASSIFIER
+    }
+
+    RISK_CLASSIFIER: {
+      NOMEN_LATINUM: CLASSIFICATOR_PERICULI
+      MUNUS: RISK_ASSESSMENT
+      POTENTIAE: phi_weighted_scoring, threat_categorization, alert_generation
+      NEXUS: VERIFICATOR
+    }
+
+    VERIFICATOR: {
+      NOMEN_LATINUM: GENERATOR_PLANORUM_PROBATIONIS
+      MUNUS: VERIFICATION_PLANNING
+      POTENTIAE: step_generation, checkpoint_definition, evidence_requirement
+      NEXUS: REVIEWER_BRIDGE
+    }
+
+    REVIEWER_BRIDGE: {
+      NOMEN_LATINUM: PONS_RECENSORUM
+      MUNUS: REVIEWER_INTEGRATION
+      POTENTIAE: codegov_query, review_extraction, evidence_linking
+      NEXUS: MEMORY_LINKER
+    }
+
+    MEMORY_LINKER: {
+      NOMEN_LATINUM: NEXUS_MEMORIAE
+      MUNUS: GOVERNANCE_MEMORY
+      POTENTIAE: precedent_linking, contradiction_detection, pattern_recognition
+      NEXUS: EXECUTION_WATCHER
+    }
+
+    EXECUTION_WATCHER: {
+      NOMEN_LATINUM: OBSERVATOR_EXECUTIONIS
+      MUNUS: POST_EXECUTION_MONITORING
+      POTENTIAE: state_query, after_check, discrepancy_flag
+      NEXUS: AGENT_COUNCIL
+    }
+
+    AGENT_COUNCIL: {
+      NOMEN_LATINUM: CONSILIUM_QUADRUPLEX
+      MUNUS: MULTI_AGENT_ANALYSIS
+      POTENTIAE: parallel_agent_execution, finding_aggregation, severity_assessment
+      NEXUS: SUMMARIZER
+    }
+
+    SUMMARIZER: {
+      NOMEN_LATINUM: COMPOSITOR_PUBLICORUM
+      MUNUS: PUBLIC_SUMMARY_GENERATION
+      POTENTIAE: plain_language_synthesis, guardrail_enforcement, clarity_optimization
+      NEXUS: EVIDENCE_REGISTRY
+    }
+
+    EVIDENCE_REGISTRY: {
+      NOMEN_LATINUM: REGISTRUM_PROBATIONUM
+      MUNUS: EVIDENCE_VALIDATION
+      POTENTIAE: source_link_verification, claim_sourcing, orphan_detection
+      NEXUS: DISPUTE_HANDLER
+    }
+
+    DISPUTE_HANDLER: {
+      NOMEN_LATINUM: ARBITER_CONTROVERSIARUM
+      MUNUS: DISPUTE_RESOLUTION
+      POTENTIAE: dispute_tracking, revision_management, correction_application
+      NEXUS: EXPORTER
+    }
+
+    EXPORTER: {
+      NOMEN_LATINUM: EMISSOR_DATORUM
+      MUNUS: DATA_EXPORT
+      POTENTIAE: markdown_generation, json_packaging, certified_asset_update
+      NEXUS: null
+    }
+  }
+
+  STADIA {
+    E1_INGEST: {
+      NOMEN_LATINUM: ACCEPTIO_PROPOSITIONUM
+      ACTIONES: fetch_nns_proposals, fetch_sns_proposals, normalize_records
+      REQUISITA: network_access
+      EXITUS: proposal_batch
+    }
+
+    E2_E3_PARSE_RESOLVE: {
+      NOMEN_LATINUM: INTERPRETATIO_ET_RESOLUTIO
+      ACTIONES: decode_payloads, identify_targets, map_methods
+      REQUISITA: proposal_batch
+      EXITUS: resolved_proposals
+    }
+
+    E4_E5_PATH_TRUTH: {
+      NOMEN_LATINUM: VIA_ET_VERITAS
+      ACTIONES: construct_effect_paths, validate_claims, score_confidence
+      REQUISITA: resolved_proposals
+      EXITUS: trace_records
+    }
+
+    E6_RISK: {
+      NOMEN_LATINUM: AESTIMATIO_PERICULI
+      ACTIONES: classify_risk, score_phi_weighted, generate_alerts
+      REQUISITA: trace_records
+      EXITUS: risk_profiles
+    }
+
+    E7_VERIFY: {
+      NOMEN_LATINUM: PLANIFICATIO_PROBATIONIS
+      ACTIONES: generate_verification_steps, define_checkpoints
+      REQUISITA: trace_records
+      EXITUS: verification_plans
+    }
+
+    E8_REVIEWER: {
+      NOMEN_LATINUM: INTEGRATIO_RECENSORUM
+      ACTIONES: query_codegov, extract_reviews, link_evidence
+      REQUISITA: trace_records
+      EXITUS: reviewer_findings
+    }
+
+    E9_MEMORY: {
+      NOMEN_LATINUM: CONSTRUCTIO_MEMORIAE
+      ACTIONES: link_precedents, detect_contradictions, tag_patterns
+      REQUISITA: trace_records
+      EXITUS: memory_links
+    }
+
+    E10_EXECUTION: {
+      NOMEN_LATINUM: OBSERVATIO_POST_EXECUTIONEM
+      ACTIONES: query_after_state, compare_expectations, flag_discrepancies
+      REQUISITA: executed_proposals
+      EXITUS: execution_checks
+    }
+
+    E11_COUNCIL: {
+      NOMEN_LATINUM: CONSILIUM_AGENTUM
+      ACTIONES: run_archon, run_vector, run_lumen, run_forge
+      REQUISITA: trace_records
+      EXITUS: agent_findings
+    }
+
+    E12_SUMMARY: {
+      NOMEN_LATINUM: GENERATIO_SUMMARUM
+      ACTIONES: synthesize_plain_language, enforce_guardrails
+      REQUISITA: trace_records
+      EXITUS: public_summaries
+    }
+
+    E13_EVIDENCE: {
+      NOMEN_LATINUM: VALIDATIO_PROBATIONUM
+      ACTIONES: verify_source_links, detect_orphan_claims
+      REQUISITA: trace_records
+      EXITUS: evidence_validation
+    }
+
+    E14_DISPUTE: {
+      NOMEN_LATINUM: RESOLUTIO_CONTROVERSIARUM
+      ACTIONES: scan_disputes, manage_revisions, apply_corrections
+      REQUISITA: trace_records
+      EXITUS: dispute_resolutions
+    }
+
+    E15_EXPORT: {
+      NOMEN_LATINUM: EXPORTATIO_DATORUM
+      ACTIONES: generate_markdown, package_json, update_certified_assets
+      REQUISITA: trace_records
+      EXITUS: exported_artifacts
+    }
+  }
+
+  TRANSITIONES {
+    E1_INGEST -> E2_E3_PARSE_RESOLVE: {
+      CONDITIO: "proposal_batch.count > 0"
+      TEMPUS: 1000
+    }
+
+    E2_E3_PARSE_RESOLVE -> E4_E5_PATH_TRUTH: {
+      CONDITIO: "resolved_proposals.count > 0"
+      TEMPUS: 2000
+    }
+
+    E4_E5_PATH_TRUTH -> E6_RISK: {
+      CONDITIO: "trace_records.count > 0"
+      TEMPUS: 1500
+    }
+
+    E6_RISK -> E7_VERIFY: {
+      CONDITIO: "TRUE"
+      TEMPUS: 1000
+    }
+
+    E4_E5_PATH_TRUTH -> E8_REVIEWER: {
+      CONDITIO: "trace_records.count > 0"
+      TEMPUS: 500
+    }
+
+    E8_REVIEWER -> E9_MEMORY: {
+      CONDITIO: "TRUE"
+      TEMPUS: 1000
+    }
+
+    E9_MEMORY -> E10_EXECUTION: {
+      CONDITIO: "executed_proposals.exists == TRUE"
+      TEMPUS: 2000
+    }
+
+    E4_E5_PATH_TRUTH -> E11_COUNCIL: {
+      CONDITIO: "trace_records.count > 0"
+      TEMPUS: 3000
+    }
+
+    E11_COUNCIL -> E12_SUMMARY: {
+      CONDITIO: "agent_findings.count > 0"
+      TEMPUS: 1500
+    }
+
+    E12_SUMMARY -> E13_EVIDENCE: {
+      CONDITIO: "TRUE"
+      TEMPUS: 1000
+    }
+
+    E13_EVIDENCE -> E14_DISPUTE: {
+      CONDITIO: "TRUE"
+      TEMPUS: 800
+    }
+
+    E14_DISPUTE -> E15_EXPORT: {
+      CONDITIO: "TRUE"
+      TEMPUS: 1200
+    }
+  }
+}

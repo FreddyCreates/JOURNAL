@@ -1,0 +1,8 @@
+{
+  "name": "@medina/sovereign-field-models",
+  "version": "1.0.0",
+  "description": "120 sovereign field models across 12 browser-native intelligence families — STREAMS, WEBRTC, COMPONENTS, WORKERS, OBSERVERS, CANVAS, SVG, XR, WASM, AUDIO, GPU, GL",
+  "type": "module",
+  "main": "src/index.js",
+  "license": "MIT"
+}

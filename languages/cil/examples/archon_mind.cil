@@ -1,0 +1,128 @@
+COGNITIVE_SPACE ARCHON_MIND {
+  VERSION "1.0.0"
+  ENCODED_ID "CIL.ARCHON.COGNITIVE.SPACE"
+  TOPOLOGY: HYPERBOLIC
+  DIMENSIONALITY: 512
+
+  DIMENSIONS {
+    semantic_meaning: {
+      TYPE: CONTINUOUS
+      RANGE: [0.0, 1.0]
+      METRIC: cosine_similarity
+    }
+
+    temporal_relevance: {
+      TYPE: CONTINUOUS
+      RANGE: [0.0, 1.0]
+      METRIC: euclidean_distance
+    }
+
+    evidence_strength: {
+      TYPE: CONTINUOUS
+      RANGE: [0.0, 1.0]
+      METRIC: manhattan_distance
+    }
+
+    concept_category: {
+      TYPE: CATEGORICAL
+      RANGE: [GOVERNANCE, TECHNICAL, SOCIAL, ECONOMIC]
+      METRIC: hamming_distance
+    }
+  }
+
+  CONCEPTS {
+    proposal_quality: {
+      COORDINATES: [0.8, 0.9, 0.7, GOVERNANCE]
+      EMBEDDING: [0.12, 0.45, 0.78, ...]
+      RELATIONS: evidence_analysis, context_understanding
+      ACTIVATION: 0.85
+      DECAY_RATE: 0.01
+    }
+
+    evidence_analysis: {
+      COORDINATES: [0.7, 0.8, 0.9, TECHNICAL]
+      EMBEDDING: [0.23, 0.56, 0.89, ...]
+      RELATIONS: claim_verification, data_validation
+      ACTIVATION: 0.75
+      DECAY_RATE: 0.02
+    }
+
+    context_understanding: {
+      COORDINATES: [0.6, 0.7, 0.6, GOVERNANCE]
+      EMBEDDING: [0.34, 0.67, 0.12, ...]
+      RELATIONS: historical_analysis, pattern_recognition
+      ACTIVATION: 0.65
+      DECAY_RATE: 0.015
+    }
+
+    claim_verification: {
+      COORDINATES: [0.9, 0.7, 0.95, TECHNICAL]
+      EMBEDDING: [0.45, 0.78, 0.23, ...]
+      RELATIONS: evidence_analysis
+      ACTIVATION: 0.90
+      DECAY_RATE: 0.005
+    }
+  }
+
+  RELATIONS {
+    proposal_quality -> evidence_analysis: {
+      TYPE: CAUSES
+      STRENGTH: 0.85
+      BIDIRECTIONAL: FALSE
+      TRANSITIVE: TRUE
+    }
+
+    evidence_analysis -> claim_verification: {
+      TYPE: IS_A
+      STRENGTH: 0.90
+      BIDIRECTIONAL: FALSE
+      TRANSITIVE: TRUE
+    }
+
+    context_understanding -> proposal_quality: {
+      TYPE: IMPLIES
+      STRENGTH: 0.75
+      BIDIRECTIONAL: FALSE
+      TRANSITIVE: FALSE
+    }
+
+    claim_verification -> evidence_analysis: {
+      TYPE: PART_OF
+      STRENGTH: 0.80
+      BIDIRECTIONAL: TRUE
+      TRANSITIVE: FALSE
+    }
+  }
+
+  OPERATIONS {
+    activate_concept: {
+      FUNCTION: ACTIVATE
+      PARAMETERS: concept_id, activation_strength
+      EFFECT: concept.activation += activation_strength
+    }
+
+    propagate_activation: {
+      FUNCTION: PROPAGATE
+      PARAMETERS: source_concept
+      EFFECT: spread_activation_through_relations(source_concept)
+    }
+
+    inhibit_concept: {
+      FUNCTION: INHIBIT
+      PARAMETERS: concept_id, inhibition_strength
+      EFFECT: concept.activation -= inhibition_strength
+    }
+
+    associate_concepts: {
+      FUNCTION: ASSOCIATE
+      PARAMETERS: concept_a, concept_b, relation_type, strength
+      EFFECT: create_relation(concept_a, concept_b, relation_type, strength)
+    }
+
+    reason_about: {
+      FUNCTION: REASON
+      PARAMETERS: query_concept, depth
+      EFFECT: traverse_relations(query_concept, depth)
+    }
+  }
+}

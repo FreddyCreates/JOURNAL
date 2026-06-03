@@ -1,0 +1,12 @@
+{
+  "name": "sovereign-memory-sdk",
+  "version": "1.0.0",
+  "description": "Spatial memory persistence with phi-weighted coordinates and lineage tracking",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["memory", "spatial", "phi", "lineage"],
+  "license": "MIT"
+}

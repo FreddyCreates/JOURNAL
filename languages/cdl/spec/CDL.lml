@@ -1,0 +1,172 @@
+LANGUAGE CDL {
+  NAME "Cognitive Doctrine Language"
+  VERSION "1.0.0"
+  ENCODED_ID "CDL.DOCTRINE"
+
+  METADATA {
+    PURPOSE: "Organism doctrines, beliefs, and value systems"
+    TARGET: "motoko"
+    STACK: "INNER_MIND_DOCTRINE"
+    PRIORITY: "P0"
+  }
+
+  GRAMMAR {
+    RULE Program {
+      PRODUCTION Doctrine+
+    }
+
+    RULE Doctrine {
+      PRODUCTION "DOCTRINE" Identifier "{" DoctrineBody "}"
+    }
+
+    RULE DoctrineBody {
+      PRODUCTION (Metadata | Axioms | Principles | Values | Virtues | Prohibitions | Priorities)*
+    }
+
+    RULE Metadata {
+      PRODUCTION "VERSION" String
+      PRODUCTION "ENCODED_ID" String
+      PRODUCTION "IMMUTABLE" ":" Boolean
+      PRODUCTION "INHERITABLE" ":" Boolean
+    }
+
+    RULE Axioms {
+      PRODUCTION "AXIOMS" "{" Axiom+ "}"
+    }
+
+    RULE Axiom {
+      PRODUCTION Identifier ":" "{" AxiomBody "}"
+    }
+
+    RULE AxiomBody {
+      PRODUCTION "STATEMENT" ":" String
+      PRODUCTION "FOUNDATION" ":" Boolean
+      PRODUCTION "CONSEQUENCES" ":" ExpressionList
+    }
+
+    RULE Principles {
+      PRODUCTION "PRINCIPLES" "{" Principle+ "}"
+    }
+
+    RULE Principle {
+      PRODUCTION Identifier ":" "{" PrincipleBody "}"
+    }
+
+    RULE PrincipleBody {
+      PRODUCTION "DESCRIPTION" ":" String
+      PRODUCTION "PRIORITY" ":" Number
+      PRODUCTION "APPLIES_TO" ":" DomainList
+      PRODUCTION "CONTRADICTS" ":" IdentifierList
+    }
+
+    RULE Values {
+      PRODUCTION "VALUES" "{" Value+ "}"
+    }
+
+    RULE Value {
+      PRODUCTION Identifier ":" "{" ValueBody "}"
+    }
+
+    RULE ValueBody {
+      PRODUCTION "WEIGHT" ":" Number
+      PRODUCTION "DOMAIN" ":" String
+      PRODUCTION "MEASUREMENT" ":" Expression
+    }
+
+    RULE Virtues {
+      PRODUCTION "VIRTUES" "{" Virtue+ "}"
+    }
+
+    RULE Virtue {
+      PRODUCTION Identifier ":" "{" VirtueBody "}"
+    }
+
+    RULE VirtueBody {
+      PRODUCTION "DEFINITION" ":" String
+      PRODUCTION "CULTIVATED_BY" ":" ActionList
+      PRODUCTION "OPPOSED_BY" ":" ActionList
+      PRODUCTION "REWARDS" ":" RewardSpec
+    }
+
+    RULE Prohibitions {
+      PRODUCTION "PROHIBITIONS" "{" Prohibition+ "}"
+    }
+
+    RULE Prohibition {
+      PRODUCTION Identifier ":" "{" ProhibitionBody "}"
+    }
+
+    RULE ProhibitionBody {
+      PRODUCTION "FORBIDDEN" ":" Expression
+      PRODUCTION "SEVERITY" ":" ("ABSOLUTE" | "STRONG" | "MODERATE" | "WEAK")
+      PRODUCTION "EXCEPTION" ":" Expression
+      PRODUCTION "CONSEQUENCE" ":" Expression
+    }
+
+    RULE Priorities {
+      PRODUCTION "PRIORITIES" "{" Priority+ "}"
+    }
+
+    RULE Priority {
+      PRODUCTION Number ":" Identifier
+    }
+  }
+
+  TYPES {
+    Doctrine := "actor { ... }"
+    Axiom := "{ statement: Text, foundation: Bool }"
+    Principle := "{ description: Text, priority: Nat, domain: [Text] }"
+    Value := "{ weight: Float, measurement: () -> Float }"
+    Virtue := "{ definition: Text, actions: [Action] }"
+    Prohibition := "{ forbidden: () -> Bool, severity: Severity }"
+  }
+
+  SEMANTICS {
+    ENFORCEMENT "Axioms are immutable after declaration"
+    ENFORCEMENT "Principle conflicts resolved by PRIORITY ordering"
+    ENFORCEMENT "Value weights sum to 1.0 across doctrine"
+    ENFORCEMENT "ABSOLUTE prohibitions cannot have exceptions"
+    ENFORCEMENT "Doctrine inheritance follows INHERITABLE flag"
+  }
+
+  COMPILATION_TARGET MOTOKO {
+    TEMPLATE """
+actor {{doctrine_name}}Doctrine {
+  // Immutable axioms
+  {{axioms}}
+
+  // Ordered principles
+  {{principles}}
+
+  // Value system
+  {{values}}
+
+  // Virtue definitions
+  {{virtues}}
+
+  // Prohibitions with enforcement
+  {{prohibitions}}
+
+  // Priority resolution
+  public query func resolvePriorityConflict(p1: Text, p2: Text): async Text {
+    {{priority_logic}}
+  };
+
+  // Value measurement
+  public query func measureValue(value: Text, context: Context): async Float {
+    {{value_measurement}}
+  };
+
+  // Prohibition check
+  public query func isProhibited(action: Action, context: Context): async Bool {
+    {{prohibition_check}}
+  };
+
+  // Virtue cultivation
+  public func cultivateVirtue(virtue: Text, action: Action): async () {
+    {{virtue_cultivation}}
+  };
+}
+"""
+  }
+}

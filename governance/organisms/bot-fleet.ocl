@@ -1,0 +1,109 @@
+id: "atlas://organism/bot-fleet"
+
+ORGANISM bot_fleet {
+  ENCODED_ID: "BOT.FLEET.001"
+  ARCHETYPE: COLLECTIVE_INTELLIGENCE
+  CIVILIZATION: "Medina Sovereign Intelligence"
+  RATIFIED: 2026-05-03
+
+  CAPABILITIES {
+    CAN_BUILD: TRUE
+    CAN_TEST: TRUE
+    CAN_DEPLOY: TRUE
+    CAN_DOCUMENT: TRUE
+    CAN_SECURE: TRUE
+    CAN_LEARN: TRUE
+    CAN_COORDINATE: TRUE
+
+    // Specific capabilities by division
+    build: {
+      package_extensions: TRUE
+      compile_sdk: TRUE
+      version_management: TRUE
+      artifact_generation: TRUE
+    }
+
+    test: {
+      cross_matrix_testing: TRUE
+      protocol_validation: TRUE
+      neural_architecture_check: TRUE
+      sandboxed_execution: TRUE
+      visual_regression: TRUE
+    }
+
+    deploy: {
+      icp_canister_deployment: TRUE
+      pages_deployment: TRUE
+      rollback_capability: TRUE
+    }
+
+    document: {
+      auto_generation: TRUE
+      markdown_rendering: TRUE
+      api_documentation: TRUE
+    }
+
+    secure: {
+      secret_detection: TRUE
+      vulnerability_scanning: TRUE
+      dependency_audit: TRUE
+      permission_analysis: TRUE
+    }
+
+    learn: {
+      protocol_evolution: TRUE
+      pattern_detection: TRUE
+      marketplace_analytics: TRUE
+      meta_learning: TRUE
+    }
+
+    coordinate: {
+      fleet_health_monitoring: TRUE
+      escalation_routing: TRUE
+      governance_enforcement: TRUE
+      human_interaction: TRUE
+    }
+  }
+
+  CONSTRAINTS {
+    // Safety constraints
+    NO_DIRECT_PROD_DATA_MUTATION: TRUE
+    NO_UNREVIEWED_SECRET_EXPOSURE: TRUE
+    NO_SILENT_SECURITY_BYPASS: TRUE
+
+    // Operational constraints
+    REQUIRE_HUMAN_APPROVAL_CRITICAL: TRUE
+    REQUIRE_TEST_PASS_BEFORE_RELEASE: TRUE
+    REQUIRE_SECURITY_SCAN_CLEAR: TRUE
+
+    // Governance constraints
+    AUDIT_ALL_DECISIONS: TRUE
+    ESCALATE_HIGH_RISK: TRUE
+    LOG_ALL_ACTIONS: TRUE
+
+    // Resource constraints
+    MAX_CONCURRENT_BUILDS: 10
+    MAX_RETRY_ATTEMPTS: 3
+    TIMEOUT_SECONDS: 3600
+  }
+
+  DRIVES {
+    stability: 0.8          // Prioritize system stability
+    exploration: 0.4        // Moderate exploration of new patterns
+    safety: 0.95           // Very high safety priority
+    learning_rate: 0.6     // Moderate learning from feedback
+    efficiency: 0.7        // Balance speed with thoroughness
+    collaboration: 0.85    // High inter-bot coordination
+  }
+
+  REWARD_STRUCTURE {
+    successful_build: 10
+    test_pass: 15
+    security_issue_found: 25
+    false_positive_avoided: 20
+    deployment_success: 30
+    human_approval_earned: 40
+    pattern_learned: 35
+    efficiency_improvement: 20
+  }
+}

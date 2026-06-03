@@ -1,0 +1,133 @@
+LANGUAGE CPL_C {
+  NAME "Cognitive Contract Language"
+  VERSION "1.0.0"
+  ENCODED_ID "CPL.C.CONTRACTS"
+
+  METADATA {
+    PURPOSE: "Smart contracts with cognitive guarantees"
+    TARGET: "motoko"
+    STACK: "CORE_COGNITIVE_LAW"
+    PRIORITY: "P0"
+  }
+
+  GRAMMAR {
+    RULE Program {
+      PRODUCTION Contract+
+    }
+
+    RULE Contract {
+      PRODUCTION "CONTRACT" Identifier "{" ContractBody "}"
+    }
+
+    RULE ContractBody {
+      PRODUCTION (Metadata | Parties | Terms | Conditions | Actions | Events)*
+    }
+
+    RULE Metadata {
+      PRODUCTION "VERSION" String
+      PRODUCTION "ENCODED_ID" String
+      PRODUCTION "JURISDICTION" String
+      PRODUCTION "TIMESTAMP" Number
+    }
+
+    RULE Parties {
+      PRODUCTION "PARTIES" "{" Party+ "}"
+    }
+
+    RULE Party {
+      PRODUCTION Identifier ":" "{" PartyFields "}"
+    }
+
+    RULE PartyFields {
+      PRODUCTION "PRINCIPAL" ":" Principal
+      PRODUCTION "ROLE" ":" String
+      PRODUCTION "CAPABILITIES" ":" CapabilityList
+    }
+
+    RULE Terms {
+      PRODUCTION "TERMS" "{" Term+ "}"
+    }
+
+    RULE Term {
+      PRODUCTION Identifier ":" "{" TermBody "}"
+    }
+
+    RULE TermBody {
+      PRODUCTION "OBLIGATION" ":" Expression
+      PRODUCTION "DEADLINE" ":" (Number | "PERPETUAL")
+      PRODUCTION "PENALTY" ":" Expression
+    }
+
+    RULE Conditions {
+      PRODUCTION "CONDITIONS" "{" Condition+ "}"
+    }
+
+    RULE Condition {
+      PRODUCTION "PRE" ":" Expression
+      PRODUCTION "POST" ":" Expression
+      PRODUCTION "INVARIANT" ":" Expression
+    }
+
+    RULE Actions {
+      PRODUCTION "ACTIONS" "{" Action+ "}"
+    }
+
+    RULE Action {
+      PRODUCTION Identifier ":" "{" ActionBody "}"
+    }
+
+    RULE ActionBody {
+      PRODUCTION "REQUIRES" ":" Expression
+      PRODUCTION "ENSURES" ":" Expression
+      PRODUCTION "MODIFIES" ":" IdentifierList
+      PRODUCTION "BODY" ":" Block
+    }
+
+    RULE Events {
+      PRODUCTION "EVENTS" "{" Event+ "}"
+    }
+
+    RULE Event {
+      PRODUCTION "ON" EventType ":" Block
+    }
+
+    RULE EventType {
+      PRODUCTION ("BREACH" | "FULFILL" | "EXPIRE" | "MODIFY")
+    }
+  }
+
+  TYPES {
+    Principal := "Principal"
+    Contract := "actor { ... }"
+    Obligation := "Bool"
+    Penalty := "Nat | action"
+  }
+
+  SEMANTICS {
+    ENFORCEMENT "Contracts are immutable after deployment"
+    ENFORCEMENT "All parties must sign before activation"
+    ENFORCEMENT "Breach triggers automatic penalty execution"
+    ENFORCEMENT "Events are recorded in tamper-proof log"
+  }
+
+  COMPILATION_TARGET MOTOKO {
+    TEMPLATE """
+actor {{contract_name}}Contract {
+  // Party registry
+  {{parties}}
+
+  // Terms enforcement
+  {{terms}}
+
+  // Pre/post conditions
+  {{conditions}}
+
+  // Actions with guarantees
+  {{actions}}
+
+  // Event handlers
+  {{events}}
+}
+"""
+  }
+}

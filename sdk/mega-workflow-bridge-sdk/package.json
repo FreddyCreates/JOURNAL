@@ -1,0 +1,10 @@
+{
+  "name": "mega-workflow-bridge-sdk",
+  "version": "1.0.0",
+  "description": "Phi-encoded workflow orchestration bridge with DAG execution and state machines",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": { "test": "node --test test/*.test.js" },
+  "keywords": ["workflow", "bridge", "orchestration", "DAG", "phi"],
+  "license": "MIT"
+}

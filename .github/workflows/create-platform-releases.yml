@@ -1,0 +1,160 @@
+name: Create Platform Releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  create-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create AI App Store Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ai-app-store-v${{ github.event.inputs.version }}
+          name: "AI App Store v${{ github.event.inputs.version }}"
+          body: |
+            ## AI App Store v${{ github.event.inputs.version }}
+
+            All SDKs as installable capabilities; extensions as storefronts.
+
+            ### Included SDKs
+            sovereign-memory-sdk · enterprise-integration-sdk · intelligence-routing-sdk · encryption-token-sdk · organism-runtime-sdk · mega-autonomy-sdk · mega-orchestration-sdk · nova-modular-framework · shield-defense-sdk · sovereign-encryption-sdk · capability-testing-sdk · stress-testing-framework · autonomous-testing-sdk · mega-reasoning-sdk · mega-cognition-sdk · mega-evolution-sdk · backend-intelligence-engines · mega-perception-sdk · mega-prediction-sdk · mega-synthesis-sdk · mega-resonance-sdk · mega-genesis-sdk · adapter-bridge-sdk · hook-trigger-sdk · sensor-array-sdk · production-intelligence-sdk · document-absorption-engine · recipe-lens-sdk · legal-ai-sdk · frontend-intelligence-models · sovereign-field-models · ai-model-engines
+
+            ### Extensions (Storefronts)
+            cipher-shield · code-sovereign · contract-forge · creative-muse · data-alchemist · edge-runner · jarvis-side-panel · knowledge-cartographer · logic-prover · memory-palace · organism-dashboard · polyglot-oracle · protocol-bridge · research-nexus · sentinel-watch · social-cortex · sovereign-mind · sovereign-nexus · video-architect · vision-weaver · voice-forge
+
+            **Deployment Model:** Marketplace
+          draft: false
+          prerelease: false
+
+      - name: Create Enterprise AI Platform Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: enterprise-ai-platform-v${{ github.event.inputs.version }}
+          name: "Enterprise AI Platform v${{ github.event.inputs.version }}"
+          body: |
+            ## Enterprise AI Platform v${{ github.event.inputs.version }}
+
+            Full enterprise integration with intelligent routing, persistent memory, and sovereign encryption.
+
+            ### Included SDKs
+            - enterprise-integration-sdk
+            - intelligence-routing-sdk
+            - sovereign-memory-sdk
+            - encryption-token-sdk
+            - sovereign-encryption-sdk
+
+            **Deployment Model:** On-premise / Private-cloud
+          draft: false
+          prerelease: false
+
+      - name: Create Agent Builder Studio Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: agent-builder-studio-v${{ github.event.inputs.version }}
+          name: "Agent Builder Studio v${{ github.event.inputs.version }}"
+          body: |
+            ## Agent Builder Studio v${{ github.event.inputs.version }}
+
+            Visual and programmatic studio for building autonomous AI agents.
+
+            ### Included SDKs
+            - organism-runtime-sdk
+            - mega-autonomy-sdk
+            - mega-orchestration-sdk
+            - nova-modular-framework
+
+            ### Extensions
+            - organism-dashboard
+            - sovereign-mind
+
+            **Deployment Model:** Cloud-IDE / Desktop
+          draft: false
+          prerelease: false
+
+      - name: Create AI Security Platform Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ai-security-platform-v${{ github.event.inputs.version }}
+          name: "AI Security Platform v${{ github.event.inputs.version }}"
+          body: |
+            ## AI Security Platform v${{ github.event.inputs.version }}
+
+            Defense-in-depth security stack for AI workloads.
+
+            ### Included SDKs
+            - shield-defense-sdk
+            - encryption-token-sdk
+            - sovereign-encryption-sdk
+
+            ### Extensions
+            - cipher-shield
+            - sentinel-watch
+
+            **Deployment Model:** Sidecar / Gateway
+          draft: false
+          prerelease: false
+
+      - name: Create Developer Toolkit CLI Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: developer-toolkit-cli-v${{ github.event.inputs.version }}
+          name: "Developer Toolkit / CLI v${{ github.event.inputs.version }}"
+          body: |
+            ## Developer Toolkit / CLI v${{ github.event.inputs.version }}
+
+            Command-line tools and testing frameworks for SDK development and validation.
+
+            ### Included SDKs
+            - capability-testing-sdk
+            - stress-testing-framework
+            - autonomous-testing-sdk
+
+            ### Languages Stack
+            - GML (Greek Math Language)
+            - SNL (Sovereign Neural Language)
+            - IRL (Intelligence Reasoning Language)
+            - RFL (Recursive Function Language)
+            - CSL (Cognitive Script Language)
+
+            ### Extensions
+            - code-sovereign
+            - logic-prover
+
+            **Deployment Model:** npm-cli / Standalone-binary
+          draft: false
+          prerelease: false
+
+      - name: Create AI Research Platform Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ai-research-platform-v${{ github.event.inputs.version }}
+          name: "AI Research Platform v${{ github.event.inputs.version }}"
+          body: |
+            ## AI Research Platform v${{ github.event.inputs.version }}
+
+            Advanced reasoning, cognition, evolution, and intelligence engine research tools.
+
+            ### Included SDKs
+            - mega-reasoning-sdk
+            - mega-cognition-sdk
+            - mega-evolution-sdk
+            - backend-intelligence-engines (PROTO-227 to 233)
+
+            ### Extensions
+            - research-nexus
+            - knowledge-cartographer
+
+            **Deployment Model:** Research-cluster / Notebook
+          draft: false
+          prerelease: false

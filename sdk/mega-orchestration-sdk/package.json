@@ -1,0 +1,12 @@
+{
+  "name": "mega-orchestration-sdk",
+  "version": "1.0.0",
+  "description": "Large-scale multi-agent orchestration and coordination with phi-harmonic scheduling",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["orchestration", "multi-agent", "phi", "coordination", "scheduling"],
+  "license": "MIT"
+}

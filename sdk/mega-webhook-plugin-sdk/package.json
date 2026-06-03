@@ -1,0 +1,1 @@
+{"name":"mega-webhook-plugin-sdk","version":"1.0.0","description":"Webhook management plugin with phi-weighted delivery, signature verification, and retry queues","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["webhook","delivery","signature","retry","phi"],"license":"MIT"}

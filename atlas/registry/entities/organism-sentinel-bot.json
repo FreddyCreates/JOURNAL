@@ -1,0 +1,36 @@
+{
+  "id": "atlas://bot/organism-sentinel-bot",
+  "name": "organism-sentinel-bot",
+  "class": "Bot",
+  "division": "Secure & Monitor",
+  "divisionId": "division-iii",
+  "emoji": "🛡️",
+  "domain": "Security scanning",
+  "triggers": ["schedule:weekly", "push:*"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/err",
+    "atlas://language/chl",
+    "atlas://language/frl"
+  ],
+  "governance_pipeline": "pipeline://governance/security_scan",
+  "capabilities": [
+    "secret_detection",
+    "vulnerability_scanning",
+    "permission_analysis",
+    "dependency_audit",
+    "block_merge"
+  ],
+  "constraints": [
+    "always_forbid_secrets",
+    "require_human_review_critical",
+    "no_false_negative_tolerance"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "high"
+  }
+}

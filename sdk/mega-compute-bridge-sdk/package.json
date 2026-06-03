@@ -1,0 +1,10 @@
+{
+  "name": "mega-compute-bridge-sdk",
+  "version": "1.0.0",
+  "description": "Distributed compute bridge with phi-weighted task distribution and worker orchestration",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": { "test": "node --test test/*.test.js" },
+  "keywords": ["compute", "distributed", "bridge", "phi", "workers"],
+  "license": "MIT"
+}

@@ -1,0 +1,1 @@
+{"name":"mega-event-mesh-bridge-sdk","version":"1.0.0","description":"Event mesh bridge with phi-weighted routing, topic hierarchies, and dead-letter handling","type":"module","main":"src/index.js","scripts":{"test":"node --test test/*.test.js"},"keywords":["event-mesh","pub-sub","routing","topics","phi"],"license":"MIT"}

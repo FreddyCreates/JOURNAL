@@ -1,0 +1,37 @@
+{
+  "id": "atlas://bot/organism-neural-bot",
+  "name": "organism-neural-bot",
+  "class": "Bot",
+  "division": "Validate & Test",
+  "divisionId": "division-ii",
+  "emoji": "🧠",
+  "domain": "Neural architecture validation",
+  "triggers": ["push:neural/**", "push:cognitive/**"],
+  "languages": [
+    "atlas://language/ocl",
+    "atlas://language/cpl-l",
+    "atlas://language/cpl-p",
+    "atlas://language/nal",
+    "atlas://language/cil"
+  ],
+  "governance_pipeline": "pipeline://governance/neural_validation",
+  "capabilities": [
+    "architecture_health_check",
+    "cognitive_integrity_validation",
+    "neural_pathway_testing",
+    "memory_system_check",
+    "learning_rate_validation"
+  ],
+  "constraints": [
+    "forbid_cognitive_degradation",
+    "require_memory_integrity",
+    "validate_learning_curves",
+    "enforce_neural_stability"
+  ],
+  "metadata": {
+    "author": "Medina Sovereign Intelligence",
+    "created": "2026-05-03",
+    "version": "1.0.0",
+    "criticality": "high"
+  }
+}

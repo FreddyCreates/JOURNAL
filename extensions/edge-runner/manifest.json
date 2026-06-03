@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Edge Runner",
+  "version": "1.0.0",
+  "description": "Edge Inference Intelligence — Phi + Gemma + DBRX",
+  "permissions": ["activeTab", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "minimum_chrome_version": "110"
+}
