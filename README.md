@@ -8,7 +8,7 @@ architectures, and intelligence frameworks. Organized for humans *and* the AIs t
 | Section | Description |
 |---|---|
 | [🏠 Home](https://freddycreates.github.io/JOURNAL/) | Landing portal — vault overview, featured papers, profiles |
-| [📄 Research](https://freddycreates.github.io/JOURNAL/research.html) | All 11 research papers with filters and descriptions |
+| [📄 Research](https://freddycreates.github.io/JOURNAL/research.html) | All 12 research papers with filters and descriptions |
 | [📓 Journal](https://freddycreates.github.io/JOURNAL/journal.html) | Live personal journal — raw thoughts and experiments |
 | [🛡️ Vault Tools](https://freddycreates.github.io/JOURNAL/vault.html) | SHA-256 hashing, IP attestation seals, usage rights |
 
