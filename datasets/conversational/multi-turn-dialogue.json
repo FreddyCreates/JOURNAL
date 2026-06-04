@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "dataset_id": "AID-CONV-001",
+    "name": "Sovereign Multi-Turn Dialogue Dataset",
+    "version": "1.0.0",
+    "description": "Multi-turn conversational exchanges demonstrating context retention, topic transitions, clarification, and grounded dialogue",
+    "task_type": "dialogue-generation",
+    "turn_types": ["question", "answer", "clarification", "follow_up", "topic_shift", "correction", "acknowledgment"],
+    "total_samples": 20,
+    "ring_affinity": "Interface Ring",
+    "organism_placement": "Organism core / reasoning layer"
+  },
+  "samples": [
+    {
+      "id": "dial-001",
+      "context": "Technical support for a cloud deployment platform",
+      "turns": [
+        {"role": "user", "content": "My deployment is failing with exit code 137. What does that mean?", "turn_type": "question"},
+        {"role": "assistant", "content": "Exit code 137 means your process was killed by the system, typically due to an Out of Memory (OOM) condition. The container exceeded its memory limit and the kernel terminated it with SIGKILL (signal 9, hence 128+9=137). Would you like help diagnosing the memory usage?", "turn_type": "answer"},
+        {"role": "user", "content": "Yes. My container has 512MB allocated. Is that enough for a Node.js app?", "turn_type": "follow_up"},
+        {"role": "assistant", "content": "512MB can be tight for Node.js depending on your workload. Node's V8 heap alone defaults to ~1.5GB on 64-bit systems but will use what's available. Common causes of high memory in Node: large dependency trees, unbounded caches, streaming large files into memory, or memory leaks from event listeners. Can you share what your app does — API server, worker process, or something else?", "turn_type": "answer"},
+        {"role": "user", "content": "It's an API server that processes image uploads up to 10MB each.", "turn_type": "clarification"},
+        {"role": "assistant", "content": "That's likely your issue. If you're buffering entire images in memory (e.g., using multer with memoryStorage or reading the full file into a Buffer), a few concurrent uploads could easily exhaust 512MB. Three 10MB images with processing overhead could use 100-200MB each. I'd recommend: 1) Increase container memory to 1-2GB, 2) Stream uploads to disk or object storage instead of buffering in memory, 3) Process images with streaming libraries like sharp which are memory-efficient. Would you like example code for streaming uploads?", "turn_type": "answer"}
+      ],
+      "skills_demonstrated": ["technical_diagnosis", "progressive_detail", "context_retention", "actionable_advice"]
+    },
+    {
+      "id": "dial-002",
+      "context": "Data science consultation about model selection",
+      "turns": [
+        {"role": "user", "content": "I need to predict customer churn. I have 50,000 records with 200 features. What model should I use?", "turn_type": "question"},
+        {"role": "assistant", "content": "With 50K records and 200 features, you have several good options. Key questions first: What's your churn rate (class balance)? Do you need interpretability (explaining WHY a customer will churn) or just the best prediction accuracy?", "turn_type": "clarification"},
+        {"role": "user", "content": "Churn rate is about 5%. I need both — good accuracy AND the ability to explain to the business team why certain customers are flagged.", "turn_type": "answer"},
+        {"role": "assistant", "content": "With 5% churn you have significant class imbalance — that's important. For your requirements, I'd recommend gradient boosting (XGBoost or LightGBM) as your primary model. Here's why: 1) Handles imbalance well with scale_pos_weight parameter, 2) Top accuracy on tabular data, 3) Built-in feature importance + SHAP values give excellent per-prediction explanations. For the imbalance, use stratified cross-validation and optimize on PR-AUC rather than accuracy. Would you like guidance on the feature engineering or the SHAP explanation setup?", "turn_type": "answer"},
+        {"role": "user", "content": "Actually wait — I forgot to mention we need real-time predictions. Latency under 50ms. Does that change anything?", "turn_type": "correction"},
+        {"role": "assistant", "content": "Good catch — that doesn't change the model choice, actually. XGBoost/LightGBM are extremely fast at inference. A trained model with 200 features and reasonable tree depth (6-8) will predict in 1-5ms, well under your 50ms budget. The expensive part is training, not inference. Where latency might matter: if you're computing features in real-time (e.g., aggregating recent user activity), that feature computation pipeline could be the bottleneck, not the model itself. Are your 200 features pre-computed or do some require real-time calculation?", "turn_type": "answer"}
+      ],
+      "skills_demonstrated": ["requirement_elicitation", "handling_corrections", "domain_expertise", "constraint_satisfaction"]
+    },
+    {
+      "id": "dial-003",
+      "context": "Code review discussion",
+      "turns": [
+        {"role": "user", "content": "Can you review this function? It fetches user data and caches it.\n\nasync function getUser(id) {\n  if (cache[id]) return cache[id];\n  const user = await db.query('SELECT * FROM users WHERE id = ' + id);\n  cache[id] = user;\n  return user;\n}", "turn_type": "question"},
+        {"role": "assistant", "content": "I see three issues, one critical:\n\n1. **CRITICAL — SQL Injection**: You're concatenating `id` directly into the query string. If `id` comes from user input, this is exploitable. Use parameterized queries: `db.query('SELECT * FROM users WHERE id = $1', [id])`\n\n2. **Cache invalidation**: The cache never expires or invalidates. Stale data will be served indefinitely. Consider TTL-based expiration.\n\n3. **Thundering herd**: If multiple requests hit for the same uncached user simultaneously, they'll all query the DB. Consider a request deduplication pattern.\n\nWant me to show a fixed version addressing all three?", "turn_type": "answer"},
+        {"role": "user", "content": "The id always comes from our auth middleware as a UUID, never from user input directly. Is it still a problem?", "turn_type": "clarification"},
+        {"role": "assistant", "content": "Even with auth middleware providing the UUID, I'd still use parameterized queries for two reasons: 1) **Defense in depth** — middleware can have bugs, upstream changes might alter the id source, or a future developer might reuse this function differently. Parameterized queries cost nothing and eliminate the entire class of risk. 2) **Performance** — parameterized queries allow the database to cache query plans, which speeds up repeated queries. It's a free security + performance win. The other two issues (cache TTL and thundering herd) still apply regardless of input source.", "turn_type": "answer"},
+        {"role": "user", "content": "Makes sense. Show me the fixed version please.", "turn_type": "follow_up"},
+        {"role": "assistant", "content": "```javascript\nconst pending = new Map();\nconst CACHE_TTL = 5 * 60 * 1000; // 5 minutes\n\nasync function getUser(id) {\n  const cached = cache.get(id);\n  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {\n    return cached.data;\n  }\n\n  // Deduplicate concurrent requests for same id\n  if (pending.has(id)) {\n    return pending.get(id);\n  }\n\n  const promise = db.query('SELECT * FROM users WHERE id = $1', [id])\n    .then(user => {\n      cache.set(id, { data: user, timestamp: Date.now() });\n      pending.delete(id);\n      return user;\n    })\n    .catch(err => {\n      pending.delete(id);\n      throw err;\n    });\n\n  pending.set(id, promise);\n  return promise;\n}\n```\n\nThis fixes all three: parameterized query, TTL-based expiration, and request coalescing for concurrent access.", "turn_type": "answer"}
+      ],
+      "skills_demonstrated": ["security_awareness", "nuanced_response_to_pushback", "code_generation", "progressive_improvement"]
+    },
+    {
+      "id": "dial-004",
+      "context": "Product strategy discussion about feature prioritization",
+      "turns": [
+        {"role": "user", "content": "We have three features we could build next quarter: real-time collaboration, offline mode, and API for third-party integrations. How should we prioritize?", "turn_type": "question"},
+        {"role": "assistant", "content": "To prioritize well, I need to understand your context. A few questions:\n1. What's your primary growth metric right now — new user acquisition, retention, or expansion revenue?\n2. What does your churn analysis say — why are users leaving?\n3. Do you have enterprise deals blocked by any of these features?", "turn_type": "clarification"},
+        {"role": "user", "content": "Retention is our biggest problem. We're losing 8% monthly. Churn surveys say users switch to competitors for collaboration features. We have 3 enterprise prospects asking for API access.", "turn_type": "answer"},
+        {"role": "assistant", "content": "Clear signal. My recommended prioritization:\n\n**1. Real-time collaboration (P0)** — Directly addresses your #1 problem (retention/churn). Users are explicitly telling you this is why they leave. At 8% monthly churn, every month of delay costs you ~8% of your user base permanently. This is existential.\n\n**2. API for integrations (P1)** — Three enterprise prospects represent concrete revenue. Enterprise deals are high-value and APIs create switching costs (improving future retention). Ship a minimal API that unblocks those specific deals.\n\n**3. Offline mode (P2)** — Important but not driving churn or blocking revenue. Defer unless your user base is specifically mobile/field workers.\n\nWould you like to discuss scoping the collaboration feature to ship faster?", "turn_type": "answer"},
+        {"role": "user", "content": "That makes sense. But collaboration is a 6-month project and we might lose too many users by then.", "turn_type": "follow_up"},
+        {"role": "assistant", "content": "You're right to worry about the timeline. Here's how to derisk it:\n\n**Ship collaboration incrementally:**\n- Month 1-2: Shared view-only links + presence indicators (\"X is viewing this\"). Low effort, high visibility signal to users.\n- Month 3-4: Comments and annotations on shared items. Collaborative without real-time editing.\n- Month 5-6: Live co-editing with conflict resolution.\n\nEach increment is shippable and reduces churn incrementally. The presence indicators alone signal \"this product has collaboration\" and may slow competitor switching.\n\n**Parallel track:** Have 1-2 engineers build the minimal API for enterprise prospects (often 4-6 weeks for an MVP API). Don't let a 6-month project block a 6-week revenue opportunity.\n\nThis way you're shipping collaboration value in 8 weeks, not 24.", "turn_type": "answer"}
+      ],
+      "skills_demonstrated": ["strategic_questioning", "data_driven_reasoning", "incremental_delivery", "timeline_risk_mitigation"]
+    },
+    {
+      "id": "dial-005",
+      "context": "System architecture decision",
+      "turns": [
+        {"role": "user", "content": "Should we use Kafka or RabbitMQ for our event system? We process about 10,000 events per second.", "turn_type": "question"},
+        {"role": "assistant", "content": "At 10K events/second, either can handle the throughput. The decision depends on your usage pattern:\n\n**Choose Kafka if:** You need event replay/reprocessing, multiple consumers reading the same events independently, event sourcing, or you expect to scale to 100K+ events/sec.\n\n**Choose RabbitMQ if:** You need complex routing (topic exchanges, headers-based routing), per-message acknowledgment with redelivery, request-reply patterns, or your team is more familiar with traditional message queues.\n\nWhat's your primary use case — is it fan-out to multiple services, task distribution to workers, or event log for replay?", "turn_type": "answer"},
+        {"role": "user", "content": "Multiple services need to consume the same events independently. We also want to replay events when we deploy a new service.", "turn_type": "clarification"},
+        {"role": "assistant", "content": "That's a clear Kafka use case. Both requirements — independent multi-consumer and replay — are Kafka's core strengths:\n\n1. **Consumer groups** let each service read all events at its own pace independently. Adding a new consumer doesn't affect existing ones.\n\n2. **Retention-based replay** means events stay on disk for days/weeks. New services read from the beginning of the topic to catch up.\n\nRabbitMQ can technically do multi-consumer (exchange fanout), but once a message is consumed and acked, it's gone — no replay without re-publishing.\n\nFor 10K/sec with retention, plan for: 3-node cluster, SSD storage (~800MB/hour at 10K events × 1KB avg), and 7-day retention gives you ~130GB per topic. Want sizing guidance for your specific event schema?", "turn_type": "answer"}
+      ],
+      "skills_demonstrated": ["decision_framework", "pattern_matching", "concrete_sizing", "avoiding_premature_recommendation"]
+    }
+  ]
+}

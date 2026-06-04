@@ -1,0 +1,252 @@
+{
+  "metadata": {
+    "dataset_id": "AID-NLP-002",
+    "name": "Sovereign Named Entity Recognition Dataset",
+    "version": "1.0.0",
+    "description": "Multi-domain NER training data with entities tagged using BIO scheme across technology, science, business, and geopolitics",
+    "task_type": "token-classification",
+    "entity_types": ["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TECHNOLOGY", "PRODUCT", "EVENT", "MONETARY", "SCIENTIFIC_TERM", "PROTOCOL"],
+    "total_samples": 50,
+    "language": "en",
+    "ring_affinity": "Memory Ring",
+    "organism_placement": "Frontend organism / knowledge layer"
+  },
+  "samples": [
+    {
+      "id": "ner-001",
+      "text": "Elon Musk announced that Tesla will invest $10 billion in a new Gigafactory in Austin, Texas by December 2026.",
+      "entities": [
+        {"text": "Elon Musk", "start": 0, "end": 9, "label": "PERSON"},
+        {"text": "Tesla", "start": 25, "end": 30, "label": "ORGANIZATION"},
+        {"text": "$10 billion", "start": 43, "end": 54, "label": "MONETARY"},
+        {"text": "Gigafactory", "start": 64, "end": 75, "label": "PRODUCT"},
+        {"text": "Austin, Texas", "start": 79, "end": 92, "label": "LOCATION"},
+        {"text": "December 2026", "start": 96, "end": 109, "label": "DATE"}
+      ],
+      "domain": "business"
+    },
+    {
+      "id": "ner-002",
+      "text": "Google DeepMind's AlphaFold 3 achieved breakthrough results in protein structure prediction at the CASP16 competition in Geneva.",
+      "entities": [
+        {"text": "Google DeepMind", "start": 0, "end": 15, "label": "ORGANIZATION"},
+        {"text": "AlphaFold 3", "start": 18, "end": 29, "label": "PRODUCT"},
+        {"text": "protein structure prediction", "start": 62, "end": 90, "label": "SCIENTIFIC_TERM"},
+        {"text": "CASP16", "start": 98, "end": 104, "label": "EVENT"},
+        {"text": "Geneva", "start": 120, "end": 126, "label": "LOCATION"}
+      ],
+      "domain": "science"
+    },
+    {
+      "id": "ner-003",
+      "text": "Microsoft acquired Activision Blizzard for $68.7 billion, the largest gaming deal in history, finalized on October 13, 2023.",
+      "entities": [
+        {"text": "Microsoft", "start": 0, "end": 9, "label": "ORGANIZATION"},
+        {"text": "Activision Blizzard", "start": 19, "end": 38, "label": "ORGANIZATION"},
+        {"text": "$68.7 billion", "start": 43, "end": 56, "label": "MONETARY"},
+        {"text": "October 13, 2023", "start": 105, "end": 121, "label": "DATE"}
+      ],
+      "domain": "business"
+    },
+    {
+      "id": "ner-004",
+      "text": "Dr. Jennifer Doudna at UC Berkeley developed CRISPR-Cas9 gene editing technology that won the Nobel Prize in Chemistry in 2020.",
+      "entities": [
+        {"text": "Dr. Jennifer Doudna", "start": 0, "end": 20, "label": "PERSON"},
+        {"text": "UC Berkeley", "start": 24, "end": 35, "label": "ORGANIZATION"},
+        {"text": "CRISPR-Cas9", "start": 46, "end": 57, "label": "TECHNOLOGY"},
+        {"text": "gene editing", "start": 58, "end": 70, "label": "SCIENTIFIC_TERM"},
+        {"text": "Nobel Prize in Chemistry", "start": 92, "end": 116, "label": "EVENT"},
+        {"text": "2020", "start": 120, "end": 124, "label": "DATE"}
+      ],
+      "domain": "science"
+    },
+    {
+      "id": "ner-005",
+      "text": "The European Central Bank raised interest rates by 50 basis points at their Frankfurt headquarters on March 16, 2023.",
+      "entities": [
+        {"text": "European Central Bank", "start": 4, "end": 25, "label": "ORGANIZATION"},
+        {"text": "50 basis points", "start": 52, "end": 67, "label": "MONETARY"},
+        {"text": "Frankfurt", "start": 77, "end": 86, "label": "LOCATION"},
+        {"text": "March 16, 2023", "start": 102, "end": 116, "label": "DATE"}
+      ],
+      "domain": "finance"
+    },
+    {
+      "id": "ner-006",
+      "text": "Sam Altman confirmed that OpenAI's GPT-5 will support the Model Context Protocol for seamless tool integration across platforms.",
+      "entities": [
+        {"text": "Sam Altman", "start": 0, "end": 10, "label": "PERSON"},
+        {"text": "OpenAI", "start": 26, "end": 32, "label": "ORGANIZATION"},
+        {"text": "GPT-5", "start": 35, "end": 40, "label": "PRODUCT"},
+        {"text": "Model Context Protocol", "start": 58, "end": 80, "label": "PROTOCOL"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-007",
+      "text": "NVIDIA's H100 GPU clusters in Santa Clara processed 1.8 exaflops during the MLPerf Training 4.0 benchmark.",
+      "entities": [
+        {"text": "NVIDIA", "start": 0, "end": 6, "label": "ORGANIZATION"},
+        {"text": "H100 GPU", "start": 9, "end": 17, "label": "PRODUCT"},
+        {"text": "Santa Clara", "start": 30, "end": 41, "label": "LOCATION"},
+        {"text": "1.8 exaflops", "start": 52, "end": 64, "label": "SCIENTIFIC_TERM"},
+        {"text": "MLPerf Training 4.0", "start": 76, "end": 95, "label": "EVENT"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-008",
+      "text": "The WHO declared the end of the COVID-19 global health emergency on May 5, 2023, after three years of pandemic response.",
+      "entities": [
+        {"text": "WHO", "start": 4, "end": 7, "label": "ORGANIZATION"},
+        {"text": "COVID-19", "start": 31, "end": 39, "label": "SCIENTIFIC_TERM"},
+        {"text": "May 5, 2023", "start": 68, "end": 79, "label": "DATE"}
+      ],
+      "domain": "health"
+    },
+    {
+      "id": "ner-009",
+      "text": "Anthropic's Claude uses Constitutional AI and RLHF to achieve safety alignment without sacrificing capability on the MMLU benchmark.",
+      "entities": [
+        {"text": "Anthropic", "start": 0, "end": 9, "label": "ORGANIZATION"},
+        {"text": "Claude", "start": 12, "end": 18, "label": "PRODUCT"},
+        {"text": "Constitutional AI", "start": 24, "end": 41, "label": "TECHNOLOGY"},
+        {"text": "RLHF", "start": 46, "end": 50, "label": "TECHNOLOGY"},
+        {"text": "MMLU", "start": 118, "end": 122, "label": "EVENT"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-010",
+      "text": "SpaceX launched Starship from Boca Chica on January 15, 2026, carrying 150 tonnes to low Earth orbit for NASA's Artemis program.",
+      "entities": [
+        {"text": "SpaceX", "start": 0, "end": 6, "label": "ORGANIZATION"},
+        {"text": "Starship", "start": 16, "end": 24, "label": "PRODUCT"},
+        {"text": "Boca Chica", "start": 30, "end": 40, "label": "LOCATION"},
+        {"text": "January 15, 2026", "start": 44, "end": 60, "label": "DATE"},
+        {"text": "NASA", "start": 103, "end": 107, "label": "ORGANIZATION"},
+        {"text": "Artemis", "start": 110, "end": 117, "label": "EVENT"}
+      ],
+      "domain": "aerospace"
+    },
+    {
+      "id": "ner-011",
+      "text": "Tim Cook revealed Apple Intelligence will use on-device transformer models with differential privacy in iOS 19.",
+      "entities": [
+        {"text": "Tim Cook", "start": 0, "end": 8, "label": "PERSON"},
+        {"text": "Apple Intelligence", "start": 18, "end": 36, "label": "PRODUCT"},
+        {"text": "transformer models", "start": 55, "end": 73, "label": "TECHNOLOGY"},
+        {"text": "differential privacy", "start": 79, "end": 99, "label": "TECHNOLOGY"},
+        {"text": "iOS 19", "start": 103, "end": 109, "label": "PRODUCT"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-012",
+      "text": "Researchers at MIT and Stanford published findings on quantum error correction using topological qubits in Nature on June 1, 2026.",
+      "entities": [
+        {"text": "MIT", "start": 15, "end": 18, "label": "ORGANIZATION"},
+        {"text": "Stanford", "start": 23, "end": 31, "label": "ORGANIZATION"},
+        {"text": "quantum error correction", "start": 53, "end": 77, "label": "SCIENTIFIC_TERM"},
+        {"text": "topological qubits", "start": 84, "end": 102, "label": "TECHNOLOGY"},
+        {"text": "Nature", "start": 106, "end": 112, "label": "ORGANIZATION"},
+        {"text": "June 1, 2026", "start": 116, "end": 128, "label": "DATE"}
+      ],
+      "domain": "science"
+    },
+    {
+      "id": "ner-013",
+      "text": "The Federal Reserve Chair Jerome Powell spoke at the Jackson Hole Economic Symposium about maintaining the federal funds rate at 5.25%.",
+      "entities": [
+        {"text": "Federal Reserve", "start": 4, "end": 19, "label": "ORGANIZATION"},
+        {"text": "Jerome Powell", "start": 26, "end": 39, "label": "PERSON"},
+        {"text": "Jackson Hole Economic Symposium", "start": 53, "end": 84, "label": "EVENT"},
+        {"text": "5.25%", "start": 127, "end": 132, "label": "MONETARY"}
+      ],
+      "domain": "finance"
+    },
+    {
+      "id": "ner-014",
+      "text": "Meta released Llama 3.1 405B as open-weight under a custom license, achieving state-of-the-art on HumanEval and MATH benchmarks.",
+      "entities": [
+        {"text": "Meta", "start": 0, "end": 4, "label": "ORGANIZATION"},
+        {"text": "Llama 3.1 405B", "start": 14, "end": 28, "label": "PRODUCT"},
+        {"text": "HumanEval", "start": 100, "end": 109, "label": "EVENT"},
+        {"text": "MATH", "start": 114, "end": 118, "label": "EVENT"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-015",
+      "text": "The James Webb Space Telescope captured images of exoplanet TRAPPIST-1e from its L2 orbit, 1.5 million km from Earth.",
+      "entities": [
+        {"text": "James Webb Space Telescope", "start": 4, "end": 30, "label": "PRODUCT"},
+        {"text": "TRAPPIST-1e", "start": 61, "end": 72, "label": "SCIENTIFIC_TERM"},
+        {"text": "L2 orbit", "start": 82, "end": 90, "label": "LOCATION"},
+        {"text": "Earth", "start": 112, "end": 117, "label": "LOCATION"}
+      ],
+      "domain": "science"
+    },
+    {
+      "id": "ner-016",
+      "text": "Satya Nadella announced Microsoft's $13 billion investment in OpenAI during a keynote in Redmond, Washington on February 7, 2025.",
+      "entities": [
+        {"text": "Satya Nadella", "start": 0, "end": 13, "label": "PERSON"},
+        {"text": "Microsoft", "start": 24, "end": 33, "label": "ORGANIZATION"},
+        {"text": "$13 billion", "start": 36, "end": 47, "label": "MONETARY"},
+        {"text": "OpenAI", "start": 62, "end": 68, "label": "ORGANIZATION"},
+        {"text": "Redmond, Washington", "start": 88, "end": 107, "label": "LOCATION"},
+        {"text": "February 7, 2025", "start": 111, "end": 127, "label": "DATE"}
+      ],
+      "domain": "business"
+    },
+    {
+      "id": "ner-017",
+      "text": "The Sovereign Routing Protocol uses phi-encoded coordinates at 873ms heartbeat intervals for intelligent task distribution.",
+      "entities": [
+        {"text": "Sovereign Routing Protocol", "start": 4, "end": 30, "label": "PROTOCOL"},
+        {"text": "phi-encoded coordinates", "start": 36, "end": 59, "label": "TECHNOLOGY"},
+        {"text": "873ms", "start": 63, "end": 68, "label": "SCIENTIFIC_TERM"}
+      ],
+      "domain": "organism_architecture"
+    },
+    {
+      "id": "ner-018",
+      "text": "Toyota and BMW formed a $4.5 billion joint venture in Munich to develop solid-state batteries for EVs launching in 2027.",
+      "entities": [
+        {"text": "Toyota", "start": 0, "end": 6, "label": "ORGANIZATION"},
+        {"text": "BMW", "start": 11, "end": 14, "label": "ORGANIZATION"},
+        {"text": "$4.5 billion", "start": 24, "end": 36, "label": "MONETARY"},
+        {"text": "Munich", "start": 55, "end": 61, "label": "LOCATION"},
+        {"text": "solid-state batteries", "start": 73, "end": 94, "label": "TECHNOLOGY"},
+        {"text": "2027", "start": 115, "end": 119, "label": "DATE"}
+      ],
+      "domain": "business"
+    },
+    {
+      "id": "ner-019",
+      "text": "Demis Hassabis at Google DeepMind demonstrated Gemini Ultra's native multimodal reasoning at the NeurIPS 2025 conference in Vancouver.",
+      "entities": [
+        {"text": "Demis Hassabis", "start": 0, "end": 14, "label": "PERSON"},
+        {"text": "Google DeepMind", "start": 18, "end": 33, "label": "ORGANIZATION"},
+        {"text": "Gemini Ultra", "start": 47, "end": 59, "label": "PRODUCT"},
+        {"text": "multimodal reasoning", "start": 69, "end": 89, "label": "SCIENTIFIC_TERM"},
+        {"text": "NeurIPS 2025", "start": 97, "end": 109, "label": "EVENT"},
+        {"text": "Vancouver", "start": 124, "end": 133, "label": "LOCATION"}
+      ],
+      "domain": "technology"
+    },
+    {
+      "id": "ner-020",
+      "text": "CERN's Large Hadron Collider detected evidence of a new particle at 13.6 TeV collision energy near the Higgs field threshold.",
+      "entities": [
+        {"text": "CERN", "start": 0, "end": 4, "label": "ORGANIZATION"},
+        {"text": "Large Hadron Collider", "start": 7, "end": 28, "label": "PRODUCT"},
+        {"text": "13.6 TeV", "start": 68, "end": 76, "label": "SCIENTIFIC_TERM"},
+        {"text": "Higgs field", "start": 103, "end": 114, "label": "SCIENTIFIC_TERM"}
+      ],
+      "domain": "science"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "dataset_id": "AID-REASON-002",
+    "name": "Sovereign Logical Inference Dataset",
+    "version": "1.0.0",
+    "description": "Formal and informal logic problems requiring deductive, inductive, and abductive reasoning with step-by-step chains",
+    "task_type": "logical-reasoning",
+    "categories": ["deductive", "inductive", "abductive", "syllogistic", "propositional", "constraint_satisfaction"],
+    "total_samples": 30,
+    "ring_affinity": "Interface Ring",
+    "organism_placement": "Organism core / reasoning layer"
+  },
+  "samples": [
+    {
+      "id": "logic-001",
+      "category": "deductive",
+      "problem": "All software engineers know at least one programming language. Maria is a software engineer. Therefore, what can we conclude about Maria?",
+      "premises": ["All software engineers know at least one programming language", "Maria is a software engineer"],
+      "conclusion": "Maria knows at least one programming language",
+      "reasoning_chain": ["P1: ∀x (SoftwareEngineer(x) → KnowsLanguage(x))", "P2: SoftwareEngineer(Maria)", "By modus ponens: KnowsLanguage(Maria)"],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-002",
+      "category": "deductive",
+      "problem": "If it rains, the ground gets wet. The ground is wet. Therefore, it rained.",
+      "premises": ["If it rains, the ground gets wet", "The ground is wet"],
+      "conclusion": "It rained",
+      "reasoning_chain": ["P1: Rain → WetGround", "P2: WetGround", "This does NOT validly conclude Rain — sprinklers could cause wet ground", "This is the fallacy of affirming the consequent"],
+      "valid": false,
+      "fallacy": "affirming_the_consequent"
+    },
+    {
+      "id": "logic-003",
+      "category": "constraint_satisfaction",
+      "problem": "Five people (A, B, C, D, E) sit in a row. B sits next to A. C does not sit next to D. E sits at one end. How many valid arrangements exist?",
+      "premises": ["5 people in a row", "B is adjacent to A", "C is not adjacent to D", "E is at position 1 or 5"],
+      "conclusion": "There are 20 valid arrangements",
+      "reasoning_chain": [
+        "E can be at position 1 or position 5 (2 choices).",
+        "By symmetry, consider E at position 1 and multiply by 2.",
+        "A and B must be adjacent. Treat AB or BA as a block in positions 2-5.",
+        "The AB block can start at positions 2, 3, or 4 (3 positions).",
+        "Each position has 2 internal arrangements (AB or BA).",
+        "Remaining C and D fill the 2 remaining spots.",
+        "Without C-D constraint: 2 × 3 × 2 × 2 = 24.",
+        "Subtract cases where C is adjacent to D.",
+        "C and D are adjacent only when they fill two consecutive remaining positions.",
+        "Analysis shows 4 invalid cases, leaving 20 valid arrangements."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-004",
+      "category": "syllogistic",
+      "problem": "No reptiles are warm-blooded. All snakes are reptiles. Therefore, no snakes are warm-blooded.",
+      "premises": ["No reptiles are warm-blooded", "All snakes are reptiles"],
+      "conclusion": "No snakes are warm-blooded",
+      "reasoning_chain": ["P1: Reptile ∩ WarmBlooded = ∅", "P2: Snake ⊆ Reptile", "Since Snake ⊆ Reptile and Reptile ∩ WarmBlooded = ∅, then Snake ∩ WarmBlooded = ∅", "Valid syllogism (Celarent form: EAE-1)"],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-005",
+      "category": "abductive",
+      "problem": "The server response time increased from 50ms to 2000ms. The database shows no slow queries. The CPU usage is at 95%. The memory usage spiked to 98%. A new deployment was pushed 10 minutes ago. What is the most likely cause?",
+      "premises": ["Response time 50ms → 2000ms", "No slow database queries", "CPU at 95%", "Memory at 98%", "New deployment 10 minutes ago"],
+      "conclusion": "The new deployment likely introduced a memory leak or inefficient code causing resource exhaustion",
+      "reasoning_chain": [
+        "The timing correlates with the deployment (10 min ago).",
+        "Database is not the bottleneck (no slow queries).",
+        "Both CPU and memory are near saturation → resource exhaustion.",
+        "High memory + high CPU suggests either: memory leak causing GC thrashing, or new code with O(n²) complexity.",
+        "Most parsimonious explanation: the deployment introduced problematic code.",
+        "Best inference: rollback the deployment and investigate the diff."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-006",
+      "category": "propositional",
+      "problem": "Given: (P → Q), (Q → R), (¬R). Prove ¬P.",
+      "premises": ["P → Q", "Q → R", "¬R"],
+      "conclusion": "¬P",
+      "reasoning_chain": [
+        "From P → Q and Q → R, by hypothetical syllogism: P → R",
+        "Contrapositive of P → R is ¬R → ¬P",
+        "We have ¬R (given)",
+        "By modus ponens on ¬R → ¬P: ¬P",
+        "Therefore ¬P is proven."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-007",
+      "category": "inductive",
+      "problem": "Observation: Every neural network we've trained with >10B parameters has achieved >90% on our benchmark. We are now training a 15B parameter model. What can we inductively conclude?",
+      "premises": ["Model A (12B params): 92% accuracy", "Model B (11B params): 91% accuracy", "Model C (50B params): 97% accuracy", "Model D (10.5B params): 90.5% accuracy", "New model has 15B parameters"],
+      "conclusion": "The new 15B model will likely achieve >90% accuracy on the benchmark",
+      "reasoning_chain": [
+        "All observed models with >10B parameters exceeded 90% (strong pattern).",
+        "15B > 10B, so the new model fits the observed category.",
+        "Inductive strength: high (4/4 observations support the pattern).",
+        "Caveat: induction doesn't guarantee — architecture changes, data quality, or training issues could break the pattern.",
+        "Confidence: high but not certain. This is probabilistic, not deductive."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-008",
+      "category": "deductive",
+      "problem": "95% of startups fail. Company X is a startup. Therefore, Company X will probably fail.",
+      "premises": ["95% of startups fail", "Company X is a startup"],
+      "conclusion": "Company X will probably fail",
+      "reasoning_chain": [
+        "This is a statistical syllogism, not a strict deduction.",
+        "P1 gives a base rate, not a universal quantifier.",
+        "The conclusion is probabilistically supported (95% confidence).",
+        "However, without knowing if Company X has features that differentiate it from the base rate, this commits the base rate fallacy of ignoring individual evidence.",
+        "The argument is inductively strong but not deductively valid."
+      ],
+      "valid": false,
+      "fallacy": "base_rate_fallacy_potential"
+    },
+    {
+      "id": "logic-009",
+      "category": "constraint_satisfaction",
+      "problem": "A scheduling problem: Three meetings (M1, M2, M3) must be scheduled in three time slots (9am, 10am, 11am). M1 must be before M2. M3 cannot be at 10am. M2 cannot be at 9am. Find all valid schedules.",
+      "premises": ["M1 before M2", "M3 ≠ 10am", "M2 ≠ 9am"],
+      "conclusion": "Two valid schedules exist: [M1@9, M2@10, M3@11] and [M1@9, M3@11, M2@11] — wait, each slot is unique. Valid: [M1@9, M2@10, M3@11] and [M3@9, M1@10, M2@11]",
+      "reasoning_chain": [
+        "Slots: {9, 10, 11}. Each meeting gets exactly one slot.",
+        "Constraint: M1 before M2 → M1's slot < M2's slot",
+        "Constraint: M3 ≠ 10",
+        "Constraint: M2 ≠ 9",
+        "If M2=10: M1 must be 9 (only earlier slot). M3 gets 11. Check: M3≠10 ✓. Valid: [M1@9, M2@10, M3@11]",
+        "If M2=11: M1 can be 9 or 10. M3 gets the remaining slot.",
+        "  M1=9, M3=10 → but M3≠10 ✗. Invalid.",
+        "  M1=10, M3=9 → M3≠10 ✓. Valid: [M3@9, M1@10, M2@11]",
+        "Total valid schedules: 2"
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-010",
+      "category": "deductive",
+      "problem": "If a function is continuous on [a,b] and differentiable on (a,b), and f(a) = f(b), then there exists c in (a,b) where f'(c) = 0. Function g is continuous on [0,1], differentiable on (0,1), and g(0) = g(1) = 3. What follows?",
+      "premises": ["Rolle's Theorem: continuous on [a,b], differentiable on (a,b), f(a)=f(b) → ∃c: f'(c)=0", "g is continuous on [0,1]", "g is differentiable on (0,1)", "g(0) = g(1) = 3"],
+      "conclusion": "There exists some c in (0,1) where g'(c) = 0",
+      "reasoning_chain": [
+        "Check Rolle's Theorem conditions for g on [0,1]:",
+        "1. Continuous on [0,1]: given ✓",
+        "2. Differentiable on (0,1): given ✓",
+        "3. g(0) = g(1): 3 = 3 ✓",
+        "All conditions satisfied → conclusion applies.",
+        "∃c ∈ (0,1) such that g'(c) = 0.",
+        "This is a valid application of a universally quantified theorem."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-011",
+      "category": "abductive",
+      "problem": "A user reports: 'My login works on desktop Chrome but fails on mobile Safari. Other users can login on mobile Safari. I cleared my cookies. The error says Invalid token.' What is the most likely explanation?",
+      "premises": ["Works on desktop Chrome", "Fails on mobile Safari for this user only", "Other users succeed on mobile Safari", "Cookies cleared", "Error: Invalid token"],
+      "conclusion": "The user likely has a clock synchronization issue on their mobile device causing JWT token validation to fail",
+      "reasoning_chain": [
+        "Not a browser-specific bug (other Safari users work fine).",
+        "Not a cookie issue (already cleared).",
+        "Token-based error + single-user issue → user's device is different.",
+        "JWT tokens use time-based validation (exp, iat, nbf claims).",
+        "If the device clock is significantly skewed, tokens appear expired or not-yet-valid.",
+        "Desktop likely syncs time via NTP; mobile might have manual time set incorrectly.",
+        "Best explanation: device clock is wrong → JWT validation fails → 'Invalid token'.",
+        "Action: ask user to check their device's date/time settings."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-012",
+      "category": "propositional",
+      "problem": "Translate to propositional logic and determine validity: 'If the API is down or the database is unreachable, then the health check fails. The health check passed. Therefore the API is up and the database is reachable.'",
+      "premises": ["(A∨D) → F where A='API down', D='DB unreachable', F='health check fails'", "¬F (health check passed)"],
+      "conclusion": "¬A ∧ ¬D (API is up AND database is reachable)",
+      "reasoning_chain": [
+        "P1: (A∨D) → F",
+        "P2: ¬F",
+        "Contrapositive of P1: ¬F → ¬(A∨D)",
+        "By De Morgan's: ¬(A∨D) ≡ ¬A ∧ ¬D",
+        "From P2 and contrapositive: ¬A ∧ ¬D",
+        "The argument is VALID by modus tollens + De Morgan's Law."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-013",
+      "category": "inductive",
+      "problem": "For the past 8 quarters, every time our competitor released a major product update, our user churn increased by 5-8% in the following month. They just announced another major update. What should we expect?",
+      "premises": ["Q1 2024: competitor update → 6% churn increase", "Q2 2024: competitor update → 7% churn increase", "Q3 2024: competitor update → 5% churn increase", "Q4 2024: competitor update → 8% churn increase", "Q1 2025: competitor update → 6% churn increase", "Q2 2025: competitor update → 7% churn increase", "Q3 2025: competitor update → 5% churn increase", "Q4 2025: competitor update → 6% churn increase", "New competitor update announced"],
+      "conclusion": "We should expect approximately 5-8% churn increase next month",
+      "reasoning_chain": [
+        "8 consecutive observations show the same pattern (5-8% range).",
+        "The variance is low and consistent.",
+        "No counter-examples observed in the data.",
+        "Inductive strength: very high.",
+        "Practical conclusion: prepare retention campaigns and ensure feature parity.",
+        "Caveat: past correlation doesn't guarantee future outcome — market conditions may have changed."
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-014",
+      "category": "syllogistic",
+      "problem": "Some AI models are open-source. All open-source software can be audited. Therefore, some AI models can be audited.",
+      "premises": ["Some AI models are open-source", "All open-source software can be audited"],
+      "conclusion": "Some AI models can be audited",
+      "reasoning_chain": [
+        "P1: ∃x (AIModel(x) ∧ OpenSource(x))",
+        "P2: ∀x (OpenSource(x) → Auditable(x))",
+        "From P1: there exists some model m where AIModel(m) ∧ OpenSource(m)",
+        "From P2 applied to m: OpenSource(m) → Auditable(m)",
+        "Therefore Auditable(m), and since AIModel(m), we have ∃x (AIModel(x) ∧ Auditable(x))",
+        "Valid syllogism (Darii form: AII-1)"
+      ],
+      "valid": true,
+      "fallacy": null
+    },
+    {
+      "id": "logic-015",
+      "category": "deductive",
+      "problem": "Expert A says the market will crash. Expert B says it won't. One of them must be right. Therefore, we have a 50% chance of a crash.",
+      "premises": ["Expert A predicts crash", "Expert B predicts no crash", "One must be correct"],
+      "conclusion": "50% probability of crash",
+      "reasoning_chain": [
+        "This commits the fallacy of false equiprobability.",
+        "Two mutually exclusive outcomes do NOT imply equal probability.",
+        "The probability depends on the base rate of crashes, the experts' track records, current economic indicators, etc.",
+        "A coin flip has 50/50 odds because of physical symmetry — expert disagreement has no such symmetry.",
+        "The argument is INVALID."
+      ],
+      "valid": false,
+      "fallacy": "false_equiprobability"
+    }
+  ]
+}
