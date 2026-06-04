@@ -137,6 +137,14 @@ The organism is governed by 40 architectural laws across these domains:
 ├── Architectural_Laws_Register.csv       # 40 architectural laws
 ├── SDK_Model_Manifest.json               # Unified SDK-to-frontier wiring manifest
 ├── README.md
+├── datasets/                             # Real AI training & evaluation data
+│   ├── nlp/                              # Sentiment, NER, classification
+│   ├── code-intelligence/                # Functions, patterns, vulnerabilities
+│   ├── reasoning/                        # Math, logic, causal reasoning
+│   ├── conversational/                   # Dialogue, instruction-following
+│   ├── multimodal/                       # Image descriptions, VQA
+│   ├── safety/                           # Toxicity, guardrails
+│   └── knowledge-graph/                  # Entities, ontology, triples
 └── sdk/
     ├── sovereign-memory-sdk/             # Spatial memory, phi-coordinates, lineage
     ├── enterprise-integration-sdk/       # Onboarding, connectors, campaigns

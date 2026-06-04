@@ -1,0 +1,145 @@
+{
+  "metadata": {
+    "dataset_id": "AID-CODE-002",
+    "name": "Sovereign Design Patterns Intelligence Dataset",
+    "version": "1.0.0",
+    "description": "Software design patterns with implementations, anti-patterns, use cases, and refactoring guidance for code intelligence routing",
+    "task_type": "code-generation",
+    "languages": ["typescript", "python", "rust"],
+    "total_samples": 30,
+    "ring_affinity": "Build Ring",
+    "organism_placement": "Frontend organism / packaging layer"
+  },
+  "samples": [
+    {
+      "id": "pat-001",
+      "pattern": "Singleton",
+      "category": "creational",
+      "intent": "Ensure a class has only one instance and provide a global point of access",
+      "implementation": {
+        "language": "typescript",
+        "code": "class ConfigManager {\n  private static instance: ConfigManager | null = null;\n  private config: Map<string, unknown> = new Map();\n\n  private constructor() {}\n\n  static getInstance(): ConfigManager {\n    if (!ConfigManager.instance) {\n      ConfigManager.instance = new ConfigManager();\n    }\n    return ConfigManager.instance;\n  }\n\n  get<T>(key: string): T | undefined {\n    return this.config.get(key) as T | undefined;\n  }\n\n  set(key: string, value: unknown): void {\n    this.config.set(key, value);\n  }\n}"
+      },
+      "anti_pattern": "Creating multiple instances of shared resources like database pools or config objects, leading to inconsistent state",
+      "use_cases": ["Configuration management", "Connection pooling", "Logger instances", "Cache management"],
+      "trade_offs": ["Global state can make testing difficult", "Thread safety concerns in concurrent environments", "Hides dependencies"]
+    },
+    {
+      "id": "pat-002",
+      "pattern": "Observer",
+      "category": "behavioral",
+      "intent": "Define a one-to-many dependency so when one object changes state, all dependents are notified",
+      "implementation": {
+        "language": "typescript",
+        "code": "type Listener<T> = (event: T) => void;\n\nclass EventEmitter<Events extends Record<string, unknown>> {\n  private listeners = new Map<keyof Events, Set<Listener<any>>>();\n\n  on<K extends keyof Events>(event: K, listener: Listener<Events[K]>): () => void {\n    if (!this.listeners.has(event)) {\n      this.listeners.set(event, new Set());\n    }\n    this.listeners.get(event)!.add(listener);\n    return () => this.listeners.get(event)?.delete(listener);\n  }\n\n  emit<K extends keyof Events>(event: K, data: Events[K]): void {\n    this.listeners.get(event)?.forEach(listener => listener(data));\n  }\n}"
+      },
+      "anti_pattern": "Tight coupling between components where changes in one module require modifications in many others",
+      "use_cases": ["UI event handling", "Real-time data feeds", "State synchronization", "Plugin systems"],
+      "trade_offs": ["Memory leaks if listeners not properly removed", "Debugging difficulty with many subscribers", "Order of notification not guaranteed"]
+    },
+    {
+      "id": "pat-003",
+      "pattern": "Strategy",
+      "category": "behavioral",
+      "intent": "Define a family of algorithms, encapsulate each one, and make them interchangeable",
+      "implementation": {
+        "language": "python",
+        "code": "from abc import ABC, abstractmethod\nfrom typing import Protocol\n\nclass CompressionStrategy(Protocol):\n    def compress(self, data: bytes) -> bytes: ...\n    def decompress(self, data: bytes) -> bytes: ...\n\nclass GzipCompression:\n    def compress(self, data: bytes) -> bytes:\n        import gzip\n        return gzip.compress(data)\n\n    def decompress(self, data: bytes) -> bytes:\n        import gzip\n        return gzip.decompress(data)\n\nclass LZ4Compression:\n    def compress(self, data: bytes) -> bytes:\n        import lz4.frame\n        return lz4.frame.compress(data)\n\n    def decompress(self, data: bytes) -> bytes:\n        import lz4.frame\n        return lz4.frame.decompress(data)\n\nclass DataProcessor:\n    def __init__(self, strategy: CompressionStrategy):\n        self._strategy = strategy\n\n    def process(self, data: bytes) -> bytes:\n        return self._strategy.compress(data)"
+      },
+      "anti_pattern": "Large if/elif chains or switch statements that select behavior based on type or condition flags",
+      "use_cases": ["Compression algorithms", "Sorting strategies", "Payment processing", "Authentication methods"],
+      "trade_offs": ["Increased number of classes", "Client must be aware of available strategies", "Overkill for simple algorithms"]
+    },
+    {
+      "id": "pat-004",
+      "pattern": "Builder",
+      "category": "creational",
+      "intent": "Separate the construction of a complex object from its representation",
+      "implementation": {
+        "language": "rust",
+        "code": "pub struct QueryBuilder {\n    table: String,\n    conditions: Vec<String>,\n    order_by: Option<String>,\n    limit: Option<usize>,\n    offset: Option<usize>,\n}\n\nimpl QueryBuilder {\n    pub fn new(table: &str) -> Self {\n        Self {\n            table: table.to_string(),\n            conditions: Vec::new(),\n            order_by: None,\n            limit: None,\n            offset: None,\n        }\n    }\n\n    pub fn where_clause(mut self, condition: &str) -> Self {\n        self.conditions.push(condition.to_string());\n        self\n    }\n\n    pub fn order_by(mut self, column: &str) -> Self {\n        self.order_by = Some(column.to_string());\n        self\n    }\n\n    pub fn limit(mut self, n: usize) -> Self {\n        self.limit = Some(n);\n        self\n    }\n\n    pub fn build(self) -> String {\n        let mut query = format!(\"SELECT * FROM {}\", self.table);\n        if !self.conditions.is_empty() {\n            query.push_str(&format!(\" WHERE {}\", self.conditions.join(\" AND \")));\n        }\n        if let Some(order) = self.order_by {\n            query.push_str(&format!(\" ORDER BY {}\", order));\n        }\n        if let Some(limit) = self.limit {\n            query.push_str(&format!(\" LIMIT {}\", limit));\n        }\n        query\n    }\n}"
+      },
+      "anti_pattern": "Constructors with many parameters (telescoping constructor) making object creation error-prone",
+      "use_cases": ["Query construction", "HTTP request building", "Configuration objects", "Document generation"],
+      "trade_offs": ["More verbose than direct construction", "Builder must be updated when new fields added", "Runtime validation vs compile-time"]
+    },
+    {
+      "id": "pat-005",
+      "pattern": "Circuit Breaker",
+      "category": "resilience",
+      "intent": "Prevent cascading failures by stopping requests to a failing service after a threshold",
+      "implementation": {
+        "language": "typescript",
+        "code": "enum CircuitState { CLOSED, OPEN, HALF_OPEN }\n\nclass CircuitBreaker {\n  private state = CircuitState.CLOSED;\n  private failureCount = 0;\n  private lastFailureTime = 0;\n  \n  constructor(\n    private readonly threshold: number = 5,\n    private readonly timeout: number = 30000,\n    private readonly monitor?: (state: CircuitState) => void\n  ) {}\n\n  async execute<T>(fn: () => Promise<T>): Promise<T> {\n    if (this.state === CircuitState.OPEN) {\n      if (Date.now() - this.lastFailureTime > this.timeout) {\n        this.state = CircuitState.HALF_OPEN;\n        this.monitor?.(this.state);\n      } else {\n        throw new Error('Circuit is OPEN — request blocked');\n      }\n    }\n\n    try {\n      const result = await fn();\n      this.onSuccess();\n      return result;\n    } catch (error) {\n      this.onFailure();\n      throw error;\n    }\n  }\n\n  private onSuccess(): void {\n    this.failureCount = 0;\n    if (this.state === CircuitState.HALF_OPEN) {\n      this.state = CircuitState.CLOSED;\n      this.monitor?.(this.state);\n    }\n  }\n\n  private onFailure(): void {\n    this.failureCount++;\n    this.lastFailureTime = Date.now();\n    if (this.failureCount >= this.threshold) {\n      this.state = CircuitState.OPEN;\n      this.monitor?.(this.state);\n    }\n  }\n}"
+      },
+      "anti_pattern": "Unbounded retry loops that overwhelm failing services and cause cascading outages",
+      "use_cases": ["Microservice communication", "External API calls", "Database connections", "Third-party integrations"],
+      "trade_offs": ["Adds latency for state checks", "Threshold tuning required", "May reject valid requests during recovery"]
+    },
+    {
+      "id": "pat-006",
+      "pattern": "Repository",
+      "category": "structural",
+      "intent": "Mediate between domain logic and data mapping layers using a collection-like interface",
+      "implementation": {
+        "language": "python",
+        "code": "from abc import ABC, abstractmethod\nfrom typing import Generic, TypeVar, Optional\nfrom dataclasses import dataclass\n\nT = TypeVar('T')\n\nclass Repository(ABC, Generic[T]):\n    @abstractmethod\n    async def find_by_id(self, id: str) -> Optional[T]:\n        ...\n\n    @abstractmethod\n    async def find_all(self, limit: int = 100, offset: int = 0) -> list[T]:\n        ...\n\n    @abstractmethod\n    async def save(self, entity: T) -> T:\n        ...\n\n    @abstractmethod\n    async def delete(self, id: str) -> bool:\n        ...\n\n@dataclass\nclass User:\n    id: str\n    name: str\n    email: str\n\nclass UserRepository(Repository[User]):\n    def __init__(self, db):\n        self._db = db\n\n    async def find_by_id(self, id: str) -> Optional[User]:\n        row = await self._db.fetch_one('SELECT * FROM users WHERE id = $1', id)\n        return User(**row) if row else None\n\n    async def find_all(self, limit: int = 100, offset: int = 0) -> list[User]:\n        rows = await self._db.fetch_all('SELECT * FROM users LIMIT $1 OFFSET $2', limit, offset)\n        return [User(**row) for row in rows]\n\n    async def save(self, entity: User) -> User:\n        await self._db.execute(\n            'INSERT INTO users (id, name, email) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name=$2, email=$3',\n            entity.id, entity.name, entity.email\n        )\n        return entity\n\n    async def delete(self, id: str) -> bool:\n        result = await self._db.execute('DELETE FROM users WHERE id = $1', id)\n        return result.rowcount > 0"
+      },
+      "anti_pattern": "Scattering SQL queries throughout business logic, making database changes require touching many files",
+      "use_cases": ["Data access abstraction", "Testing with in-memory stores", "Multi-database support", "Domain-driven design"],
+      "trade_offs": ["Additional abstraction layer", "May not fit document/graph databases well", "Generic queries can be inefficient"]
+    },
+    {
+      "id": "pat-007",
+      "pattern": "Command",
+      "category": "behavioral",
+      "intent": "Encapsulate a request as an object, allowing parameterization, queuing, and undo operations",
+      "implementation": {
+        "language": "typescript",
+        "code": "interface Command {\n  execute(): Promise<void>;\n  undo(): Promise<void>;\n  describe(): string;\n}\n\nclass CommandHistory {\n  private executed: Command[] = [];\n  private undone: Command[] = [];\n\n  async execute(command: Command): Promise<void> {\n    await command.execute();\n    this.executed.push(command);\n    this.undone = [];\n  }\n\n  async undo(): Promise<void> {\n    const command = this.executed.pop();\n    if (command) {\n      await command.undo();\n      this.undone.push(command);\n    }\n  }\n\n  async redo(): Promise<void> {\n    const command = this.undone.pop();\n    if (command) {\n      await command.execute();\n      this.executed.push(command);\n    }\n  }\n\n  getHistory(): string[] {\n    return this.executed.map(cmd => cmd.describe());\n  }\n}"
+      },
+      "anti_pattern": "Direct method calls that cannot be undone, replayed, or scheduled for later execution",
+      "use_cases": ["Undo/redo systems", "Task queues", "Transaction logging", "Macro recording"],
+      "trade_offs": ["Memory usage for command history", "Complexity of undo logic", "Serialization challenges"]
+    },
+    {
+      "id": "pat-008",
+      "pattern": "Middleware Pipeline",
+      "category": "structural",
+      "intent": "Chain processing steps where each can transform input, short-circuit, or pass to next handler",
+      "implementation": {
+        "language": "typescript",
+        "code": "type Next = () => Promise<void>;\ntype Middleware<TContext> = (ctx: TContext, next: Next) => Promise<void>;\n\nclass Pipeline<TContext> {\n  private middlewares: Middleware<TContext>[] = [];\n\n  use(middleware: Middleware<TContext>): this {\n    this.middlewares.push(middleware);\n    return this;\n  }\n\n  async execute(context: TContext): Promise<TContext> {\n    let index = 0;\n\n    const next: Next = async () => {\n      if (index < this.middlewares.length) {\n        const middleware = this.middlewares[index++];\n        await middleware(context, next);\n      }\n    };\n\n    await next();\n    return context;\n  }\n}\n\n// Usage\nconst pipeline = new Pipeline<{ req: Request; res: Response; user?: User }>()\n  .use(async (ctx, next) => {\n    console.log(`${ctx.req.method} ${ctx.req.url}`);\n    await next();\n  })\n  .use(async (ctx, next) => {\n    ctx.user = await authenticate(ctx.req);\n    await next();\n  });"
+      },
+      "anti_pattern": "Deeply nested callback chains or sequential if-checks that are difficult to reorder or extend",
+      "use_cases": ["HTTP request handling", "Message processing", "Validation chains", "Plugin systems"],
+      "trade_offs": ["Execution order matters", "Error handling across middleware boundaries", "Debugging stack traces"]
+    },
+    {
+      "id": "pat-009",
+      "pattern": "State Machine",
+      "category": "behavioral",
+      "intent": "Allow an object to alter its behavior when its internal state changes",
+      "implementation": {
+        "language": "rust",
+        "code": "use std::collections::HashMap;\n\n#[derive(Debug, Clone, Hash, Eq, PartialEq)]\npub enum OrderState {\n    Pending,\n    Confirmed,\n    Shipped,\n    Delivered,\n    Cancelled,\n}\n\n#[derive(Debug, Clone, Hash, Eq, PartialEq)]\npub enum OrderEvent {\n    Confirm,\n    Ship,\n    Deliver,\n    Cancel,\n}\n\npub struct StateMachine {\n    current: OrderState,\n    transitions: HashMap<(OrderState, OrderEvent), OrderState>,\n}\n\nimpl StateMachine {\n    pub fn new() -> Self {\n        let mut transitions = HashMap::new();\n        transitions.insert((OrderState::Pending, OrderEvent::Confirm), OrderState::Confirmed);\n        transitions.insert((OrderState::Pending, OrderEvent::Cancel), OrderState::Cancelled);\n        transitions.insert((OrderState::Confirmed, OrderEvent::Ship), OrderState::Shipped);\n        transitions.insert((OrderState::Confirmed, OrderEvent::Cancel), OrderState::Cancelled);\n        transitions.insert((OrderState::Shipped, OrderEvent::Deliver), OrderState::Delivered);\n\n        Self { current: OrderState::Pending, transitions }\n    }\n\n    pub fn transition(&mut self, event: OrderEvent) -> Result<&OrderState, String> {\n        let key = (self.current.clone(), event.clone());\n        match self.transitions.get(&key) {\n            Some(next) => {\n                self.current = next.clone();\n                Ok(&self.current)\n            }\n            None => Err(format!(\"Invalid transition: {:?} in state {:?}\", event, self.current)),\n        }\n    }\n\n    pub fn current_state(&self) -> &OrderState {\n        &self.current\n    }\n}"
+      },
+      "anti_pattern": "Boolean flags and nested conditionals tracking object lifecycle state, leading to invalid state combinations",
+      "use_cases": ["Order processing", "Game entities", "UI workflows", "Protocol implementations"],
+      "trade_offs": ["Transition table can grow large", "Adding states requires updating all transitions", "May be overkill for simple 2-3 state objects"]
+    },
+    {
+      "id": "pat-010",
+      "pattern": "Event Sourcing",
+      "category": "architectural",
+      "intent": "Store state changes as a sequence of immutable events rather than mutable current state",
+      "implementation": {
+        "language": "python",
+        "code": "from dataclasses import dataclass, field\nfrom datetime import datetime\nfrom typing import Any\nimport json\n\n@dataclass(frozen=True)\nclass Event:\n    event_type: str\n    aggregate_id: str\n    data: dict\n    timestamp: datetime = field(default_factory=datetime.utcnow)\n    version: int = 0\n\nclass EventStore:\n    def __init__(self):\n        self._events: list[Event] = []\n\n    def append(self, event: Event) -> None:\n        self._events.append(event)\n\n    def get_events(self, aggregate_id: str) -> list[Event]:\n        return [e for e in self._events if e.aggregate_id == aggregate_id]\n\nclass BankAccount:\n    def __init__(self, account_id: str, event_store: EventStore):\n        self._id = account_id\n        self._store = event_store\n        self._balance = 0.0\n        self._replay()\n\n    def deposit(self, amount: float) -> None:\n        event = Event('deposited', self._id, {'amount': amount})\n        self._store.append(event)\n        self._apply(event)\n\n    def withdraw(self, amount: float) -> None:\n        if amount > self._balance:\n            raise ValueError('Insufficient funds')\n        event = Event('withdrawn', self._id, {'amount': amount})\n        self._store.append(event)\n        self._apply(event)\n\n    def _apply(self, event: Event) -> None:\n        if event.event_type == 'deposited':\n            self._balance += event.data['amount']\n        elif event.event_type == 'withdrawn':\n            self._balance -= event.data['amount']\n\n    def _replay(self) -> None:\n        for event in self._store.get_events(self._id):\n            self._apply(event)\n\n    @property\n    def balance(self) -> float:\n        return self._balance"
+      },
+      "anti_pattern": "Directly mutating database records with no history, losing the ability to audit, debug, or reconstruct past states",
+      "use_cases": ["Financial systems", "Audit logging", "Collaborative editing", "Temporal queries"],
+      "trade_offs": ["Storage grows over time", "Eventual consistency complexity", "Snapshot management needed for performance", "Event schema evolution"]
+    }
+  ]
+}

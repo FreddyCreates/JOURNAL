@@ -1,0 +1,31 @@
+{
+  "name": "@medina/ai-datasets",
+  "version": "1.0.0",
+  "description": "Sovereign AI training and evaluation datasets for the organism intelligence substrate",
+  "type": "module",
+  "author": "Freddy Medina",
+  "license": "MIT",
+  "exports": {
+    "./nlp/sentiment": "./nlp/sentiment-analysis.json",
+    "./nlp/ner": "./nlp/named-entity-recognition.json",
+    "./nlp/classification": "./nlp/text-classification.json",
+    "./code-intelligence/functions": "./code-intelligence/function-signatures.json",
+    "./code-intelligence/patterns": "./code-intelligence/design-patterns.json",
+    "./code-intelligence/vulnerabilities": "./code-intelligence/vulnerability-patterns.json",
+    "./reasoning/math": "./reasoning/mathematical-reasoning.json",
+    "./reasoning/logic": "./reasoning/logical-inference.json",
+    "./reasoning/causal": "./reasoning/causal-reasoning.json",
+    "./conversational/dialogue": "./conversational/multi-turn-dialogue.json",
+    "./conversational/instructions": "./conversational/instruction-following.json",
+    "./conversational/roleplay": "./conversational/persona-roleplay.json",
+    "./multimodal/image-descriptions": "./multimodal/image-descriptions.json",
+    "./multimodal/scene-graphs": "./multimodal/scene-graph-relations.json",
+    "./multimodal/visual-qa": "./multimodal/visual-question-answering.json",
+    "./safety/toxicity": "./safety/toxicity-detection.json",
+    "./safety/bias": "./safety/bias-mitigation.json",
+    "./safety/guardrails": "./safety/guardrail-triggers.json",
+    "./knowledge-graph/entities": "./knowledge-graph/entity-relations.json",
+    "./knowledge-graph/triples": "./knowledge-graph/knowledge-triples.json",
+    "./knowledge-graph/ontology": "./knowledge-graph/domain-ontology.json"
+  }
+}

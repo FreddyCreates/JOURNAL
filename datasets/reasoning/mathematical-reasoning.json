@@ -1,0 +1,421 @@
+{
+  "metadata": {
+    "dataset_id": "AID-REASON-001",
+    "name": "Sovereign Mathematical Reasoning Dataset",
+    "version": "1.0.0",
+    "description": "Multi-step mathematical reasoning problems with step-by-step solutions, difficulty levels, and chain-of-thought annotations",
+    "task_type": "mathematical-reasoning",
+    "difficulty_levels": ["elementary", "intermediate", "advanced", "competition"],
+    "topics": ["algebra", "geometry", "combinatorics", "number_theory", "calculus", "probability"],
+    "total_samples": 40,
+    "ring_affinity": "Build Ring",
+    "organism_placement": "Frontend organism / packaging layer"
+  },
+  "samples": [
+    {
+      "id": "math-001",
+      "problem": "A train travels from City A to City B at 60 km/h and returns at 40 km/h. What is the average speed for the entire round trip?",
+      "difficulty": "elementary",
+      "topic": "algebra",
+      "solution": {
+        "chain_of_thought": [
+          "Let the distance between cities be d km.",
+          "Time for A→B: d/60 hours.",
+          "Time for B→A: d/40 hours.",
+          "Total distance: 2d km.",
+          "Total time: d/60 + d/40 = 2d/120 + 3d/120 = 5d/120 = d/24 hours.",
+          "Average speed = Total distance / Total time = 2d / (d/24) = 2d × 24/d = 48 km/h."
+        ],
+        "answer": "48 km/h",
+        "key_insight": "Average speed for round trips is the harmonic mean, not arithmetic mean: 2×60×40/(60+40) = 48"
+      }
+    },
+    {
+      "id": "math-002",
+      "problem": "Find the sum of all positive integers n such that n² + n + 41 is a perfect square.",
+      "difficulty": "competition",
+      "topic": "number_theory",
+      "solution": {
+        "chain_of_thought": [
+          "We need n² + n + 41 = k² for some positive integer k.",
+          "Rearranging: k² - n² - n = 41, so k² - n(n+1) = 41.",
+          "Note that k > n since k² > n².",
+          "Let k = n + m for some positive integer m.",
+          "(n+m)² - n² - n = 41",
+          "n² + 2nm + m² - n² - n = 41",
+          "2nm + m² - n = 41",
+          "n(2m - 1) + m² = 41",
+          "n = (41 - m²)/(2m - 1)",
+          "For n to be a positive integer, we need 2m-1 | (41-m²) and 41-m² > 0.",
+          "m=1: n = (41-1)/(2-1) = 40. Check: 40² + 40 + 41 = 1681 = 41². ✓",
+          "m=2: n = (41-4)/(4-1) = 37/3. Not integer.",
+          "m=3: n = (41-9)/(6-1) = 32/5. Not integer.",
+          "m=4: n = (41-16)/(8-1) = 25/7. Not integer.",
+          "m=5: n = (41-25)/(10-1) = 16/9. Not integer.",
+          "m=6: n = (41-36)/(12-1) = 5/11. Not integer.",
+          "m ≥ 7: 41 - m² < 0, no positive solutions.",
+          "The only solution is n = 40."
+        ],
+        "answer": "40",
+        "key_insight": "Substituting k = n + m converts the problem to finding integer solutions of a linear equation in n parameterized by m"
+      }
+    },
+    {
+      "id": "math-003",
+      "problem": "In a regular hexagon ABCDEF with side length 6, find the area of triangle ACE.",
+      "difficulty": "intermediate",
+      "topic": "geometry",
+      "solution": {
+        "chain_of_thought": [
+          "A regular hexagon can be divided into 6 equilateral triangles meeting at the center.",
+          "Vertices A, C, E are every other vertex, forming an equilateral triangle.",
+          "The distance from center to vertex (circumradius) = side length = 6.",
+          "AC connects vertices separated by one vertex. Using the law of cosines:",
+          "AC² = 6² + 6² - 2(6)(6)cos(120°) = 36 + 36 + 36 = 108",
+          "AC = 6√3",
+          "Triangle ACE is equilateral with side 6√3.",
+          "Area = (√3/4)(6√3)² = (√3/4)(108) = 27√3"
+        ],
+        "answer": "27√3 ≈ 46.77 square units",
+        "key_insight": "Alternate vertices of a regular hexagon form an equilateral triangle with side = s√3"
+      }
+    },
+    {
+      "id": "math-004",
+      "problem": "How many ways can 8 people be seated around a circular table if 3 specific people must sit together?",
+      "difficulty": "intermediate",
+      "topic": "combinatorics",
+      "solution": {
+        "chain_of_thought": [
+          "Treat the 3 people who must sit together as a single unit/block.",
+          "Now we have 6 entities to arrange around a circular table: the block + 5 individuals.",
+          "Circular permutations of 6 entities: (6-1)! = 5! = 120.",
+          "The 3 people within the block can be arranged among themselves in 3! = 6 ways.",
+          "Total arrangements = 5! × 3! = 120 × 6 = 720."
+        ],
+        "answer": "720",
+        "key_insight": "For circular permutations with adjacency constraints, treat the constrained group as one unit, then multiply by internal arrangements"
+      }
+    },
+    {
+      "id": "math-005",
+      "problem": "Evaluate the integral ∫₀^π x·sin(x) dx.",
+      "difficulty": "intermediate",
+      "topic": "calculus",
+      "solution": {
+        "chain_of_thought": [
+          "Use integration by parts: ∫u dv = uv - ∫v du",
+          "Let u = x, dv = sin(x) dx",
+          "Then du = dx, v = -cos(x)",
+          "∫₀^π x·sin(x) dx = [-x·cos(x)]₀^π - ∫₀^π (-cos(x)) dx",
+          "= [-x·cos(x)]₀^π + ∫₀^π cos(x) dx",
+          "= [-π·cos(π) - 0] + [sin(x)]₀^π",
+          "= [-π·(-1)] + [sin(π) - sin(0)]",
+          "= π + [0 - 0]",
+          "= π"
+        ],
+        "answer": "π",
+        "key_insight": "Integration by parts with u = polynomial term simplifies the integral by reducing the polynomial degree"
+      }
+    },
+    {
+      "id": "math-006",
+      "problem": "A bag contains 5 red balls and 3 blue balls. If 3 balls are drawn without replacement, what is the probability of getting exactly 2 red balls?",
+      "difficulty": "elementary",
+      "topic": "probability",
+      "solution": {
+        "chain_of_thought": [
+          "Total balls: 5 red + 3 blue = 8 balls.",
+          "We draw 3 balls and want exactly 2 red and 1 blue.",
+          "Ways to choose 2 red from 5: C(5,2) = 10",
+          "Ways to choose 1 blue from 3: C(3,1) = 3",
+          "Total favorable outcomes: 10 × 3 = 30",
+          "Total ways to choose 3 from 8: C(8,3) = 56",
+          "Probability = 30/56 = 15/28"
+        ],
+        "answer": "15/28 ≈ 0.5357",
+        "key_insight": "Use hypergeometric distribution: select required counts from each category independently, then divide by total combinations"
+      }
+    },
+    {
+      "id": "math-007",
+      "problem": "Find all real solutions to the system: x + y = 5, x² + y² = 17.",
+      "difficulty": "elementary",
+      "topic": "algebra",
+      "solution": {
+        "chain_of_thought": [
+          "From x + y = 5: y = 5 - x",
+          "Substitute into x² + y² = 17:",
+          "x² + (5-x)² = 17",
+          "x² + 25 - 10x + x² = 17",
+          "2x² - 10x + 8 = 0",
+          "x² - 5x + 4 = 0",
+          "(x-1)(x-4) = 0",
+          "x = 1 or x = 4",
+          "When x=1: y=4. When x=4: y=1.",
+          "Solutions: (1,4) and (4,1)"
+        ],
+        "answer": "(1, 4) and (4, 1)",
+        "key_insight": "For symmetric systems, express one variable in terms of the other and solve the resulting quadratic"
+      }
+    },
+    {
+      "id": "math-008",
+      "problem": "Prove that for any positive integer n, the number n⁵ - n is divisible by 30.",
+      "difficulty": "advanced",
+      "topic": "number_theory",
+      "solution": {
+        "chain_of_thought": [
+          "Factor: n⁵ - n = n(n⁴ - 1) = n(n²-1)(n²+1) = n(n-1)(n+1)(n²+1)",
+          "Also: n⁵ - n = n(n-1)(n+1)(n²+1)",
+          "We need to show 30 | n⁵-n, i.e., 2, 3, and 5 all divide n⁵-n.",
+          "Divisibility by 2: Among three consecutive integers n-1, n, n+1, at least one is even. ✓",
+          "Divisibility by 3: Among three consecutive integers n-1, n, n+1, exactly one is divisible by 3. ✓",
+          "Divisibility by 5: By Fermat's Little Theorem, n⁵ ≡ n (mod 5) for all integers n.",
+          "Therefore n⁵ - n ≡ 0 (mod 5). ✓",
+          "Since gcd(2,3)=gcd(2,5)=gcd(3,5)=1, we have 2×3×5=30 divides n⁵-n."
+        ],
+        "answer": "Proven: 30 | (n⁵ - n) for all positive integers n",
+        "key_insight": "Combine factoring consecutive integers (for 2 and 3) with Fermat's Little Theorem (for 5)"
+      }
+    },
+    {
+      "id": "math-009",
+      "problem": "A circle of radius 5 has a chord of length 8. Find the distance from the center of the circle to the chord.",
+      "difficulty": "elementary",
+      "topic": "geometry",
+      "solution": {
+        "chain_of_thought": [
+          "Draw a perpendicular from the center O to the chord AB. Call the foot M.",
+          "The perpendicular from center bisects the chord: AM = MB = 8/2 = 4.",
+          "Triangle OMA is a right triangle with hypotenuse OA = radius = 5 and AM = 4.",
+          "By Pythagorean theorem: OM² + AM² = OA²",
+          "OM² + 16 = 25",
+          "OM² = 9",
+          "OM = 3"
+        ],
+        "answer": "3 units",
+        "key_insight": "The perpendicular from center to chord bisects the chord, creating a right triangle with the radius as hypotenuse"
+      }
+    },
+    {
+      "id": "math-010",
+      "problem": "Find the coefficient of x⁶ in the expansion of (2x - 3)¹⁰.",
+      "difficulty": "intermediate",
+      "topic": "algebra",
+      "solution": {
+        "chain_of_thought": [
+          "Using the Binomial Theorem: (a+b)ⁿ = Σ C(n,k) aⁿ⁻ᵏ bᵏ",
+          "Here a = 2x, b = -3, n = 10.",
+          "The x⁶ term has (2x)⁶ which requires k such that n-k = 6, so k = 4.",
+          "Term = C(10,4) × (2x)⁶ × (-3)⁴",
+          "C(10,4) = 210",
+          "(2x)⁶ = 64x⁶",
+          "(-3)⁴ = 81",
+          "Coefficient = 210 × 64 × 81 = 1,088,640"
+        ],
+        "answer": "1,088,640",
+        "key_insight": "In binomial expansion of (ax+b)ⁿ, the x^k coefficient is C(n,k) × aᵏ × bⁿ⁻ᵏ"
+      }
+    },
+    {
+      "id": "math-011",
+      "problem": "Determine whether the series Σ(n=1 to ∞) n/(2ⁿ) converges, and if so, find its sum.",
+      "difficulty": "advanced",
+      "topic": "calculus",
+      "solution": {
+        "chain_of_thought": [
+          "Let S = Σ(n=1 to ∞) n/2ⁿ = 1/2 + 2/4 + 3/8 + 4/16 + ...",
+          "Multiply both sides by 1/2:",
+          "S/2 = 1/4 + 2/8 + 3/16 + 4/32 + ...",
+          "Subtract: S - S/2 = 1/2 + 1/4 + 1/8 + 1/16 + ...",
+          "S/2 = geometric series with first term 1/2 and ratio 1/2",
+          "S/2 = (1/2)/(1 - 1/2) = 1",
+          "S = 2",
+          "Alternatively, using the formula Σ n·xⁿ = x/(1-x)² for |x|<1:",
+          "With x = 1/2: S = (1/2)/(1-1/2)² = (1/2)/(1/4) = 2 ✓"
+        ],
+        "answer": "The series converges to 2",
+        "key_insight": "Multiply-and-subtract technique converts n·rⁿ series into a geometric series"
+      }
+    },
+    {
+      "id": "math-012",
+      "problem": "In how many ways can the letters of MISSISSIPPI be arranged?",
+      "difficulty": "intermediate",
+      "topic": "combinatorics",
+      "solution": {
+        "chain_of_thought": [
+          "MISSISSIPPI has 11 letters total.",
+          "Count each letter: M=1, I=4, S=4, P=2",
+          "Verify: 1+4+4+2 = 11 ✓",
+          "Arrangements with repetition: 11! / (1! × 4! × 4! × 2!)",
+          "11! = 39,916,800",
+          "4! = 24, 4! = 24, 2! = 2",
+          "Denominator: 1 × 24 × 24 × 2 = 1,152",
+          "Answer: 39,916,800 / 1,152 = 34,650"
+        ],
+        "answer": "34,650",
+        "key_insight": "Multinomial coefficient: n!/(n₁!×n₂!×...×nₖ!) counts distinct arrangements of items with repetitions"
+      }
+    },
+    {
+      "id": "math-013",
+      "problem": "Find the remainder when 7²⁰²⁶ is divided by 13.",
+      "difficulty": "advanced",
+      "topic": "number_theory",
+      "solution": {
+        "chain_of_thought": [
+          "By Fermat's Little Theorem: 7¹² ≡ 1 (mod 13) since gcd(7,13)=1 and 13 is prime.",
+          "Divide 2026 by 12: 2026 = 168 × 12 + 10",
+          "So 7²⁰²⁶ = 7^(168×12+10) = (7¹²)¹⁶⁸ × 7¹⁰ ≡ 1¹⁶⁸ × 7¹⁰ ≡ 7¹⁰ (mod 13)",
+          "Compute 7¹⁰ mod 13:",
+          "7¹ = 7",
+          "7² = 49 ≡ 10 (mod 13)",
+          "7⁴ = (7²)² ≡ 10² = 100 ≡ 9 (mod 13)",
+          "7⁸ = (7⁴)² ≡ 9² = 81 ≡ 3 (mod 13)",
+          "7¹⁰ = 7⁸ × 7² ≡ 3 × 10 = 30 ≡ 4 (mod 13)"
+        ],
+        "answer": "4",
+        "key_insight": "Fermat's Little Theorem reduces large exponents modulo p-1, then repeated squaring computes the remaining power"
+      }
+    },
+    {
+      "id": "math-014",
+      "problem": "Two fair dice are rolled. What is the probability that the sum is 8 given that at least one die shows a 5?",
+      "difficulty": "intermediate",
+      "topic": "probability",
+      "solution": {
+        "chain_of_thought": [
+          "Event A: sum is 8. Event B: at least one die shows 5.",
+          "We want P(A|B) = P(A∩B) / P(B).",
+          "P(B): outcomes with at least one 5.",
+          "Total outcomes with at least one 5: 11 (using inclusion-exclusion: 6+6-1=11).",
+          "P(B) = 11/36.",
+          "P(A∩B): sum is 8 AND at least one die shows 5.",
+          "Pairs summing to 8: (2,6),(3,5),(4,4),(5,3),(6,2) — that's 5 pairs.",
+          "Of these, pairs with at least one 5: (3,5) and (5,3) — that's 2 pairs.",
+          "P(A∩B) = 2/36.",
+          "P(A|B) = (2/36)/(11/36) = 2/11."
+        ],
+        "answer": "2/11 ≈ 0.1818",
+        "key_insight": "Conditional probability requires restricting the sample space to only outcomes satisfying the condition"
+      }
+    },
+    {
+      "id": "math-015",
+      "problem": "Find the area enclosed between y = x² and y = 2x + 3.",
+      "difficulty": "intermediate",
+      "topic": "calculus",
+      "solution": {
+        "chain_of_thought": [
+          "Find intersection points: x² = 2x + 3",
+          "x² - 2x - 3 = 0",
+          "(x-3)(x+1) = 0, so x = -1 and x = 3",
+          "On [-1, 3], the line y=2x+3 is above the parabola y=x².",
+          "Check: at x=0, line gives 3, parabola gives 0. Line is above. ✓",
+          "Area = ∫₋₁³ [(2x+3) - x²] dx",
+          "= ∫₋₁³ (2x + 3 - x²) dx",
+          "= [x² + 3x - x³/3]₋₁³",
+          "At x=3: 9 + 9 - 9 = 9",
+          "At x=-1: 1 - 3 + 1/3 = -5/3",
+          "Area = 9 - (-5/3) = 9 + 5/3 = 32/3"
+        ],
+        "answer": "32/3 ≈ 10.67 square units",
+        "key_insight": "Area between curves = ∫[upper - lower] dx between intersection points"
+      }
+    },
+    {
+      "id": "math-016",
+      "problem": "If f(x) = x³ - 6x² + 11x - 6, find all rational roots and factor completely.",
+      "difficulty": "intermediate",
+      "topic": "algebra",
+      "solution": {
+        "chain_of_thought": [
+          "By the Rational Root Theorem, possible rational roots are ±{1, 2, 3, 6}.",
+          "Test x=1: 1 - 6 + 11 - 6 = 0. ✓ So (x-1) is a factor.",
+          "Divide: x³ - 6x² + 11x - 6 = (x-1)(x² - 5x + 6)",
+          "Factor x² - 5x + 6 = (x-2)(x-3)",
+          "Complete factorization: f(x) = (x-1)(x-2)(x-3)",
+          "Roots: x = 1, 2, 3"
+        ],
+        "answer": "f(x) = (x-1)(x-2)(x-3); roots are 1, 2, 3",
+        "key_insight": "Rational Root Theorem limits candidates to ±(factors of constant)/(factors of leading coefficient)"
+      }
+    },
+    {
+      "id": "math-017",
+      "problem": "In triangle ABC, angle A = 60°, b = 7, c = 8. Find side a.",
+      "difficulty": "intermediate",
+      "topic": "geometry",
+      "solution": {
+        "chain_of_thought": [
+          "Using the Law of Cosines: a² = b² + c² - 2bc·cos(A)",
+          "a² = 7² + 8² - 2(7)(8)cos(60°)",
+          "a² = 49 + 64 - 112(1/2)",
+          "a² = 113 - 56",
+          "a² = 57",
+          "a = √57 ≈ 7.55"
+        ],
+        "answer": "√57 ≈ 7.55",
+        "key_insight": "Law of Cosines directly gives the unknown side when two sides and the included angle are known"
+      }
+    },
+    {
+      "id": "math-018",
+      "problem": "Find the number of positive divisors of 2⁴ × 3³ × 5² × 7.",
+      "difficulty": "elementary",
+      "topic": "number_theory",
+      "solution": {
+        "chain_of_thought": [
+          "For n = p₁^a₁ × p₂^a₂ × ... × pₖ^aₖ,",
+          "the number of positive divisors = (a₁+1)(a₂+1)...(aₖ+1).",
+          "Here: n = 2⁴ × 3³ × 5² × 7¹",
+          "Number of divisors = (4+1)(3+1)(2+1)(1+1) = 5 × 4 × 3 × 2 = 120"
+        ],
+        "answer": "120",
+        "key_insight": "Each divisor is determined by choosing an exponent for each prime factor from 0 to its maximum"
+      }
+    },
+    {
+      "id": "math-019",
+      "problem": "A particle moves along a line with velocity v(t) = 3t² - 12t + 9 m/s. Find when the particle changes direction and its total distance traveled from t=0 to t=4.",
+      "difficulty": "advanced",
+      "topic": "calculus",
+      "solution": {
+        "chain_of_thought": [
+          "Direction changes when v(t) = 0:",
+          "3t² - 12t + 9 = 0 → t² - 4t + 3 = 0 → (t-1)(t-3) = 0",
+          "t = 1 and t = 3 seconds.",
+          "Sign of v: v(0) = 9 > 0, v(2) = 12-24+9 = -3 < 0, v(4) = 48-48+9 = 9 > 0",
+          "Particle moves right on [0,1], left on [1,3], right on [3,4].",
+          "Position: s(t) = ∫v dt = t³ - 6t² + 9t + C. Take C=0.",
+          "s(0) = 0, s(1) = 1-6+9 = 4, s(3) = 27-54+27 = 0, s(4) = 64-96+36 = 4",
+          "Distance [0,1]: |4-0| = 4",
+          "Distance [1,3]: |0-4| = 4",
+          "Distance [3,4]: |4-0| = 4",
+          "Total distance = 4 + 4 + 4 = 12 meters"
+        ],
+        "answer": "Changes direction at t=1 and t=3; total distance = 12 meters",
+        "key_insight": "Total distance requires integrating |v(t)|, which means splitting at zeros and summing absolute displacements"
+      }
+    },
+    {
+      "id": "math-020",
+      "problem": "A committee of 5 is to be formed from 6 men and 4 women with at least 2 women. How many such committees are possible?",
+      "difficulty": "intermediate",
+      "topic": "combinatorics",
+      "solution": {
+        "chain_of_thought": [
+          "At least 2 women means: exactly 2W+3M, or 3W+2M, or 4W+1M.",
+          "Case 1 (2W, 3M): C(4,2) × C(6,3) = 6 × 20 = 120",
+          "Case 2 (3W, 2M): C(4,3) × C(6,2) = 4 × 15 = 60",
+          "Case 3 (4W, 1M): C(4,4) × C(6,1) = 1 × 6 = 6",
+          "Total = 120 + 60 + 6 = 186"
+        ],
+        "answer": "186",
+        "key_insight": "For 'at least k' constraints, enumerate all valid cases (or use complement: total minus cases with fewer than k)"
+      }
+    }
+  ]
+}

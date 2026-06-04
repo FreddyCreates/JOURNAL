@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "dataset_id": "AID-REASON-003",
+    "name": "Sovereign Causal Reasoning Dataset",
+    "version": "1.0.0",
+    "description": "Causal inference problems requiring identification of causes, effects, confounders, and counterfactual reasoning",
+    "task_type": "causal-reasoning",
+    "categories": ["cause_identification", "confounding", "counterfactual", "causal_chain", "intervention"],
+    "total_samples": 20,
+    "ring_affinity": "Interface Ring",
+    "organism_placement": "Organism core / reasoning layer"
+  },
+  "samples": [
+    {
+      "id": "causal-001",
+      "category": "confounding",
+      "scenario": "A study finds that people who drink moderate amounts of wine have lower rates of heart disease than non-drinkers. The study concludes that wine prevents heart disease.",
+      "question": "Is this a valid causal conclusion?",
+      "answer": "No — this is likely confounded by socioeconomic factors and lifestyle.",
+      "reasoning": ["Correlation observed: wine consumption → lower heart disease", "Potential confounders: income level (affords wine AND better healthcare), general health consciousness, dietary habits, exercise frequency", "Non-drinkers may include former heavy drinkers with existing health damage", "Without controlling for confounders, causal claim is unsupported", "A randomized controlled trial would be needed for causal inference"]
+    },
+    {
+      "id": "causal-002",
+      "category": "causal_chain",
+      "scenario": "A software company introduced code reviews. Bug rates dropped by 40%. Developer satisfaction also increased. Customer complaints decreased by 25%.",
+      "question": "Map the causal chain from intervention to outcomes.",
+      "answer": "Code reviews → fewer bugs deployed → fewer customer complaints AND code reviews → knowledge sharing → developer confidence → satisfaction",
+      "reasoning": ["Direct cause: code reviews catch bugs before deployment", "Mediated effect on customers: fewer bugs → fewer issues → fewer complaints", "Parallel causal path: reviews enable knowledge transfer → developers learn → feel more competent → satisfaction increases", "The 40% bug reduction and 25% complaint reduction difference suggests other factors affect complaints (UX issues, documentation, etc.)", "Temporal ordering confirms: intervention preceded all outcomes"]
+    },
+    {
+      "id": "causal-003",
+      "category": "counterfactual",
+      "scenario": "A machine learning model was deployed without A/B testing. Revenue increased 10% in the following month. The marketing team also launched a major campaign that month.",
+      "question": "Can we attribute the revenue increase to the ML model?",
+      "answer": "No — we cannot isolate the ML model's contribution without a counterfactual (A/B test or control group).",
+      "reasoning": ["Two simultaneous interventions: ML model + marketing campaign", "Without A/B test, we lack the counterfactual: 'what would revenue be without the model?'", "The marketing campaign is a confounding intervention", "Possible: campaign alone caused 10% increase and model had no effect", "Possible: model caused 15% increase but campaign timing caused other issues reducing it to 10%", "Need: holdout group, pre-registered hypothesis, or interrupted time series analysis"]
+    },
+    {
+      "id": "causal-004",
+      "category": "cause_identification",
+      "scenario": "After upgrading the database from version 12 to version 15, query performance improved by 60%. The team also migrated to new hardware and upgraded the ORM library.",
+      "question": "Which change caused the performance improvement?",
+      "answer": "Cannot determine — three simultaneous changes make root cause identification impossible without isolation.",
+      "reasoning": ["Three concurrent changes: DB version, hardware, ORM library", "Each alone could explain 60% improvement: new DB has better query optimizer; new hardware has faster SSD/more RAM; new ORM generates more efficient queries", "Interaction effects possible: new ORM may only perform better on new DB version", "To identify cause: change one variable at a time, or use profiling to identify where time is saved", "If query plans changed → DB optimizer. If I/O throughput increased → hardware. If query patterns changed → ORM."]
+    },
+    {
+      "id": "causal-005",
+      "category": "intervention",
+      "scenario": "An e-commerce site observes that users who view product videos convert at 3x the rate of those who don't. The team proposes auto-playing videos for all users.",
+      "question": "Will auto-playing videos triple conversion rates?",
+      "answer": "Unlikely — the observed correlation is driven by selection bias, not a causal effect of video viewing.",
+      "reasoning": ["Users who watch videos are self-selected: they already have higher purchase intent", "Forcing video on uninterested users won't give them purchase intent", "The causal direction may be reversed: intent → watch video → purchase (not: watch video → intent → purchase)", "Intervention will change the population watching videos from 'high-intent' to 'all users'", "Expected outcome: conversion rate of video viewers will DROP toward baseline, not non-viewer rate tripling", "Proper test: randomized A/B test with forced vs optional video exposure"]
+    },
+    {
+      "id": "causal-006",
+      "category": "confounding",
+      "scenario": "Cities with more fire stations have more fires. A politician argues we should reduce fire stations to reduce fires.",
+      "question": "What is wrong with this reasoning?",
+      "answer": "The common cause (city population/size) confounds the relationship. More people → more fires AND more fire stations needed.",
+      "reasoning": ["Observed: fire stations ↑ correlates with fires ↑", "Confounder: city size/population", "Causal structure: Population → Fires (more people, more accidents) AND Population → Fire Stations (more people need more services)", "Fire stations don't CAUSE fires — they're both effects of a common cause", "Removing fire stations would INCREASE fire damage (they're a mitigating intervention)", "This is Simpson's paradox / ecological fallacy in action"]
+    },
+    {
+      "id": "causal-007",
+      "category": "counterfactual",
+      "scenario": "A patient took medication A for a week and recovered from their illness. The typical recovery time without medication is 5-7 days.",
+      "question": "Did medication A cause the recovery?",
+      "answer": "Cannot determine — the natural recovery timeline matches the observed timeline, so the medication may have had no effect.",
+      "reasoning": ["Recovery occurred within the natural timeline (5-7 days)", "The counterfactual 'what if no medication?' would likely show same outcome", "Post hoc ergo propter hoc fallacy: after medication ≠ because of medication", "Regression to the mean: people seek treatment when symptoms peak, then naturally improve", "Need: randomized placebo-controlled trial to establish medication efficacy", "Possible: medication helped, did nothing, or even slightly delayed natural recovery"]
+    },
+    {
+      "id": "causal-008",
+      "category": "causal_chain",
+      "scenario": "A company adopted microservices architecture. Development velocity initially dropped 30%, then recovered, then increased 50% over baseline after 6 months. Team size grew from 10 to 30 during this period.",
+      "question": "Identify the causal mechanisms at each phase.",
+      "answer": "Phase 1 (drop): learning curve + coordination overhead. Phase 2 (recovery): teams adapt. Phase 3 (increase): parallel development enabled + team growth compounded by independence.",
+      "reasoning": ["Phase 1 drop: microservices introduce distributed systems complexity, new tooling, network issues — velocity drops while team learns", "Phase 2 recovery: teams develop patterns, shared libraries, service templates — overhead decreases", "Phase 3 growth: independent services allow parallel team development; growing from 10→30 people would DECREASE monolith velocity (Brooks's Law) but INCREASE microservice velocity", "Key causal mechanism: microservices removed coordination bottlenecks, making team scaling sub-linear in overhead rather than super-linear", "Confound: the velocity increase may be mostly from 3x team size, not architecture — need to compare per-capita velocity"]
+    },
+    {
+      "id": "causal-009",
+      "category": "intervention",
+      "scenario": "Data shows that top-performing students attend tutoring sessions regularly. The school mandates tutoring for all students.",
+      "question": "Will mandatory tutoring improve all students' performance?",
+      "answer": "Marginal improvement likely, but won't replicate top performers' results due to selection effects and motivation differences.",
+      "reasoning": ["Selection bias: top students who attend tutoring are already motivated and capable", "Their success may cause tutoring attendance (seeking mastery), not the reverse", "Mandatory attendance removes intrinsic motivation signal", "Some benefit likely exists (additional instruction time), but effect will be much smaller than correlation suggests", "Forced attendance may even backfire: resentment, attention competition for tutors, scheduling conflicts", "Better intervention: make tutoring available and attractive, identify struggling students early"]
+    },
+    {
+      "id": "causal-010",
+      "category": "cause_identification",
+      "scenario": "An AI model's accuracy dropped from 95% to 82% in production. Possible causes: (A) training data drift, (B) feature pipeline bug introduced in last deploy, (C) adversarial inputs from new user segment, (D) seasonal pattern shift.",
+      "question": "Design a diagnostic sequence to identify the root cause.",
+      "answer": "Check temporal onset, test on holdout data, inspect feature distributions, examine per-segment accuracy.",
+      "reasoning": ["Step 1: Check WHEN accuracy dropped. Sudden = B (deploy bug). Gradual = A/D (drift). Stepwise = C (new segment).", "Step 2: Run model on original test set. If still 95% → data changed, not model. If degraded → B (pipeline corrupted features).", "Step 3: Compare feature distributions between training data and recent production data. Shift detected → A (data drift).", "Step 4: Segment accuracy by user cohort. New segment with low accuracy → C (adversarial/OOD inputs).", "Step 5: Compare same calendar period last year. Pattern matches → D (seasonal).", "Most likely given sudden drop after deploy: B. Most common in general: A."]
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "dataset_id": "AID-KG-002",
+    "name": "Sovereign Domain Ontology Dataset",
+    "version": "1.0.0",
+    "description": "Hierarchical domain ontology for AI systems covering concepts, relationships, properties, and inheritance",
+    "task_type": "ontology-construction",
+    "domains": ["artificial_intelligence", "software_engineering", "data_science"],
+    "total_concepts": 80,
+    "ring_affinity": "Memory Ring",
+    "organism_placement": "Frontend organism / knowledge layer"
+  },
+  "ontology": {
+    "artificial_intelligence": {
+      "concept": "Artificial Intelligence",
+      "definition": "The simulation of human intelligence processes by computer systems",
+      "children": [
+        {
+          "concept": "Machine Learning",
+          "definition": "Systems that learn from data to improve performance without explicit programming",
+          "children": [
+            {
+              "concept": "Supervised Learning",
+              "definition": "Learning from labeled training data to predict outputs",
+              "instances": ["Classification", "Regression", "Sequence Labeling"],
+              "properties": {"requires": "labeled_data", "output": "predictions", "evaluation": "accuracy_metrics"}
+            },
+            {
+              "concept": "Unsupervised Learning",
+              "definition": "Finding hidden patterns in data without labels",
+              "instances": ["Clustering", "Dimensionality Reduction", "Anomaly Detection", "Association Rules"],
+              "properties": {"requires": "unlabeled_data", "output": "structure_discovery", "evaluation": "intrinsic_metrics"}
+            },
+            {
+              "concept": "Reinforcement Learning",
+              "definition": "Learning optimal actions through trial and reward signals",
+              "instances": ["Q-Learning", "Policy Gradient", "Actor-Critic", "Multi-Agent RL"],
+              "properties": {"requires": "environment_interaction", "output": "policy", "evaluation": "cumulative_reward"}
+            },
+            {
+              "concept": "Self-Supervised Learning",
+              "definition": "Learning representations from data by predicting parts of the input from other parts",
+              "instances": ["Masked Language Modeling", "Contrastive Learning", "Next Token Prediction"],
+              "properties": {"requires": "large_unlabeled_corpus", "output": "representations", "evaluation": "downstream_task_performance"}
+            }
+          ]
+        },
+        {
+          "concept": "Deep Learning",
+          "definition": "Machine learning using neural networks with many layers",
+          "children": [
+            {
+              "concept": "Transformer",
+              "definition": "Attention-based architecture processing sequences in parallel",
+              "instances": ["Encoder-only (BERT)", "Decoder-only (GPT)", "Encoder-Decoder (T5)"],
+              "properties": {"key_mechanism": "self_attention", "scaling": "quadratic_attention_or_linear_variants", "dominates": "language_and_vision"}
+            },
+            {
+              "concept": "Convolutional Neural Network",
+              "definition": "Networks using convolution operations for spatial feature extraction",
+              "instances": ["ResNet", "EfficientNet", "ConvNeXt"],
+              "properties": {"key_mechanism": "local_receptive_fields", "inductive_bias": "spatial_hierarchy", "dominates": "image_classification"}
+            },
+            {
+              "concept": "Diffusion Model",
+              "definition": "Generative models that learn to denoise data from Gaussian noise",
+              "instances": ["DDPM", "Stable Diffusion", "DALL-E", "Sora"],
+              "properties": {"key_mechanism": "iterative_denoising", "training": "noise_prediction", "dominates": "image_and_video_generation"}
+            },
+            {
+              "concept": "Graph Neural Network",
+              "definition": "Networks operating on graph-structured data via message passing",
+              "instances": ["GCN", "GAT", "GraphSAGE", "GIN"],
+              "properties": {"key_mechanism": "message_passing", "inductive_bias": "relational_structure", "dominates": "molecular_and_social_networks"}
+            }
+          ]
+        },
+        {
+          "concept": "Natural Language Processing",
+          "definition": "AI focused on understanding and generating human language",
+          "children": [
+            {
+              "concept": "Language Model",
+              "definition": "Probabilistic model of word sequences",
+              "instances": ["GPT-4", "Claude", "Gemini", "Llama", "Mistral"],
+              "properties": {"training_objective": "next_token_prediction", "architecture": "transformer_decoder", "capabilities": "reasoning_coding_analysis"}
+            },
+            {
+              "concept": "Information Extraction",
+              "definition": "Extracting structured information from unstructured text",
+              "instances": ["Named Entity Recognition", "Relation Extraction", "Event Extraction"],
+              "properties": {"input": "unstructured_text", "output": "structured_data", "applications": "knowledge_base_construction"}
+            },
+            {
+              "concept": "Machine Translation",
+              "definition": "Automatic translation between human languages",
+              "instances": ["Neural MT", "Zero-shot Translation", "Document-level Translation"],
+              "properties": {"architecture": "encoder_decoder", "evaluation": "BLEU_COMET", "challenges": "low_resource_languages"}
+            }
+          ]
+        },
+        {
+          "concept": "Computer Vision",
+          "definition": "AI focused on understanding visual information",
+          "children": [
+            {
+              "concept": "Object Detection",
+              "definition": "Locating and classifying objects in images",
+              "instances": ["YOLO", "DETR", "Faster R-CNN"],
+              "properties": {"output": "bounding_boxes_and_labels", "evaluation": "mAP", "real_time": "YOLO_family"}
+            },
+            {
+              "concept": "Image Segmentation",
+              "definition": "Classifying each pixel of an image",
+              "instances": ["Semantic Segmentation", "Instance Segmentation", "Panoptic Segmentation", "SAM"],
+              "properties": {"output": "pixel_masks", "evaluation": "mIoU", "foundation_model": "SAM"}
+            },
+            {
+              "concept": "Image Generation",
+              "definition": "Creating new images from text or other inputs",
+              "instances": ["Text-to-Image", "Image-to-Image", "Inpainting", "Super-resolution"],
+              "properties": {"architectures": "diffusion_GAN_autoregressive", "evaluation": "FID_CLIP_score", "applications": "creative_tools"}
+            }
+          ]
+        },
+        {
+          "concept": "AI Safety",
+          "definition": "Research and practices ensuring AI systems are aligned with human values and operate safely",
+          "children": [
+            {
+              "concept": "Alignment",
+              "definition": "Ensuring AI systems pursue intended goals and values",
+              "instances": ["RLHF", "Constitutional AI", "DPO", "Debate"],
+              "properties": {"goal": "human_value_alignment", "challenge": "specification_gaming", "active_research": true}
+            },
+            {
+              "concept": "Interpretability",
+              "definition": "Understanding how AI systems make decisions internally",
+              "instances": ["Mechanistic Interpretability", "Feature Attribution", "Probing", "Circuit Analysis"],
+              "properties": {"goal": "transparency", "challenge": "superposition", "tools": "activation_patching"}
+            },
+            {
+              "concept": "Robustness",
+              "definition": "Maintaining correct behavior under distribution shift or adversarial conditions",
+              "instances": ["Adversarial Training", "Certified Defenses", "OOD Detection"],
+              "properties": {"goal": "reliable_behavior", "challenge": "unseen_attacks", "evaluation": "worst_case_performance"}
+            }
+          ]
+        }
+      ]
+    },
+    "software_engineering": {
+      "concept": "Software Engineering",
+      "definition": "Systematic approach to the development, operation, and maintenance of software",
+      "children": [
+        {
+          "concept": "Architecture Patterns",
+          "definition": "High-level structural solutions for software systems",
+          "instances": ["Microservices", "Monolith", "Event-Driven", "Serverless", "Hexagonal"],
+          "properties": {"decision_factors": "scale_team_size_complexity", "trade_offs": "complexity_vs_flexibility"}
+        },
+        {
+          "concept": "DevOps",
+          "definition": "Practices combining development and operations for continuous delivery",
+          "instances": ["CI/CD", "Infrastructure as Code", "GitOps", "SRE"],
+          "properties": {"goal": "fast_reliable_delivery", "metrics": "DORA_metrics", "tools": "containers_orchestration_pipelines"}
+        },
+        {
+          "concept": "Testing",
+          "definition": "Verification and validation of software behavior",
+          "instances": ["Unit Testing", "Integration Testing", "E2E Testing", "Property-Based Testing", "Mutation Testing"],
+          "properties": {"pyramid": "unit_integration_e2e", "goal": "confidence_in_correctness", "automation": "CI_pipelines"}
+        }
+      ]
+    },
+    "data_science": {
+      "concept": "Data Science",
+      "definition": "Extracting knowledge and insights from structured and unstructured data",
+      "children": [
+        {
+          "concept": "Data Engineering",
+          "definition": "Building systems to collect, store, and process data at scale",
+          "instances": ["ETL Pipelines", "Data Lakes", "Stream Processing", "Data Warehousing"],
+          "properties": {"tools": "Spark_Kafka_Airflow_dbt", "goal": "reliable_data_infrastructure", "scale": "petabyte"}
+        },
+        {
+          "concept": "Statistical Analysis",
+          "definition": "Mathematical methods for understanding data distributions and relationships",
+          "instances": ["Hypothesis Testing", "Regression Analysis", "Bayesian Inference", "Causal Inference"],
+          "properties": {"foundation": "probability_theory", "goal": "rigorous_conclusions", "pitfalls": "p_hacking_confounding"}
+        },
+        {
+          "concept": "MLOps",
+          "definition": "Practices for deploying and maintaining ML models in production",
+          "instances": ["Model Registry", "Feature Stores", "A/B Testing", "Model Monitoring", "Data Versioning"],
+          "properties": {"goal": "reliable_ML_in_production", "challenges": "drift_reproducibility_scale", "tools": "MLflow_Weights_and_Biases_Kubeflow"}
+        }
+      ]
+    }
+  }
+}

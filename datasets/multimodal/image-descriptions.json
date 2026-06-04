@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "dataset_id": "AID-MULTI-001",
+    "name": "Sovereign Image Description Dataset",
+    "version": "1.0.0",
+    "description": "Detailed multi-level image descriptions for vision-language training with structured attributes, spatial relations, and scene understanding",
+    "task_type": "image-captioning",
+    "description_levels": ["brief", "detailed", "structured"],
+    "total_samples": 30,
+    "ring_affinity": "Geometry Ring",
+    "organism_placement": "Frontend organism / scene layer"
+  },
+  "samples": [
+    {
+      "id": "img-001",
+      "image_concept": "A busy coffee shop interior during morning rush",
+      "descriptions": {
+        "brief": "A crowded urban coffee shop with customers queuing and baristas working behind a wooden counter.",
+        "detailed": "A bustling specialty coffee shop during the morning rush hour. The interior features exposed brick walls, warm pendant lighting, and a long wooden counter with a brass foot rail. Three baristas in black aprons work the espresso machines, steam rising from milk pitchers. A queue of seven customers stretches toward the door, most checking their phones. Chalkboard menus display drink options above the bar. Natural light streams through floor-to-ceiling windows on the left wall. Small round tables along the right side are fully occupied with laptop users and newspaper readers.",
+        "structured": {
+          "scene_type": "indoor_commercial",
+          "time_of_day": "morning",
+          "lighting": "warm_artificial_with_natural_side_light",
+          "mood": "energetic_busy",
+          "dominant_colors": ["warm_brown", "black", "cream", "copper"]
+        }
+      },
+      "objects": [
+        {"name": "espresso_machine", "count": 2, "position": "center_background", "size": "large"},
+        {"name": "customer", "count": 12, "position": "distributed", "size": "medium"},
+        {"name": "barista", "count": 3, "position": "behind_counter", "size": "medium"},
+        {"name": "pendant_light", "count": 6, "position": "ceiling", "size": "small"},
+        {"name": "laptop", "count": 4, "position": "right_tables", "size": "small"},
+        {"name": "coffee_cup", "count": 8, "position": "tables_and_counter", "size": "small"}
+      ],
+      "spatial_relations": [
+        {"subject": "baristas", "relation": "behind", "object": "counter"},
+        {"subject": "customers", "relation": "in_front_of", "object": "counter"},
+        {"subject": "pendant_lights", "relation": "above", "object": "counter"},
+        {"subject": "windows", "relation": "left_of", "object": "seating_area"},
+        {"subject": "chalkboard_menu", "relation": "above", "object": "espresso_machines"}
+      ]
+    },
+    {
+      "id": "img-002",
+      "image_concept": "A mountain landscape at golden hour with a hiking trail",
+      "descriptions": {
+        "brief": "A winding dirt trail leading through alpine meadows toward snow-capped mountain peaks at sunset.",
+        "detailed": "A well-worn hiking trail winds through a high-altitude alpine meadow bathed in golden hour light. The path is narrow brown dirt bordered by wild purple lupines and yellow alpine daisies. In the middle distance, scattered pine trees mark the treeline at approximately 2,800 meters. The background reveals a dramatic mountain range with three distinct peaks, the tallest bearing a permanent snowcap that glows pink-orange in the setting sun. Wispy cirrus clouds streak across a gradient sky transitioning from deep blue overhead to warm amber at the horizon. A single hiker with a red backpack is visible 200 meters ahead on the trail.",
+        "structured": {
+          "scene_type": "outdoor_natural_landscape",
+          "time_of_day": "golden_hour_sunset",
+          "lighting": "warm_directional_low_angle",
+          "mood": "serene_majestic",
+          "dominant_colors": ["gold", "purple", "green", "white", "deep_blue"]
+        }
+      },
+      "objects": [
+        {"name": "hiking_trail", "count": 1, "position": "center_foreground_to_midground", "size": "large"},
+        {"name": "mountain_peak", "count": 3, "position": "background_center", "size": "large"},
+        {"name": "pine_tree", "count": 15, "position": "midground_scattered", "size": "medium"},
+        {"name": "wildflower", "count": "many", "position": "foreground_sides", "size": "small"},
+        {"name": "hiker", "count": 1, "position": "midground_trail", "size": "small"},
+        {"name": "cloud", "count": 5, "position": "upper_sky", "size": "medium"}
+      ],
+      "spatial_relations": [
+        {"subject": "trail", "relation": "leads_toward", "object": "mountains"},
+        {"subject": "wildflowers", "relation": "border", "object": "trail"},
+        {"subject": "treeline", "relation": "between", "object": "meadow_and_peaks"},
+        {"subject": "snow", "relation": "on_top_of", "object": "peaks"},
+        {"subject": "hiker", "relation": "on", "object": "trail"},
+        {"subject": "sun", "relation": "behind", "object": "mountains"}
+      ]
+    },
+    {
+      "id": "img-003",
+      "image_concept": "A home office workspace with dual monitors and organized desk",
+      "descriptions": {
+        "brief": "A clean, modern home office with dual monitors, mechanical keyboard, and organized shelving above the desk.",
+        "detailed": "A minimalist home office setup photographed from a slightly elevated angle. A white standing desk holds two 27-inch monitors — the left showing a code editor with dark theme, the right displaying a design tool with colorful mockups. A split mechanical keyboard sits centered on a leather desk mat, flanked by a wireless trackpad on the right and a small potted succulent on the left. Above the desk, floating wooden shelves hold programming books, a small speaker, and decorative items. An ergonomic mesh office chair is pushed slightly back. The wall behind is painted sage green. Soft diffused light comes from a desk lamp and the window to the right with sheer curtains.",
+        "structured": {
+          "scene_type": "indoor_residential_workspace",
+          "time_of_day": "daytime",
+          "lighting": "soft_diffused_mixed",
+          "mood": "focused_organized_calm",
+          "dominant_colors": ["white", "sage_green", "dark_gray", "warm_wood"]
+        }
+      },
+      "objects": [
+        {"name": "monitor", "count": 2, "position": "center_desk", "size": "large"},
+        {"name": "keyboard", "count": 1, "position": "center_foreground", "size": "medium"},
+        {"name": "desk", "count": 1, "position": "center", "size": "large"},
+        {"name": "office_chair", "count": 1, "position": "center_foreground", "size": "large"},
+        {"name": "bookshelf", "count": 2, "position": "above_desk_wall", "size": "medium"},
+        {"name": "succulent_plant", "count": 1, "position": "left_desk", "size": "small"},
+        {"name": "desk_lamp", "count": 1, "position": "right_desk_back", "size": "small"}
+      ],
+      "spatial_relations": [
+        {"subject": "monitors", "relation": "on", "object": "desk"},
+        {"subject": "keyboard", "relation": "in_front_of", "object": "monitors"},
+        {"subject": "shelves", "relation": "above", "object": "desk"},
+        {"subject": "chair", "relation": "in_front_of", "object": "desk"},
+        {"subject": "plant", "relation": "left_of", "object": "keyboard"},
+        {"subject": "lamp", "relation": "right_of", "object": "right_monitor"}
+      ]
+    },
+    {
+      "id": "img-004",
+      "image_concept": "A rainy city street at night with neon reflections",
+      "descriptions": {
+        "brief": "A wet city street at night reflecting colorful neon signs from shops and restaurants.",
+        "detailed": "A narrow city street on a rainy night, the asphalt glistening with reflections of neon signage. Red, blue, and pink neon characters from Asian restaurants and karaoke bars create a kaleidoscope of color on the wet pavement. Several pedestrians navigate the street with umbrellas — one translucent, one red, one black. Steam rises from a street food stall on the left, its warm yellow lighting creating a pocket of warmth. Tall buildings with illuminated windows create walls on both sides, converging toward a vanishing point in the foggy distance. A single taxi with glowing roof light waits at the curb. Puddles on the uneven street create perfect mirror reflections of the signs above.",
+        "structured": {
+          "scene_type": "outdoor_urban_street",
+          "time_of_day": "night",
+          "lighting": "neon_artificial_multi_colored",
+          "mood": "atmospheric_cinematic_noir",
+          "dominant_colors": ["neon_pink", "electric_blue", "deep_purple", "warm_yellow", "black"]
+        }
+      },
+      "objects": [
+        {"name": "neon_sign", "count": 8, "position": "both_sides_elevated", "size": "medium"},
+        {"name": "pedestrian_with_umbrella", "count": 3, "position": "distributed_street", "size": "medium"},
+        {"name": "taxi", "count": 1, "position": "right_curb", "size": "medium"},
+        {"name": "food_stall", "count": 1, "position": "left_midground", "size": "medium"},
+        {"name": "puddle", "count": 4, "position": "street_surface", "size": "small"},
+        {"name": "building", "count": 6, "position": "both_sides", "size": "large"}
+      ],
+      "spatial_relations": [
+        {"subject": "neon_signs", "relation": "above", "object": "street"},
+        {"subject": "reflections", "relation": "on", "object": "wet_pavement"},
+        {"subject": "pedestrians", "relation": "walking_on", "object": "street"},
+        {"subject": "buildings", "relation": "flanking", "object": "street"},
+        {"subject": "taxi", "relation": "parked_beside", "object": "curb"},
+        {"subject": "steam", "relation": "rising_from", "object": "food_stall"}
+      ]
+    },
+    {
+      "id": "img-005",
+      "image_concept": "A robotics lab with engineers working on humanoid robots",
+      "descriptions": {
+        "brief": "Engineers in a modern robotics lab work on a partially assembled humanoid robot on a raised platform.",
+        "detailed": "A state-of-the-art robotics laboratory with high ceilings and industrial lighting. In the center, a humanoid robot torso stands on a raised hexagonal platform, its chest panel open revealing bundled wiring and servo motors. Two engineers in blue lab coats work on it — one connecting cables at the shoulder joint, another monitoring readings on a nearby tablet. Surrounding workbenches hold various robotic arms, grippers, and 3D-printed components. Multiple screens along the back wall display joint kinematics diagrams and sensor telemetry. A robotic arm on the left bench performs a repetitive grasping test with colored blocks. Safety yellow markings on the floor delineate the robot's movement zone. The space is clean, well-organized, with tools hung on pegboards and labeled bins on shelving units.",
+        "structured": {
+          "scene_type": "indoor_laboratory",
+          "time_of_day": "indeterminate_artificial_light",
+          "lighting": "bright_even_industrial",
+          "mood": "technical_focused_innovative",
+          "dominant_colors": ["white", "metallic_silver", "blue", "safety_yellow", "black"]
+        }
+      },
+      "objects": [
+        {"name": "humanoid_robot", "count": 1, "position": "center_platform", "size": "large"},
+        {"name": "engineer", "count": 2, "position": "beside_robot", "size": "medium"},
+        {"name": "robotic_arm", "count": 3, "position": "left_bench", "size": "medium"},
+        {"name": "monitor_screen", "count": 5, "position": "back_wall", "size": "medium"},
+        {"name": "workbench", "count": 4, "position": "surrounding", "size": "large"},
+        {"name": "3d_printed_part", "count": 12, "position": "workbenches", "size": "small"},
+        {"name": "tablet", "count": 1, "position": "engineer_hands", "size": "small"}
+      ],
+      "spatial_relations": [
+        {"subject": "robot", "relation": "on", "object": "platform"},
+        {"subject": "engineers", "relation": "beside", "object": "robot"},
+        {"subject": "screens", "relation": "along", "object": "back_wall"},
+        {"subject": "workbenches", "relation": "surrounding", "object": "central_platform"},
+        {"subject": "safety_markings", "relation": "on", "object": "floor_around_platform"},
+        {"subject": "wiring", "relation": "inside", "object": "robot_chest"}
+      ]
+    },
+    {
+      "id": "img-006",
+      "image_concept": "A farmers market with fresh produce and crowds",
+      "descriptions": {
+        "brief": "A vibrant outdoor farmers market with colorful produce stalls and shoppers under white canvas tents.",
+        "detailed": "A bustling Saturday morning farmers market set up along a tree-lined street. White canvas pop-up tents stretch in two rows creating a walkway thronged with shoppers carrying reusable bags. The nearest stall displays pyramids of red tomatoes, golden peaches, and deep purple eggplants in wooden crates. A vendor in a straw hat weighs strawberries on a hanging scale. Further down, a flower stall explodes with sunflowers, dahlias, and lavender bundles. Children sit on hay bales near a face-painting station. Dappled sunlight filters through the mature oak trees overhead, creating patterns on the ground. A busker with an acoustic guitar plays near the market entrance. Hand-painted price signs in various colors add to the artisanal atmosphere.",
+        "structured": {
+          "scene_type": "outdoor_market_commercial",
+          "time_of_day": "morning",
+          "lighting": "dappled_natural_sunlight",
+          "mood": "lively_community_cheerful",
+          "dominant_colors": ["white", "green", "red", "golden_yellow", "earth_brown"]
+        }
+      },
+      "objects": [
+        {"name": "market_tent", "count": 12, "position": "two_rows", "size": "large"},
+        {"name": "produce_crate", "count": 30, "position": "under_tents", "size": "medium"},
+        {"name": "shopper", "count": 40, "position": "walkway", "size": "medium"},
+        {"name": "vendor", "count": 10, "position": "behind_stalls", "size": "medium"},
+        {"name": "tree", "count": 8, "position": "overhead_flanking", "size": "large"},
+        {"name": "flower_arrangement", "count": 15, "position": "flower_stall", "size": "small"},
+        {"name": "busker", "count": 1, "position": "entrance", "size": "medium"}
+      ],
+      "spatial_relations": [
+        {"subject": "tents", "relation": "in_rows_along", "object": "street"},
+        {"subject": "shoppers", "relation": "between", "object": "tent_rows"},
+        {"subject": "trees", "relation": "above", "object": "tents"},
+        {"subject": "produce", "relation": "on", "object": "crates_under_tents"},
+        {"subject": "vendor", "relation": "behind", "object": "produce_display"},
+        {"subject": "busker", "relation": "near", "object": "market_entrance"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "dataset_id": "AID-CONV-002",
+    "name": "Sovereign Instruction Following Dataset",
+    "version": "1.0.0",
+    "description": "Diverse instruction-response pairs covering analysis, creation, transformation, and explanation tasks with quality labels",
+    "task_type": "instruction-following",
+    "categories": ["analysis", "creation", "transformation", "explanation", "planning", "debugging"],
+    "total_samples": 30,
+    "ring_affinity": "Interface Ring",
+    "organism_placement": "Organism core / reasoning layer"
+  },
+  "samples": [
+    {
+      "id": "inst-001",
+      "instruction": "Explain the difference between concurrency and parallelism as if I'm a chef running a kitchen.",
+      "response": "**Concurrency** is you, one chef, managing multiple dishes at once. You start the pasta boiling, then chop vegetables while it cooks, then check the sauce — you're switching between tasks, making progress on all of them, but only doing ONE thing at any given instant. You're concurrent but not parallel.\n\n**Parallelism** is having multiple chefs in the kitchen. Chef A handles the pasta, Chef B preps the salad, Chef C works the grill — all simultaneously. Multiple tasks genuinely happen at the same time.\n\nKey insight: You can be concurrent without parallelism (one chef, many dishes), parallel without much concurrency (many chefs each doing one thing), or both (many chefs each juggling multiple dishes).\n\nIn computing: concurrency = structuring code to handle multiple tasks (async/await, goroutines). Parallelism = actually executing on multiple CPU cores simultaneously.",
+      "category": "explanation",
+      "quality_score": 0.95,
+      "skills": ["analogy", "progressive_complexity", "technical_accuracy"]
+    },
+    {
+      "id": "inst-002",
+      "instruction": "Convert this CSV data into a SQL CREATE TABLE statement with appropriate types:\nname,age,email,salary,hired_date,is_active\nJohn,32,john@co.com,85000.50,2023-01-15,true",
+      "response": "```sql\nCREATE TABLE employees (\n    id          SERIAL PRIMARY KEY,\n    name        VARCHAR(255) NOT NULL,\n    age         INTEGER NOT NULL CHECK (age > 0 AND age < 150),\n    email       VARCHAR(255) NOT NULL UNIQUE,\n    salary      DECIMAL(10, 2) NOT NULL CHECK (salary >= 0),\n    hired_date  DATE NOT NULL,\n    is_active   BOOLEAN NOT NULL DEFAULT true,\n    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE INDEX idx_employees_email ON employees(email);\nCREATE INDEX idx_employees_hired_date ON employees(hired_date);\n```\n\nI inferred types from the sample data: VARCHAR for text, INTEGER for whole numbers, DECIMAL(10,2) for currency, DATE for dates, BOOLEAN for true/false. Added a surrogate primary key, constraints, and useful indexes.",
+      "category": "transformation",
+      "quality_score": 0.93,
+      "skills": ["type_inference", "best_practices", "going_beyond_minimum"]
+    },
+    {
+      "id": "inst-003",
+      "instruction": "Write a haiku about a segmentation fault.",
+      "response": "Pointer wanders far\nBeyond its allocated field —\nSilence. Core dumped. Gone.",
+      "category": "creation",
+      "quality_score": 0.97,
+      "skills": ["creative_writing", "technical_knowledge", "constraint_following"]
+    },
+    {
+      "id": "inst-004",
+      "instruction": "I have a REST API that returns user data. Sometimes it takes 30 seconds and sometimes 200ms. Help me debug this.",
+      "response": "Intermittent slowness with a 150x variance (200ms vs 30s) usually points to one of these patterns:\n\n**Most likely causes (check in order):**\n\n1. **Cold database query plans** — First query after a period hits disk; subsequent queries use buffer cache. Check: Do slow requests correlate with idle periods?\n\n2. **N+1 queries** — Some user records trigger more related data fetches than others. Check: Enable query logging and compare query count between fast/slow requests.\n\n3. **Connection pool exhaustion** — All connections busy, request waits for one to free up. Check: Monitor pool size vs active connections during slow periods.\n\n4. **External service dependency** — If you call another API (auth, enrichment), its latency spikes become yours. Check: Add timing logs around each external call.\n\n5. **Garbage collection pauses** — Long GC in Node/Java/Go can freeze all requests. Check: Enable GC logging and correlate with slow request timestamps.\n\n**Quick diagnostic:** Add structured timing logs at each stage of the request (auth → db query → serialization → response). The gap between timings reveals the bottleneck.",
+      "category": "debugging",
+      "quality_score": 0.94,
+      "skills": ["systematic_diagnosis", "prioritized_list", "actionable_steps"]
+    },
+    {
+      "id": "inst-005",
+      "instruction": "Create a data model for a library management system. Include the main entities and their relationships.",
+      "response": "**Entities:**\n\n- **Book** (isbn, title, publication_year, edition, page_count)\n- **Author** (id, name, bio, birth_year)\n- **Member** (id, name, email, phone, membership_date, status)\n- **Copy** (id, book_isbn, condition, location_shelf, is_available)\n- **Loan** (id, copy_id, member_id, checkout_date, due_date, return_date)\n- **Reservation** (id, book_isbn, member_id, reserved_date, status)\n- **Category** (id, name, parent_category_id)\n\n**Relationships:**\n\n- Book ↔ Author: Many-to-Many (a book can have multiple authors; an author writes many books)\n- Book → Copy: One-to-Many (a library owns multiple copies of one book)\n- Book ↔ Category: Many-to-Many (books can be in multiple categories)\n- Category → Category: Self-referential (hierarchical categories)\n- Copy → Loan: One-to-Many (a copy has a history of loans)\n- Member → Loan: One-to-Many (a member borrows many books over time)\n- Member → Reservation: One-to-Many (a member can have active reservations)\n- Book → Reservation: One-to-Many (multiple members can reserve one book)\n\n**Key design decisions:**\n- Separated Book (abstract work) from Copy (physical item) to track individual copies\n- Loan references Copy, not Book, because you check out a specific physical item\n- Reservation references Book because you reserve any available copy",
+      "category": "planning",
+      "quality_score": 0.92,
+      "skills": ["data_modeling", "relationship_identification", "design_rationale"]
+    },
+    {
+      "id": "inst-006",
+      "instruction": "Summarize the key differences between TCP and UDP in a table format.",
+      "response": "| Feature | TCP | UDP |\n|---------|-----|-----|\n| Connection | Connection-oriented (3-way handshake) | Connectionless (fire and forget) |\n| Reliability | Guaranteed delivery with ACKs and retransmission | No delivery guarantee |\n| Ordering | Maintains packet order (sequence numbers) | No ordering guarantee |\n| Speed | Slower (overhead from reliability mechanisms) | Faster (minimal header, no handshake) |\n| Header size | 20-60 bytes | 8 bytes |\n| Flow control | Yes (sliding window) | No |\n| Congestion control | Yes (slow start, AIMD) | No (can flood network) |\n| Use cases | Web (HTTP), email (SMTP), file transfer (FTP) | Video streaming, gaming, DNS, VoIP |\n| Data boundary | Stream-oriented (no message boundaries) | Datagram-oriented (preserves boundaries) |\n| Error checking | Checksum + recovery | Checksum only (no recovery) |\n\n**Rule of thumb:** Use TCP when you need every byte delivered correctly (web, files, APIs). Use UDP when speed matters more than perfection (real-time video, games, metrics).",
+      "category": "explanation",
+      "quality_score": 0.96,
+      "skills": ["structured_comparison", "completeness", "practical_guidance"]
+    },
+    {
+      "id": "inst-007",
+      "instruction": "Refactor this code to remove the code smell:\n\nfunction getDiscount(userType, purchaseAmount) {\n  if (userType === 'premium' && purchaseAmount > 100) return 0.2;\n  if (userType === 'premium' && purchaseAmount > 50) return 0.15;\n  if (userType === 'premium') return 0.1;\n  if (userType === 'regular' && purchaseAmount > 100) return 0.1;\n  if (userType === 'regular' && purchaseAmount > 50) return 0.05;\n  if (userType === 'regular') return 0;\n  if (userType === 'new') return 0.05;\n  return 0;\n}",
+      "response": "```javascript\nconst DISCOUNT_RULES = {\n  premium: [\n    { minAmount: 100, discount: 0.20 },\n    { minAmount: 50,  discount: 0.15 },\n    { minAmount: 0,   discount: 0.10 },\n  ],\n  regular: [\n    { minAmount: 100, discount: 0.10 },\n    { minAmount: 50,  discount: 0.05 },\n    { minAmount: 0,   discount: 0.00 },\n  ],\n  new: [\n    { minAmount: 0,   discount: 0.05 },\n  ],\n};\n\nfunction getDiscount(userType, purchaseAmount) {\n  const rules = DISCOUNT_RULES[userType];\n  if (!rules) return 0;\n  \n  const rule = rules.find(r => purchaseAmount >= r.minAmount);\n  return rule?.discount ?? 0;\n}\n```\n\n**Improvements:** Data-driven (add tiers by editing the table, not code). Single responsibility (logic is just a lookup). Open for extension (add user types without touching the function). Rules are sorted high-to-low, so `find` returns the first matching tier.",
+      "category": "transformation",
+      "quality_score": 0.95,
+      "skills": ["refactoring", "data_driven_design", "explaining_rationale"]
+    },
+    {
+      "id": "inst-008",
+      "instruction": "Plan a database migration strategy for renaming a heavily-used column from 'username' to 'display_name' with zero downtime.",
+      "response": "**Phase 1: Add new column (deploy independently)**\n- Add `display_name` column (nullable)\n- Backfill: `UPDATE users SET display_name = username WHERE display_name IS NULL` (in batches)\n- Add a database trigger: on INSERT/UPDATE to `username`, copy value to `display_name`\n\n**Phase 2: Dual-write in application (deploy code change)**\n- All writes update BOTH columns\n- All reads use `display_name` (with fallback to `username` if null)\n- Run verification: confirm all rows have matching values\n\n**Phase 3: Switch reads (deploy code change)**\n- All reads now exclusively use `display_name`\n- Remove fallback logic\n- Monitor for any missed references\n\n**Phase 4: Drop old column (deploy independently)**\n- Remove trigger\n- Remove `username` writes from application code\n- Drop the `username` column\n- (Optional: keep column for 1 sprint as safety net before dropping)\n\n**Key principles:** Each phase is independently deployable and rollback-safe. No phase requires downtime. The database schema and application code are never incompatible.",
+      "category": "planning",
+      "quality_score": 0.96,
+      "skills": ["zero_downtime_migration", "phased_rollout", "rollback_safety"]
+    },
+    {
+      "id": "inst-009",
+      "instruction": "What are the tradeoffs of using UUIDs vs auto-increment integers as primary keys?",
+      "response": "**UUIDs (v4/v7):**\n\nPros:\n- Generate anywhere (client, any server, offline) without coordination\n- No information leakage (can't guess other IDs or infer record count)\n- Safe for distributed systems and database sharding\n- Merge databases without conflicts\n\nCons:\n- 16 bytes vs 4-8 bytes (larger indexes, more I/O)\n- Random UUIDs (v4) cause B-tree page splits and poor cache locality\n- Harder to communicate verbally or debug (\"check record 7\" vs \"check record a1b2c3d4-...\")\n- Slightly slower joins due to larger key comparisons\n\n**Auto-increment integers:**\n\nPros:\n- Compact (4-8 bytes)\n- Sequential inserts = optimal B-tree performance\n- Human-readable and debuggable\n- Natural ordering (newer records have higher IDs)\n\nCons:\n- Requires central authority (database) to generate\n- Leaks business information (competitor can probe your user count)\n- Problematic for sharding (conflicting sequences)\n- Breaks if you ever merge databases\n\n**Modern recommendation:** UUID v7 (time-ordered) gives you the best of both — globally unique, no coordination needed, BUT sequential so B-tree performance is nearly as good as auto-increment.",
+      "category": "analysis",
+      "quality_score": 0.94,
+      "skills": ["balanced_analysis", "practical_recommendation", "nuanced_tradeoffs"]
+    },
+    {
+      "id": "inst-010",
+      "instruction": "Write error handling middleware for an Express.js API that: logs errors, returns appropriate HTTP status codes, hides internal details in production, and handles async errors.",
+      "response": "```javascript\nclass AppError extends Error {\n  constructor(message, statusCode, isOperational = true) {\n    super(message);\n    this.statusCode = statusCode;\n    this.isOperational = isOperational;\n    Error.captureStackTrace(this, this.constructor);\n  }\n}\n\n// Wrap async route handlers to catch rejected promises\nconst asyncHandler = (fn) => (req, res, next) => {\n  Promise.resolve(fn(req, res, next)).catch(next);\n};\n\n// Error handling middleware (must have 4 params)\nfunction errorHandler(err, req, res, next) {\n  // Default values\n  err.statusCode = err.statusCode || 500;\n  err.isOperational = err.isOperational ?? false;\n\n  // Log all errors\n  const logPayload = {\n    timestamp: new Date().toISOString(),\n    method: req.method,\n    path: req.path,\n    statusCode: err.statusCode,\n    message: err.message,\n    stack: err.stack,\n    requestId: req.headers['x-request-id'],\n  };\n\n  if (err.statusCode >= 500) {\n    console.error('[ERROR]', JSON.stringify(logPayload));\n  } else {\n    console.warn('[WARN]', JSON.stringify(logPayload));\n  }\n\n  // Response based on environment\n  const response = {\n    status: 'error',\n    statusCode: err.statusCode,\n    message: err.isOperational\n      ? err.message\n      : process.env.NODE_ENV === 'production'\n        ? 'Internal server error'\n        : err.message,\n  };\n\n  // Include stack in development\n  if (process.env.NODE_ENV !== 'production') {\n    response.stack = err.stack;\n  }\n\n  res.status(err.statusCode).json(response);\n}\n\n// Handle known error types\nfunction normalizeError(err) {\n  if (err.name === 'ValidationError') {\n    return new AppError(err.message, 400);\n  }\n  if (err.name === 'JsonWebTokenError') {\n    return new AppError('Invalid token', 401);\n  }\n  if (err.code === '23505') { // Postgres unique violation\n    return new AppError('Resource already exists', 409);\n  }\n  return err;\n}\n\nmodule.exports = { AppError, asyncHandler, errorHandler, normalizeError };\n```",
+      "category": "creation",
+      "quality_score": 0.95,
+      "skills": ["production_ready_code", "security_awareness", "error_classification"]
+    }
+  ]
+}

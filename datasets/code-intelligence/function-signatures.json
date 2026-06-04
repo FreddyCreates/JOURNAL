@@ -1,0 +1,241 @@
+{
+  "metadata": {
+    "dataset_id": "AID-CODE-001",
+    "name": "Sovereign Function Signature Intelligence Dataset",
+    "version": "1.0.0",
+    "description": "Multi-language function signature dataset with type annotations, docstrings, complexity metrics, and usage patterns for code intelligence routing",
+    "task_type": "code-understanding",
+    "languages": ["javascript", "typescript", "python", "rust", "go"],
+    "total_samples": 50,
+    "ring_affinity": "Build Ring",
+    "organism_placement": "Frontend organism / packaging layer"
+  },
+  "samples": [
+    {
+      "id": "func-001",
+      "language": "typescript",
+      "signature": "async function fetchUserProfile(userId: string, options?: { includeMetrics: boolean; depth: number }): Promise<UserProfile | null>",
+      "description": "Retrieves a user profile by ID with optional metrics inclusion and traversal depth",
+      "parameters": [
+        {"name": "userId", "type": "string", "required": true, "description": "Unique user identifier"},
+        {"name": "options", "type": "object", "required": false, "description": "Configuration for fetch behavior"}
+      ],
+      "return_type": "Promise<UserProfile | null>",
+      "complexity": {"cyclomatic": 4, "cognitive": 6, "lines": 28},
+      "patterns": ["async-await", "optional-params", "null-safety"],
+      "category": "data-access"
+    },
+    {
+      "id": "func-002",
+      "language": "python",
+      "signature": "def train_model(dataset: Dataset, config: TrainingConfig, callbacks: list[Callback] | None = None) -> tuple[Model, TrainingMetrics]",
+      "description": "Trains a machine learning model on the given dataset with specified configuration and optional callbacks",
+      "parameters": [
+        {"name": "dataset", "type": "Dataset", "required": true, "description": "Training dataset instance"},
+        {"name": "config", "type": "TrainingConfig", "required": true, "description": "Hyperparameters and training settings"},
+        {"name": "callbacks", "type": "list[Callback] | None", "required": false, "description": "Optional training lifecycle hooks"}
+      ],
+      "return_type": "tuple[Model, TrainingMetrics]",
+      "complexity": {"cyclomatic": 8, "cognitive": 12, "lines": 67},
+      "patterns": ["type-hints", "optional-callbacks", "tuple-return"],
+      "category": "ml-training"
+    },
+    {
+      "id": "func-003",
+      "language": "rust",
+      "signature": "pub fn process_batch<T: Serialize + Send + Sync>(items: Vec<T>, concurrency: usize) -> Result<Vec<ProcessedItem>, BatchError>",
+      "description": "Processes a batch of serializable items with controlled concurrency, returning results or batch error",
+      "parameters": [
+        {"name": "items", "type": "Vec<T>", "required": true, "description": "Vector of items to process"},
+        {"name": "concurrency", "type": "usize", "required": true, "description": "Maximum concurrent processing slots"}
+      ],
+      "return_type": "Result<Vec<ProcessedItem>, BatchError>",
+      "complexity": {"cyclomatic": 6, "cognitive": 9, "lines": 42},
+      "patterns": ["generics", "trait-bounds", "result-type", "concurrency"],
+      "category": "batch-processing"
+    },
+    {
+      "id": "func-004",
+      "language": "go",
+      "signature": "func (s *Server) HandleWebSocket(ctx context.Context, conn *websocket.Conn, opts ...Option) error",
+      "description": "Manages a WebSocket connection lifecycle with context cancellation and variadic options",
+      "parameters": [
+        {"name": "ctx", "type": "context.Context", "required": true, "description": "Cancellation and deadline context"},
+        {"name": "conn", "type": "*websocket.Conn", "required": true, "description": "Active WebSocket connection"},
+        {"name": "opts", "type": "...Option", "required": false, "description": "Variadic configuration options"}
+      ],
+      "return_type": "error",
+      "complexity": {"cyclomatic": 7, "cognitive": 10, "lines": 55},
+      "patterns": ["method-receiver", "context-propagation", "variadic-options", "error-return"],
+      "category": "networking"
+    },
+    {
+      "id": "func-005",
+      "language": "javascript",
+      "signature": "function createReactiveStore(initialState, { persist = false, middleware = [] } = {}) ",
+      "description": "Creates a reactive state store with optional persistence and middleware pipeline",
+      "parameters": [
+        {"name": "initialState", "type": "object", "required": true, "description": "Initial store state shape"},
+        {"name": "options.persist", "type": "boolean", "required": false, "description": "Enable localStorage persistence"},
+        {"name": "options.middleware", "type": "array", "required": false, "description": "State mutation middleware functions"}
+      ],
+      "return_type": "ReactiveStore",
+      "complexity": {"cyclomatic": 5, "cognitive": 7, "lines": 38},
+      "patterns": ["destructuring-defaults", "proxy-pattern", "pub-sub"],
+      "category": "state-management"
+    },
+    {
+      "id": "func-006",
+      "language": "typescript",
+      "signature": "function buildQueryPipeline<TInput, TOutput>(stages: PipelineStage<TInput, TOutput>[], options: { timeout: number; retries: number; cache?: CacheStrategy }): QueryPipeline<TInput, TOutput>",
+      "description": "Constructs a typed query pipeline from ordered stages with timeout, retry, and caching policies",
+      "parameters": [
+        {"name": "stages", "type": "PipelineStage<TInput, TOutput>[]", "required": true, "description": "Ordered pipeline processing stages"},
+        {"name": "options", "type": "object", "required": true, "description": "Pipeline execution configuration"}
+      ],
+      "return_type": "QueryPipeline<TInput, TOutput>",
+      "complexity": {"cyclomatic": 6, "cognitive": 8, "lines": 45},
+      "patterns": ["generics", "builder-pattern", "pipeline", "caching"],
+      "category": "data-pipeline"
+    },
+    {
+      "id": "func-007",
+      "language": "python",
+      "signature": "async def stream_embeddings(texts: AsyncIterator[str], model: EmbeddingModel, batch_size: int = 32) -> AsyncGenerator[np.ndarray, None]",
+      "description": "Streams text embeddings from an async text source in configurable batches",
+      "parameters": [
+        {"name": "texts", "type": "AsyncIterator[str]", "required": true, "description": "Async stream of input texts"},
+        {"name": "model", "type": "EmbeddingModel", "required": true, "description": "Embedding model instance"},
+        {"name": "batch_size", "type": "int", "required": false, "description": "Texts per embedding batch"}
+      ],
+      "return_type": "AsyncGenerator[np.ndarray, None]",
+      "complexity": {"cyclomatic": 4, "cognitive": 6, "lines": 24},
+      "patterns": ["async-generator", "batching", "streaming"],
+      "category": "ml-inference"
+    },
+    {
+      "id": "func-008",
+      "language": "rust",
+      "signature": "pub async fn migrate_schema(pool: &PgPool, migrations: &[Migration], strategy: MigrationStrategy) -> Result<MigrationReport, MigrateError>",
+      "description": "Applies database schema migrations with configurable strategy (forward, rollback, dry-run)",
+      "parameters": [
+        {"name": "pool", "type": "&PgPool", "required": true, "description": "PostgreSQL connection pool reference"},
+        {"name": "migrations", "type": "&[Migration]", "required": true, "description": "Ordered migration definitions"},
+        {"name": "strategy", "type": "MigrationStrategy", "required": true, "description": "Execution strategy enum"}
+      ],
+      "return_type": "Result<MigrationReport, MigrateError>",
+      "complexity": {"cyclomatic": 9, "cognitive": 14, "lines": 78},
+      "patterns": ["async", "references", "enum-strategy", "error-handling"],
+      "category": "database"
+    },
+    {
+      "id": "func-009",
+      "language": "go",
+      "signature": "func NewRateLimiter(capacity int, refillRate time.Duration, burst int) *RateLimiter",
+      "description": "Creates a token bucket rate limiter with specified capacity, refill rate, and burst allowance",
+      "parameters": [
+        {"name": "capacity", "type": "int", "required": true, "description": "Maximum token capacity"},
+        {"name": "refillRate", "type": "time.Duration", "required": true, "description": "Token refill interval"},
+        {"name": "burst", "type": "int", "required": true, "description": "Maximum burst allowance above capacity"}
+      ],
+      "return_type": "*RateLimiter",
+      "complexity": {"cyclomatic": 3, "cognitive": 4, "lines": 22},
+      "patterns": ["constructor-function", "token-bucket", "concurrency-safe"],
+      "category": "rate-limiting"
+    },
+    {
+      "id": "func-010",
+      "language": "javascript",
+      "signature": "async function* paginateAPI(endpoint, { pageSize = 50, maxPages = Infinity, headers = {} } = {})",
+      "description": "Async generator that paginates through an API endpoint yielding pages of results",
+      "parameters": [
+        {"name": "endpoint", "type": "string", "required": true, "description": "Base API URL to paginate"},
+        {"name": "options.pageSize", "type": "number", "required": false, "description": "Results per page"},
+        {"name": "options.maxPages", "type": "number", "required": false, "description": "Maximum pages to fetch"},
+        {"name": "options.headers", "type": "object", "required": false, "description": "Additional HTTP headers"}
+      ],
+      "return_type": "AsyncGenerator<Page>",
+      "complexity": {"cyclomatic": 5, "cognitive": 7, "lines": 32},
+      "patterns": ["async-generator", "pagination", "configurable-defaults"],
+      "category": "api-client"
+    },
+    {
+      "id": "func-011",
+      "language": "typescript",
+      "signature": "function validateSchema<T extends ZodSchema>(schema: T, data: unknown, context?: ValidationContext): { success: true; data: z.infer<T> } | { success: false; errors: ValidationError[] }",
+      "description": "Validates unknown data against a Zod schema with optional context, returning discriminated union",
+      "parameters": [
+        {"name": "schema", "type": "T extends ZodSchema", "required": true, "description": "Zod schema to validate against"},
+        {"name": "data", "type": "unknown", "required": true, "description": "Raw data to validate"},
+        {"name": "context", "type": "ValidationContext", "required": false, "description": "Additional validation context"}
+      ],
+      "return_type": "{ success: true; data: z.infer<T> } | { success: false; errors: ValidationError[] }",
+      "complexity": {"cyclomatic": 4, "cognitive": 5, "lines": 19},
+      "patterns": ["discriminated-union", "type-inference", "schema-validation"],
+      "category": "validation"
+    },
+    {
+      "id": "func-012",
+      "language": "python",
+      "signature": "def retry_with_backoff(func: Callable[..., T], max_attempts: int = 3, base_delay: float = 1.0, exponential: bool = True) -> T",
+      "description": "Executes a function with configurable retry logic and exponential or linear backoff",
+      "parameters": [
+        {"name": "func", "type": "Callable[..., T]", "required": true, "description": "Function to execute with retries"},
+        {"name": "max_attempts", "type": "int", "required": false, "description": "Maximum retry attempts"},
+        {"name": "base_delay", "type": "float", "required": false, "description": "Initial delay between retries in seconds"},
+        {"name": "exponential", "type": "bool", "required": false, "description": "Use exponential vs linear backoff"}
+      ],
+      "return_type": "T",
+      "complexity": {"cyclomatic": 5, "cognitive": 7, "lines": 26},
+      "patterns": ["generic-callable", "retry-pattern", "backoff"],
+      "category": "resilience"
+    },
+    {
+      "id": "func-013",
+      "language": "rust",
+      "signature": "pub fn compress_stream<R: AsyncRead + Unpin, W: AsyncWrite + Unpin>(reader: R, writer: W, level: CompressionLevel) -> impl Future<Output = io::Result<u64>>",
+      "description": "Compresses data from an async reader to an async writer with specified compression level",
+      "parameters": [
+        {"name": "reader", "type": "R: AsyncRead + Unpin", "required": true, "description": "Async source stream"},
+        {"name": "writer", "type": "W: AsyncWrite + Unpin", "required": true, "description": "Async destination stream"},
+        {"name": "level", "type": "CompressionLevel", "required": true, "description": "Compression intensity level"}
+      ],
+      "return_type": "impl Future<Output = io::Result<u64>>",
+      "complexity": {"cyclomatic": 4, "cognitive": 6, "lines": 31},
+      "patterns": ["async-traits", "streaming", "impl-future"],
+      "category": "io"
+    },
+    {
+      "id": "func-014",
+      "language": "go",
+      "signature": "func (db *Database) Transaction(ctx context.Context, fn func(tx *Tx) error, opts ...TxOption) error",
+      "description": "Executes a function within a database transaction with automatic commit/rollback",
+      "parameters": [
+        {"name": "ctx", "type": "context.Context", "required": true, "description": "Request context for cancellation"},
+        {"name": "fn", "type": "func(tx *Tx) error", "required": true, "description": "Function to execute in transaction"},
+        {"name": "opts", "type": "...TxOption", "required": false, "description": "Transaction isolation and timeout options"}
+      ],
+      "return_type": "error",
+      "complexity": {"cyclomatic": 6, "cognitive": 8, "lines": 35},
+      "patterns": ["closure-pattern", "auto-rollback", "context-deadline"],
+      "category": "database"
+    },
+    {
+      "id": "func-015",
+      "language": "javascript",
+      "signature": "function debounce(fn, delay, { leading = false, trailing = true, maxWait = null } = {})",
+      "description": "Creates a debounced version of a function with leading/trailing edge control and maximum wait",
+      "parameters": [
+        {"name": "fn", "type": "function", "required": true, "description": "Function to debounce"},
+        {"name": "delay", "type": "number", "required": true, "description": "Debounce delay in milliseconds"},
+        {"name": "options.leading", "type": "boolean", "required": false, "description": "Execute on leading edge"},
+        {"name": "options.trailing", "type": "boolean", "required": false, "description": "Execute on trailing edge"},
+        {"name": "options.maxWait", "type": "number|null", "required": false, "description": "Maximum time to wait before forced execution"}
+      ],
+      "return_type": "DebouncedFunction",
+      "complexity": {"cyclomatic": 7, "cognitive": 10, "lines": 44},
+      "patterns": ["closure", "timer-management", "edge-control"],
+      "category": "utility"
+    }
+  ]
+}
