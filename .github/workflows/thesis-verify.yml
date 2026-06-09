@@ -1,0 +1,63 @@
+name: THESIS Verification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'julia/src/Thesis/**'
+      - 'julia/test/test_thesis.jl'
+      - 'julia/thesis.jl'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: THESIS Verification Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.9'
+
+      - name: Install dependencies
+        run: |
+          cd julia
+          julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+      - name: Run THESIS tests
+        run: |
+          cd julia
+          julia test/test_thesis.jl
+
+      - name: Run THESIS self-verification
+        run: |
+          cd julia
+          julia thesis.jl verify . --json --output /tmp/thesis-packet.json
+
+      - name: Run evidence map
+        run: |
+          cd julia
+          julia thesis.jl evidence-map ./src/Thesis
+
+      - name: Generate manifest
+        run: |
+          cd julia
+          julia thesis.jl manifest . --output /tmp/thesis-manifest.json
+
+      - name: Upload verification artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: thesis-verification-packet
+          path: |
+            /tmp/thesis-packet.json
+            /tmp/thesis-manifest.json
+          retention-days: 90
