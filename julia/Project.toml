@@ -1,7 +1,7 @@
-name = "MedinaIntelligence"
+name = "MedinaIntelligenceSDK"
 uuid = "f8e9d7c6-b5a4-3210-9876-543210fedcba"
 authors = ["Alfredo 'Freddy' Medina Hernandez <medina@sovereign.ai>"]
-version = "0.1.0"
+version = "1.0.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
