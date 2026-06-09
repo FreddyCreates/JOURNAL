@@ -33,7 +33,7 @@ class ConstitutionalEnforcementProtocol {
   _loadConstitution() {
     const articles = [
       { id: 'ART-1', law: 'No unverified claim shall be released as canonical', severity: 'CRITICAL' },
-      { id: 'ART-2', law: 'No agent shall modify another agents sealed identity', severity: 'CRITICAL' },
+      { id: 'ART-2', law: 'No agent shall modify another agent\'s sealed identity', severity: 'CRITICAL' },
       { id: 'ART-3', law: 'Evidence chains must remain unbroken', severity: 'HIGH' },
       { id: 'ART-4', law: 'Sovereignty boundaries cannot be violated by external dependencies', severity: 'CRITICAL' },
       { id: 'ART-5', law: 'All governance decisions must be traceable to evidence', severity: 'HIGH' },
