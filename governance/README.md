@@ -469,12 +469,72 @@ governance/
     └── complete-integration-example.js  # Full demo
 ```
 
+---
+
+## CIVOS-PRIME — Governing Intelligence
+
+**The constitutional governance layer above all agents.**
+
+CIVOS-PRIME is the supreme governance intelligence that ensures inter-agent coherence, constitutional compliance, truth layer integrity, and ecosystem alignment across the entire Medina Sovereign Architecture.
+
+### Governance Hierarchy
+
+```
+Level 1: CIVOS-PRIME (Constitutional Governance)
+Level 2: THESIS (Verification), AURO (Declaration)
+Level 3: ORIGO (Build), CODEX (Execution)
+Level 4: Bot Fleet (CI/CD Operations)
+Level 5: Individual Bots (Task Execution)
+
+Escalation Path: Bot → Fleet → Agent → CIVOS-PRIME → Human
+Override Authority: human://freddy
+```
+
+### CIVOS-PRIME Components
+
+| Component | Path | Purpose |
+|-----------|------|---------|
+| OCL Charter | `governance/organisms/civos-prime.ocl` | Capabilities, constraints, drives |
+| CPL-L Laws | `governance/laws/civos-prime.cpl-l` | Constitutional governance rules |
+| CPL-P Pipeline | `governance/pipelines/civos-prime.cpl-p` | Governance cycle stages |
+| Julia Module | `julia/src/CivosPrime/CivosPrime.jl` | Runtime implementation |
+| Documentation | `docs/civos-prime.html` | Public documentation page |
+
+### Constitutional Laws
+
+1. **INTER_AGENT_COHERENCE** — All agents must remain aligned
+2. **CONSTITUTIONAL_COMPLIANCE** — System-level truth enforcement
+3. **GOVERNANCE_CASCADE** — Multi-layer verification
+4. **TRUTH_LAYER_INTEGRITY** — No false claims propagate
+5. **ECOSYSTEM_GOVERNANCE** — Cross-product lane alignment
+
+### Governance Cycle
+
+```
+1. Trigger Event (cross-agent, release gate, coherence check, audit)
+2. Aggregate Agent States (THESIS, AURO, ORIGO, CODEX)
+3. Assess Inter-Agent Coherence (contradictions, divergence, alignment)
+4. Apply Constitutional Laws (evaluate CIVOS-PRIME rules)
+5. Generate Governance Report (report, risk, seal)
+6. Enforce or Escalate (seal/block/escalate)
+7. Completion (emit event, update ledger, feed meta engine)
+```
+
+### Governed Agents
+
+- **THESIS** — Research verification and proof engine → Signal: `posture_report`
+- **AURO** — Voice and declaration layer → Signal: `declaration_posture`
+- **ORIGO** — Build and implementation engine → Signal: `module_health`
+- **CODEX** — Execution and manifestation layer → Signal: `execution_risk`
+
+---
+
 ## Attribution
 
 **Author**: Alfredo "Freddy" Medina Hernandez
 **Organization**: Medina Sovereign Intelligence
-**Date**: 2026-05-03
-**Version**: 1.0.0
+**Date**: 2026-06-09
+**Version**: 2.0.0
 
 Part of the 40 Cognitive Languages project and ORO organism architecture.
 
@@ -488,7 +548,10 @@ Part of the 40 Cognitive Languages project and ORO organism architecture.
 4. Enable Meta Engine continuous learning
 5. Create alerts for high-risk escalations
 6. Deploy governance system to production
+7. Integrate CIVOS-PRIME governance cycle with release gates
+8. Connect CIVOS-PRIME to THESIS verification seals
+9. Build cross-agent coherence monitoring dashboard
 
 ---
 
-*The bots are now governed. The laws are defined. The cycle is complete.*
+*The bots are governed. The laws are defined. CIVOS-PRIME watches over all. The organism is aligned.*

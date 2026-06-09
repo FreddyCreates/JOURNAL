@@ -1,0 +1,374 @@
+id: "pipeline://governance/civos_prime_governance_cycle"
+
+PIPELINE civos_prime_governance_cycle {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIPELINE.CIVOS.PRIME.001"
+  RUNTIME: cpl-p-executor
+
+  // ================================================================
+  // STAGE 1: Aggregate Agent States
+  // ================================================================
+  STAGE aggregate_agent_states {
+    NOMEN_LATINUM: COLLECTIO_AGENTIUM
+
+    INPUTS {
+      trigger_event: {
+        TYPE: GovernanceTrigger
+        REQUIRED: TRUE
+        DESCRIPTION: "Cross-agent event, release gate, coherence check, or scheduled audit"
+      }
+    }
+
+    ACTIONS {
+      collect_thesis_state: {
+        USE: "civos_prime.collect_agent_state"
+        ARGS: {
+          agent: "THESIS",
+          include_seals: TRUE,
+          include_posture: TRUE
+        }
+      }
+
+      collect_auro_state: {
+        USE: "civos_prime.collect_agent_state"
+        ARGS: {
+          agent: "AURO",
+          include_declarations: TRUE,
+          include_voice: TRUE
+        }
+      }
+
+      collect_origo_state: {
+        USE: "civos_prime.collect_agent_state"
+        ARGS: {
+          agent: "ORIGO",
+          include_builds: TRUE,
+          include_modules: TRUE
+        }
+      }
+
+      collect_codex_state: {
+        USE: "civos_prime.collect_agent_state"
+        ARGS: {
+          agent: "CODEX",
+          include_executions: TRUE,
+          include_phantasm_log: TRUE
+        }
+      }
+    }
+
+    OUTPUTS {
+      thesis_state: "${collect_thesis_state.result}"
+      auro_state: "${collect_auro_state.result}"
+      origo_state: "${collect_origo_state.result}"
+      codex_state: "${collect_codex_state.result}"
+      aggregate: {
+        agents_online: "${[thesis_state, auro_state, origo_state, codex_state].filter(s => s.online).length}",
+        timestamp: "${now()}"
+      }
+    }
+
+    NEXT: assess_coherence
+  }
+
+  // ================================================================
+  // STAGE 2: Assess Inter-Agent Coherence
+  // ================================================================
+  STAGE assess_coherence {
+    NOMEN_LATINUM: ASSESSIO_COHAERENTIA
+
+    INPUTS {
+      thesis_state: { TYPE: AgentState }
+      auro_state: { TYPE: AgentState }
+      origo_state: { TYPE: AgentState }
+      codex_state: { TYPE: AgentState }
+    }
+
+    ACTIONS {
+      detect_contradictions: {
+        USE: "civos_prime.detect_contradictions"
+        ARGS: {
+          agents: ["${thesis_state}", "${auro_state}", "${origo_state}", "${codex_state}"]
+        }
+      }
+
+      measure_divergence: {
+        USE: "civos_prime.measure_divergence"
+        ARGS: {
+          thesis_posture: "${thesis_state.posture}",
+          auro_declarations: "${auro_state.declarations}",
+          origo_implementations: "${origo_state.modules}",
+          codex_executions: "${codex_state.executions}"
+        }
+      }
+
+      build_alignment_matrix: {
+        USE: "civos_prime.build_alignment_matrix"
+        ARGS: {
+          contradictions: "${detect_contradictions.result}",
+          divergence: "${measure_divergence.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      contradictions: "${detect_contradictions.result}"
+      divergence_score: "${measure_divergence.score}"
+      alignment_matrix: "${build_alignment_matrix.result}"
+      coherence_grade: "${build_alignment_matrix.grade}"
+    }
+
+    NEXT: apply_constitutional_laws
+  }
+
+  // ================================================================
+  // STAGE 3: Apply Constitutional Laws
+  // ================================================================
+  STAGE apply_constitutional_laws {
+    NOMEN_LATINUM: APPLICATIO_CONSTITUTIONALIS
+
+    INPUTS {
+      coherence_grade: { TYPE: Grade }
+      alignment_matrix: { TYPE: AlignmentMatrix }
+      contradictions: { TYPE: Array }
+      thesis_state: { TYPE: AgentState }
+      origo_state: { TYPE: AgentState }
+      codex_state: { TYPE: AgentState }
+    }
+
+    ACTIONS {
+      load_civos_laws: {
+        USE: "governance.load_applicable_laws"
+        ARGS: {
+          entity_type: "CivosPrime",
+          law_ids: ["LAW.CIVOS.PRIME.001"]
+        }
+      }
+
+      evaluate_laws: {
+        USE: "governance.evaluate_cpl_l"
+        ARGS: {
+          laws: "${load_civos_laws.result}",
+          context: {
+            civos_prime: {
+              agent_divergence_score: "${divergence_score}",
+              affected_agents: "${alignment_matrix.divergent_agents}",
+              contradictory_claims: "${contradictions.length}",
+              contradiction_severity: "${contradictions.max_severity}",
+              thesis_verification: "${thesis_state.verification}",
+              auro_declaration: "${auro_state.latest_declaration}",
+              posture_delta: "${alignment_matrix.posture_delta}",
+              thesis_seal: "${thesis_state.latest_seal}",
+              origo_build_status: "${origo_state.build_status}",
+              origo_affected_modules: "${origo_state.affected_count}",
+              codex_execution_risk: "${codex_state.risk_score}",
+              codex_sandbox: "${codex_state.sandboxed}",
+              aggregate_risk_score: "${alignment_matrix.aggregate_risk}",
+              evidence_chain_valid: "${thesis_state.chain_valid}",
+              chain_break_count: "${thesis_state.chain_breaks}"
+            }
+          }
+        }
+      }
+
+      collect_decisions: {
+        USE: "governance.collect_decisions"
+        ARGS: {
+          evaluation_results: "${evaluate_laws.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      decisions: "${collect_decisions.result}"
+      governance_passed: "${collect_decisions.all_passed}"
+      violations: "${collect_decisions.violations}"
+      forbid_actions: "${collect_decisions.forbid_actions}"
+    }
+
+    NEXT: generate_governance_report
+  }
+
+  // ================================================================
+  // STAGE 4: Generate Governance Report
+  // ================================================================
+  STAGE generate_governance_report {
+    NOMEN_LATINUM: GENERATIO_RELATIO
+
+    INPUTS {
+      ALL_PREVIOUS: TRUE
+    }
+
+    ACTIONS {
+      build_report: {
+        USE: "civos_prime.build_governance_report"
+        ARGS: {
+          coherence_grade: "${coherence_grade}",
+          alignment_matrix: "${alignment_matrix}",
+          decisions: "${decisions}",
+          violations: "${violations}",
+          agent_states: {
+            thesis: "${thesis_state}",
+            auro: "${auro_state}",
+            origo: "${origo_state}",
+            codex: "${codex_state}"
+          }
+        }
+      }
+
+      generate_risk_assessment: {
+        USE: "civos_prime.assess_ecosystem_risk"
+        ARGS: {
+          report: "${build_report.result}",
+          historical_context: "${civos_prime.get_historical_reports(5)}"
+        }
+      }
+
+      create_seal: {
+        USE: "civos_prime.create_governance_seal"
+        ARGS: {
+          report: "${build_report.result}",
+          risk_assessment: "${generate_risk_assessment.result}",
+          author: "CIVOS-PRIME",
+          statement: "Governance cycle completed — ${now()}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      report: "${build_report.result}"
+      risk_assessment: "${generate_risk_assessment.result}"
+      seal: "${create_seal.result}"
+    }
+
+    NEXT: enforce_or_escalate
+  }
+
+  // ================================================================
+  // STAGE 5: Enforce or Escalate
+  // ================================================================
+  STAGE enforce_or_escalate {
+    NOMEN_LATINUM: EXECUTIO_VEL_ESCALATIO
+
+    INPUTS {
+      governance_passed: { TYPE: Boolean }
+      violations: { TYPE: Array }
+      forbid_actions: { TYPE: Array }
+      risk_assessment: { TYPE: RiskAssessment }
+      seal: { TYPE: GovernanceSeal }
+    }
+
+    ACTIONS {
+      determine_action: {
+        USE: "civos_prime.determine_enforcement_action"
+        ARGS: {
+          passed: "${governance_passed}",
+          risk_level: "${risk_assessment.level}",
+          violations: "${violations}"
+        }
+      }
+
+      execute_enforcement: {
+        USE: "civos_prime.execute_enforcement"
+        ARGS: {
+          action: "${determine_action.result}",
+          forbid_actions: "${forbid_actions}",
+          seal: "${seal}"
+        }
+        CONDITION: "${determine_action.result.type == 'ENFORCE'}"
+      }
+
+      escalate_to_human: {
+        USE: "governance.escalate"
+        ARGS: {
+          target: "human://freddy",
+          severity: "${risk_assessment.level}",
+          report: "${report}",
+          violations: "${violations}",
+          recommended_action: "${determine_action.result.recommendation}"
+        }
+        CONDITION: "${determine_action.result.type == 'ESCALATE'}"
+      }
+    }
+
+    OUTPUTS {
+      enforcement_result: "${execute_enforcement.result || null}"
+      escalation_result: "${escalate_to_human.result || null}"
+      final_action: "${determine_action.result}"
+    }
+
+    NEXT: completion
+  }
+
+  // ================================================================
+  // STAGE 6: Completion and Ledger Update
+  // ================================================================
+  STAGE completion {
+    NOMEN_LATINUM: COMPLETIO_GUBERNATIONIS
+
+    INPUTS {
+      ALL_PREVIOUS: TRUE
+    }
+
+    ACTIONS {
+      emit_event: {
+        USE: "governance.emit_event"
+        ARGS: {
+          event_type: "CIVOS_PRIME_GOVERNANCE_COMPLETE",
+          payload: {
+            seal_id: "${seal.seal_id}",
+            coherence_grade: "${coherence_grade}",
+            governance_passed: "${governance_passed}",
+            risk_level: "${risk_assessment.level}",
+            enforcement_action: "${final_action.type}",
+            violations_count: "${violations.length}"
+          }
+        }
+      }
+
+      update_ledger: {
+        USE: "governance.record_cil_entry"
+        ARGS: {
+          entity_id: "civos-prime",
+          cycle_result: "${report}",
+          seal: "${seal}",
+          timestamp: "${now()}"
+        }
+      }
+
+      feed_meta_engine: {
+        USE: "governance.meta_engine.record"
+        ARGS: {
+          cycle_type: "CIVOS_PRIME",
+          decisions: "${decisions}",
+          outcome: "${final_action}",
+          coherence_grade: "${coherence_grade}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      event_emitted: TRUE
+      ledger_updated: TRUE
+      meta_recorded: TRUE
+      final_grade: "${coherence_grade}"
+      final_seal: "${seal.seal_id}"
+    }
+  }
+
+  // ================================================================
+  // ERROR HANDLING
+  // ================================================================
+  ON_ERROR {
+    USE: "governance.handle_pipeline_error"
+    ARGS: {
+      error: "${error}",
+      stage: "${current_stage}",
+      context: "${context}",
+      pipeline: "CIVOS_PRIME"
+    }
+    ESCALATE: TRUE
+    TARGET: "human://freddy"
+    SEVERITY: CRITICAL
+  }
+}
