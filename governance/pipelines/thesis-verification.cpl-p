@@ -1,0 +1,317 @@
+id: "pipeline://governance/thesis_verification_cycle"
+
+PIPELINE thesis_verification_cycle {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIPELINE.THESIS.VERIFY.001"
+  RUNTIME: cpl-p-executor
+
+  // ================================================================
+  // STAGE 1: Trigger Verification
+  // ================================================================
+  STAGE trigger_verification {
+    NOMEN_LATINUM: INITIUM_VERIFICATIONIS
+
+    INPUTS {
+      trigger_event: {
+        TYPE: VerificationTrigger
+        REQUIRED: TRUE
+        DESCRIPTION: "PR merge, release tag, manual trigger, or scheduled run"
+      }
+    }
+
+    ACTIONS {
+      determine_scope: {
+        USE: "thesis.determine_verification_scope"
+        ARGS: {
+          event: "${trigger_event}",
+          changed_files: "${trigger_event.changed_files}",
+          full_scan: "${trigger_event.full_scan || false}"
+        }
+      }
+
+      prepare_workspace: {
+        USE: "thesis.prepare_workspace"
+        ARGS: {
+          path: "${trigger_event.repo_path}",
+          scope: "${determine_scope.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      scope: "${determine_scope.result}"
+      workspace: "${prepare_workspace.result}"
+    }
+
+    NEXT: extract_and_classify
+  }
+
+  // ================================================================
+  // STAGE 2: Extract and Classify Claims
+  // ================================================================
+  STAGE extract_and_classify {
+    NOMEN_LATINUM: EXTRACTIO_CLASSIFICATIONIS
+
+    INPUTS {
+      workspace: { TYPE: Workspace }
+      scope: { TYPE: VerificationScope }
+    }
+
+    ACTIONS {
+      extract_claims: {
+        USE: "thesis.extract_claims"
+        ARGS: {
+          path: "${workspace.path}",
+          scope: "${scope}"
+        }
+      }
+
+      classify_claims: {
+        USE: "thesis.classify_claims"
+        ARGS: {
+          claims: "${extract_claims.result}"
+        }
+      }
+
+      map_evidence: {
+        USE: "thesis.map_claims_to_evidence"
+        ARGS: {
+          claims: "${classify_claims.result}",
+          repo_path: "${workspace.path}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      claim_set: "${map_evidence.result}"
+      total_claims: "${claim_set.total}"
+      classification_breakdown: "${classify_claims.breakdown}"
+    }
+
+    NEXT: assess_evidence
+  }
+
+  // ================================================================
+  // STAGE 3: Assess Evidence and Posture
+  // ================================================================
+  STAGE assess_evidence {
+    NOMEN_LATINUM: ASSESSIO_EVIDENTIAE
+
+    INPUTS {
+      claim_set: { TYPE: ClaimSet }
+      workspace: { TYPE: Workspace }
+    }
+
+    ACTIONS {
+      map_implementations: {
+        USE: "thesis.map_implementations"
+        ARGS: {
+          path: "${workspace.path}"
+        }
+      }
+
+      assess_posture: {
+        USE: "thesis.assess_posture"
+        ARGS: {
+          claims: "${claim_set.claims}",
+          evidence_map: "${map_implementations.result}"
+        }
+      }
+
+      generate_manifest: {
+        USE: "thesis.generate_manifest"
+        ARGS: {
+          path: "${workspace.path}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      evidence_map: "${map_implementations.result}"
+      posture_report: "${assess_posture.result}"
+      manifest: "${generate_manifest.result}"
+    }
+
+    NEXT: apply_governance
+  }
+
+  // ================================================================
+  // STAGE 4: Apply Governance Laws
+  // ================================================================
+  STAGE apply_governance {
+    NOMEN_LATINUM: APPLICATIO_GUBERNATIONIS
+
+    INPUTS {
+      claim_set: { TYPE: ClaimSet }
+      evidence_map: { TYPE: EvidenceMap }
+      posture_report: { TYPE: PostureReport }
+      manifest: { TYPE: Manifest }
+    }
+
+    ACTIONS {
+      load_laws: {
+        USE: "governance.load_applicable_laws"
+        ARGS: {
+          entity_type: "Verification",
+          law_ids: ["LAW.THESIS.VERIFICATION.001"]
+        }
+      }
+
+      evaluate_laws: {
+        USE: "governance.evaluate_cpl_l"
+        ARGS: {
+          laws: "${load_laws.result}",
+          context: {
+            thesis_verification: {
+              total_claims: "${claim_set.total}",
+              unverifiable_claims: "${posture_report.unverifiable_claims}",
+              unverifiable_ratio: "${posture_report.unverifiable_claims / claim_set.total}",
+              overstated_claims: "${claim_set.overstated_count}",
+              implementation_score: "${evidence_map.overall_completeness}",
+              stub_ratio: "${evidence_map.stub_functions / evidence_map.total_functions}",
+              dead_code_ratio: "${evidence_map.dead_functions / evidence_map.total_functions}",
+              mean_posture: "${posture_report.mean_posture}",
+              reproducibility_score: "${evidence_map.test_coverage_estimate}",
+              manifest_hash: "${manifest.manifest_hash}",
+              grade: "${posture_report.grade}"
+            }
+          }
+        }
+      }
+
+      collect_decisions: {
+        USE: "governance.collect_decisions"
+        ARGS: {
+          evaluation_results: "${evaluate_laws.result}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      decisions: "${collect_decisions.result}"
+      governance_passed: "${collect_decisions.all_passed}"
+      violations: "${collect_decisions.violations}"
+    }
+
+    NEXT: build_packet
+  }
+
+  // ================================================================
+  // STAGE 5: Build Verification Packet
+  // ================================================================
+  STAGE build_packet {
+    NOMEN_LATINUM: CONSTRUCTIO_FASCICULI
+
+    INPUTS {
+      claim_set: { TYPE: ClaimSet }
+      evidence_map: { TYPE: EvidenceMap }
+      posture_report: { TYPE: PostureReport }
+      manifest: { TYPE: Manifest }
+      decisions: { TYPE: Array }
+    }
+
+    ACTIONS {
+      create_seal: {
+        USE: "thesis.create_seal"
+        ARGS: {
+          manifest: "${manifest}",
+          author: "THESIS-Pipeline",
+          statement: "Automated verification cycle — ${now()}"
+        }
+      }
+
+      build_packet: {
+        USE: "thesis.build_verification_packet"
+        ARGS: {
+          claims: "${claim_set.claims}",
+          evidence_map: "${evidence_map}",
+          posture_report: "${posture_report}",
+          manifest: "${manifest}",
+          seal: "${create_seal.result}"
+        }
+      }
+
+      store_packet: {
+        USE: "thesis.store_packet"
+        ARGS: {
+          packet: "${build_packet.result}",
+          output_dir: ".thesis/packets/"
+        }
+      }
+    }
+
+    OUTPUTS {
+      seal: "${create_seal.result}"
+      packet: "${build_packet.result}"
+      packet_path: "${store_packet.path}"
+    }
+
+    NEXT: completion
+  }
+
+  // ================================================================
+  // STAGE 6: Completion and Reporting
+  // ================================================================
+  STAGE completion {
+    NOMEN_LATINUM: COMPLETIO_VERIFICATIONIS
+
+    INPUTS {
+      ALL_PREVIOUS: TRUE
+    }
+
+    ACTIONS {
+      generate_report: {
+        USE: "thesis.generate_verification_report"
+        ARGS: {
+          packet: "${packet}",
+          decisions: "${decisions}",
+          governance_passed: "${governance_passed}"
+        }
+      }
+
+      emit_event: {
+        USE: "governance.emit_event"
+        ARGS: {
+          event_type: "THESIS_VERIFICATION_COMPLETE",
+          payload: {
+            packet_id: "${packet.packet_id}",
+            grade: "${packet.overall_grade}",
+            governance_passed: "${governance_passed}",
+            seal_id: "${seal.seal_id}"
+          }
+        }
+      }
+
+      update_ledger: {
+        USE: "governance.record_cil_entry"
+        ARGS: {
+          entity_id: "thesis-verification",
+          cycle_result: "${generate_report.result}",
+          timestamp: "${now()}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      report: "${generate_report.result}"
+      event_emitted: TRUE
+      ledger_updated: TRUE
+      final_grade: "${packet.overall_grade}"
+    }
+  }
+
+  // ================================================================
+  // ERROR HANDLING
+  // ================================================================
+  ON_ERROR {
+    USE: "governance.handle_pipeline_error"
+    ARGS: {
+      error: "${error}",
+      stage: "${current_stage}",
+      context: "${context}",
+      pipeline: "THESIS_VERIFICATION"
+    }
+    ESCALATE: TRUE
+    TARGET: "human://freddy"
+  }
+}

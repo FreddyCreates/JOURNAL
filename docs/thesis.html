@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THESIS — Research Verification Engine</title>
+  <meta name="description" content="THESIS: Evidence-based research verification. Extract claims, map implementations, assess proof posture, and generate integrity-sealed verification packets." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .thesis-hero { text-align:center; padding:80px 0 60px; }
+    .thesis-hero h1 { font-size:3rem; letter-spacing:-0.03em; margin-bottom:12px; }
+    .thesis-hero .subtitle { font-size:1.1rem; color:var(--text-muted); max-width:700px; margin:0 auto 32px; line-height:1.6; }
+    .thesis-badge { display:inline-block; padding:6px 16px; background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.3); border-radius:20px; font-size:.8rem; color:var(--green); font-weight:600; margin-bottom:20px; }
+
+    .mode-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin:40px 0; }
+    .mode-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+      padding:24px; transition:all .3s;
+    }
+    .mode-card:hover { border-color:var(--border-glow); transform:translateY(-2px); }
+    .mode-card h3 { font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+    .mode-card p { font-size:.85rem; color:var(--text-muted); line-height:1.5; }
+    .mode-card code { font-size:.75rem; background:var(--bg); padding:2px 6px; border-radius:4px; }
+
+    .demo-section { margin:60px 0; }
+    .demo-section h2 { font-size:1.5rem; margin-bottom:24px; }
+
+    .terminal-demo {
+      background:#0d1117; border:1px solid var(--border); border-radius:var(--radius-lg);
+      padding:24px; font-family:var(--font-mono); font-size:.82rem; color:#c9d1d9;
+      overflow-x:auto; line-height:1.8;
+    }
+    .terminal-demo .prompt { color:#58a6ff; }
+    .terminal-demo .output { color:#8b949e; }
+    .terminal-demo .success { color:#3fb950; }
+    .terminal-demo .warn { color:#d29922; }
+    .terminal-demo .header { color:#f0883e; font-weight:600; }
+
+    .verify-form {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+      padding:32px; margin:40px 0;
+    }
+    .verify-form h3 { margin-bottom:16px; }
+    .verify-form textarea {
+      width:100%; min-height:120px; background:var(--bg); border:1px solid var(--border);
+      border-radius:var(--radius); padding:12px; font-family:var(--font-mono); font-size:.82rem;
+      color:var(--text); resize:vertical; margin-bottom:16px;
+    }
+    .verify-form textarea:focus { outline:none; border-color:var(--border-glow); }
+
+    .results-area {
+      background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+      padding:20px; font-family:var(--font-mono); font-size:.8rem; color:var(--green);
+      min-height:80px; white-space:pre-wrap; margin-top:16px; display:none;
+    }
+    .results-area.visible { display:block; }
+
+    .principles-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin:30px 0; }
+    .principle-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+      padding:16px;
+    }
+    .principle-card h4 { font-size:.85rem; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+    .principle-card p { font-size:.8rem; color:var(--text-muted); }
+
+    .stats-row { display:flex; gap:24px; justify-content:center; margin:32px 0; flex-wrap:wrap; }
+    .stat-item { text-align:center; }
+    .stat-item .number { font-size:2rem; font-weight:800; color:var(--green); }
+    .stat-item .label { font-size:.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="journal.html">Journal</a></li>
+      <li><a href="platform.html">AI Platform</a></li>
+      <li><a href="thesis.html" class="active">THESIS</a></li>
+      <li><a href="vault.html">Vault Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="thesis-hero">
+  <div class="container">
+    <div class="thesis-badge">⚡ Research Verification Engine v1.0.0</div>
+    <h1>THESIS</h1>
+    <p class="subtitle">
+      The truth layer for research. Extract claims, map implementations, assess proof posture,
+      and generate integrity-sealed verification packets — with zero hallucination.
+    </p>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="number">6</div>
+        <div class="label">Core Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">8</div>
+        <div class="label">CLI Commands</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">5</div>
+        <div class="label">Claim Classes</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">∞</div>
+        <div class="label">Repos Verifiable</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Modes ── -->
+<section class="demo-section">
+  <div class="container">
+    <h2>🔧 Verification Modes</h2>
+    <div class="mode-grid">
+      <div class="mode-card">
+        <h3>🔍 Verify</h3>
+        <p>Full verification pipeline — extract claims, map evidence, assess posture, generate sealed packets.</p>
+        <code>thesis verify .</code>
+      </div>
+      <div class="mode-card">
+        <h3>🗺️ Evidence Map</h3>
+        <p>Map all implementations. Detect stubs, dead code, and function completeness across the repo.</p>
+        <code>thesis evidence-map ./src</code>
+      </div>
+      <div class="mode-card">
+        <h3>📋 Claims</h3>
+        <p>Extract and classify every research claim. Proven, implemented, hypothetical, aspirational, overstated.</p>
+        <code>thesis claims ./docs</code>
+      </div>
+      <div class="mode-card">
+        <h3>🔗 Lineage</h3>
+        <p>Trace code provenance. Map dependency chains, creation order, and evolution over time.</p>
+        <code>thesis lineage .</code>
+      </div>
+      <div class="mode-card">
+        <h3>📦 Packet Build</h3>
+        <p>Generate integrity-sealed verification packets in JSON or markdown. Publication-ready bundles.</p>
+        <code>thesis packet build .</code>
+      </div>
+      <div class="mode-card">
+        <h3>📰 Preprint Split</h3>
+        <p>Split monolithic verification into preprint-sized series for staged publication.</p>
+        <code>thesis preprint split .</code>
+      </div>
+      <div class="mode-card">
+        <h3>🔐 Manifest</h3>
+        <p>Generate SHA-256 hash manifests for all artifacts. Deterministic, tamper-evident integrity.</p>
+        <code>thesis manifest .</code>
+      </div>
+      <div class="mode-card">
+        <h3>🛡️ Seal</h3>
+        <p>Create cryptographic verification seals with chain lineage. Links to previous attestations.</p>
+        <code>thesis seal .</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Terminal Demo ── -->
+<section class="demo-section">
+  <div class="container">
+    <h2>💻 Terminal Demo</h2>
+    <div class="terminal-demo">
+<span class="prompt">$ julia thesis.jl verify .</span>
+<span class="header">╔══════════════════════════════════════════════════════╗</span>
+<span class="header">║  THESIS — Research Verification Engine               ║</span>
+<span class="header">╚══════════════════════════════════════════════════════╝</span>
+
+<span class="output">  [1/7] Extracting claims...</span>
+<span class="success">        Found 47 claims in 23 files</span>
+<span class="output">  [2/7] Mapping implementations...</span>
+<span class="success">        89 functions (72 implemented, 8 stubs)</span>
+<span class="output">  [3/7] Mapping claims to evidence...</span>
+<span class="success">        Evidence mapped for 47 claims</span>
+<span class="output">  [4/7] Assessing proof posture...</span>
+<span class="success">        Mean posture: 0.647</span>
+<span class="output">  [5/7] Generating hash manifest...</span>
+<span class="success">        156 files, 2,847,291 bytes hashed</span>
+<span class="output">  [6/7] Creating verification seal...</span>
+<span class="success">        Seal: SEAL-a7f3b2c91e4d8f06</span>
+<span class="output">  [7/7] Building verification packet...</span>
+<span class="success">        Packet: PACKET-e2b4c7a8f1d39052 — Grade: B</span>
+
+<span class="success">  ✓ Verification complete</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Claim Classifier Demo ── -->
+<section class="demo-section">
+  <div class="container">
+    <h2>🧪 Try Claim Classification</h2>
+    <div class="verify-form">
+      <h3>Paste a research claim to classify</h3>
+      <textarea id="claim-input" placeholder="e.g., 'Our system achieves zero hallucination through evidence-based cognition.'&#10;'We hypothesize that phi-encoded architectures converge faster.'&#10;'The platform will support 1000 concurrent users by Q3.'"></textarea>
+      <button class="btn btn-primary" onclick="classifyClaim()">Classify Claim</button>
+      <div id="claim-results" class="results-area"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Design Principles ── -->
+<section class="demo-section">
+  <div class="container">
+    <h2>⚖️ Design Principles</h2>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <h4>🚫 Zero Hallucination</h4>
+        <p>Only reports what is evidenced in code, tests, and outputs. Never invents claims.</p>
+      </div>
+      <div class="principle-card">
+        <h4>🔄 Deterministic</h4>
+        <p>Same input → same verification output, always. Reproducible by design.</p>
+      </div>
+      <div class="principle-card">
+        <h4>🔐 Hash-Sealed</h4>
+        <p>Every packet cryptographically attested with SHA-256 manifests and chain seals.</p>
+      </div>
+      <div class="principle-card">
+        <h4>🧩 Mode-Based</h4>
+        <p>Each capability is an independent, composable mode. Use one or all.</p>
+      </div>
+      <div class="principle-card">
+        <h4>🏗️ CI-Native</h4>
+        <p>Runs in any pipeline without human intervention. GitHub Actions ready.</p>
+      </div>
+      <div class="principle-card">
+        <h4>💻 Local-First</h4>
+        <p>No cloud dependency for core verification. Terminal-native, Julia-powered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Use Cases ── -->
+<section class="demo-section">
+  <div class="container">
+    <h2>🎯 Use Cases</h2>
+    <div class="mode-grid">
+      <div class="mode-card">
+        <h3>🎓 PhD Researchers</h3>
+        <p>Verify your own repos before submission. Know what's proven, what's missing, what's overstated.</p>
+      </div>
+      <div class="mode-card">
+        <h3>🔬 Research Labs</h3>
+        <p>Verify 200+ repos at scale. Governance-integrated verification for every commit.</p>
+      </div>
+      <div class="mode-card">
+        <h3>💰 VCs & Funders</h3>
+        <p>Evaluate technical claims before investment. Evidence-based due diligence.</p>
+      </div>
+      <div class="mode-card">
+        <h3>📰 Journals</h3>
+        <p>Verify code before publication. Automated reproducibility checks for peer review.</p>
+      </div>
+      <div class="mode-card">
+        <h3>🏛️ Government</h3>
+        <p>Verify AI safety claims. Evidence-based governance for regulatory compliance.</p>
+      </div>
+      <div class="mode-card">
+        <h3>🔒 Safety Boards</h3>
+        <p>Audit claims at scale. Tamper-evident verification with cryptographic seals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <p>THESIS — Research Verification Engine · Part of the Memory Vault by Freddy Medina</p>
+    <p style="font-size:.75rem; color:var(--text-muted); margin-top:8px;">
+      © 2026 Freddy Medina. All Rights Reserved. Evidence-based cognition. Zero hallucination.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ── Claim Classification (client-side heuristic demo) ──
+function classifyClaim() {
+  const input = document.getElementById('claim-input').value.trim();
+  const results = document.getElementById('claim-results');
+
+  if (!input) {
+    results.textContent = 'Please enter a claim to classify.';
+    results.classList.add('visible');
+    return;
+  }
+
+  const claims = input.split('\n').filter(l => l.trim().length > 0);
+  let output = 'THESIS Claim Classification\n';
+  output += '═══════════════════════════\n\n';
+
+  for (const claim of claims) {
+    const classification = classifyText(claim);
+    const hash = simpleHash(claim);
+    output += `[${classification.class}] (${classification.confidence}%)\n`;
+    output += `  "${claim}"\n`;
+    output += `  Hash: ${hash}\n`;
+    output += `  Evidence type: ${classification.evidence_type}\n\n`;
+  }
+
+  results.textContent = output;
+  results.classList.add('visible');
+}
+
+function classifyText(text) {
+  const lower = text.toLowerCase();
+
+  const patterns = {
+    'PROVEN': [/we\s+prove/i, /theorem/i, /formally\s+verified/i, /QED/i, /by\s+induction/i],
+    'IMPLEMENTED': [/we\s+implement/i, /the\s+system\s+(does|performs)/i, /our\s+implementation/i, /currently\s+supports/i, /is\s+deployed/i],
+    'HYPOTHETICAL': [/we\s+hypothesize/i, /we\s+conjecture/i, /it\s+may\s+be/i, /further\s+research/i, /potentially/i, /theoretically/i],
+    'ASPIRATIONAL': [/will\s+(enable|allow|support)/i, /future\s+work/i, /planned/i, /roadmap/i, /intended\s+to/i],
+    'OVERSTATED': [/the\s+first\s+(ever|of)/i, /revolutionary/i, /completely\s+(solves|eliminates)/i, /no\s+other/i, /unprecedented/i, /zero\s+(error|failure|hallucination)/i]
+  };
+
+  let scores = {};
+  let maxClass = 'UNVERIFIABLE';
+  let maxScore = 0;
+
+  for (const [cls, pats] of Object.entries(patterns)) {
+    scores[cls] = 0;
+    for (const pat of pats) {
+      if (pat.test(text)) scores[cls]++;
+    }
+    if (scores[cls] > maxScore) {
+      maxScore = scores[cls];
+      maxClass = cls;
+    }
+  }
+
+  const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+  const confidence = Math.round((maxScore / total) * 100) || 10;
+
+  let evidence_type = 'INTERNAL';
+  if (/will|planned|future/i.test(lower)) evidence_type = 'ASPIRATIONAL';
+  else if (/hypothe|conjecture|may/i.test(lower)) evidence_type = 'HYPOTHESIS';
+  else if (/deployed|production|live/i.test(lower)) evidence_type = 'PRODUCTION';
+  else if (/measured|tested|benchmark/i.test(lower)) evidence_type = 'EMPIRICAL';
+
+  return { class: maxClass, confidence, evidence_type };
+}
+
+function simpleHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return 'CLAIM-' + Math.abs(hash).toString(16).padStart(12, '0').slice(0, 12);
+}
+</script>
+
+</body>
+</html>

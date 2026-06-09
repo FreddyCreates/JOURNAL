@@ -1,0 +1,163 @@
+LAW THESIS_VERIFICATION_GOVERNANCE {
+  VERSION "1.0.0"
+  ENCODED_ID: "LAW.THESIS.VERIFICATION.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  RATIFIED: 2026-06-09
+  ENFORCEMENT: RUNTIME
+
+  // ================================================================
+  // RULE 1: Claim Integrity — No unverified claims in production
+  // ================================================================
+  RULE CLAIM_INTEGRITY {
+    CLAUSE no_unverified_claims_in_release {
+      IF context.thesis_verification.unverifiable_claims > 0
+      AND context.release_type == "production"
+      AND context.thesis_verification.unverifiable_ratio > 0.3
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        SEVERITY: HIGH
+        MESSAGE: "More than 30% of claims are unverifiable. Address before release."
+      }
+    }
+
+    CLAUSE overstated_claim_warning {
+      IF context.thesis_verification.overstated_claims > 0
+      THEN {
+        ACTION: REQUIRE
+        TARGET: claim_review
+        MESSAGE: "Overstated claims detected. Review and reclassify before publication."
+      }
+    }
+
+    CLAUSE claim_hash_integrity {
+      IF context.thesis_verification.manifest_hash != context.previous_manifest_hash
+      AND context.thesis_verification.claims_changed == FALSE
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        SEVERITY: CRITICAL
+        MESSAGE: "Manifest hash mismatch without documented claim changes. Possible tampering."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 2: Evidence Completeness — Implementations must match claims
+  // ================================================================
+  RULE EVIDENCE_COMPLETENESS {
+    CLAUSE implementation_coverage {
+      IF context.thesis_verification.implementation_score < 0.5
+      AND context.documentation.claims_count > 10
+      THEN {
+        ACTION: REQUIRE
+        TARGET: implementation_review
+        MESSAGE: "Implementation score below 50% with significant claims. Implement or revise claims."
+      }
+    }
+
+    CLAUSE stub_ratio_check {
+      IF context.thesis_verification.stub_ratio > 0.4
+      AND context.release_type != "alpha"
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        MESSAGE: "Too many stub functions (>40%). Complete implementations before release."
+      }
+    }
+
+    CLAUSE dead_code_threshold {
+      IF context.thesis_verification.dead_code_ratio > 0.2
+      THEN {
+        ACTION: REQUIRE
+        TARGET: code_cleanup
+        MESSAGE: "Dead code exceeds 20%. Review and remove unused implementations."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 3: Proof Posture — Minimum evidence standards
+  // ================================================================
+  RULE PROOF_POSTURE_STANDARDS {
+    CLAUSE minimum_posture_score {
+      IF context.thesis_verification.mean_posture < 0.3
+      AND context.publication_target != "preprint"
+      THEN {
+        ACTION: FORBID
+        TARGET: publication
+        SEVERITY: HIGH
+        MESSAGE: "Mean proof posture below 0.3. Claims lack sufficient evidence for publication."
+      }
+    }
+
+    CLAUSE formal_claims_require_proof {
+      IF context.thesis_verification.proven_claims_without_proof > 0
+      THEN {
+        ACTION: REQUIRE
+        TARGET: proof_review
+        MESSAGE: "Claims classified as PROVEN lack formal proof evidence. Provide proofs or reclassify."
+      }
+    }
+
+    CLAUSE reproducibility_minimum {
+      IF context.thesis_verification.reproducibility_score < 0.3
+      AND context.publication_target == "journal"
+      THEN {
+        ACTION: FORBID
+        TARGET: journal_submission
+        MESSAGE: "Reproducibility score too low for journal submission. Add build/test infrastructure."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 4: Seal Chain Integrity
+  // ================================================================
+  RULE SEAL_CHAIN_INTEGRITY {
+    CLAUSE seal_must_exist {
+      IF context.thesis_verification.seal_id == NULL
+      AND context.release_type != "draft"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: thesis_verification
+        MESSAGE: "No verification seal found. Run THESIS verify before release."
+      }
+    }
+
+    CLAUSE seal_chain_unbroken {
+      IF context.thesis_verification.chain_valid == FALSE
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        SEVERITY: CRITICAL
+        MESSAGE: "Verification seal chain is broken. Re-run full verification."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 5: Publication Readiness
+  // ================================================================
+  RULE PUBLICATION_READINESS {
+    CLAUSE preprint_minimum {
+      IF context.thesis_verification.grade IN ["D", "F"]
+      AND context.action == "publish"
+      THEN {
+        ACTION: FORBID
+        TARGET: publication
+        MESSAGE: "Verification grade too low for publication. Minimum grade C required."
+      }
+    }
+
+    CLAUSE documentation_completeness {
+      IF context.thesis_verification.documentation_score < 0.5
+      AND context.publication_target == "journal"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: documentation_review
+        MESSAGE: "Documentation incomplete for journal submission. Improve documentation coverage."
+      }
+    }
+  }
+}
