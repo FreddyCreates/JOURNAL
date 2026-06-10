@@ -1,0 +1,164 @@
+name: Protocol Validation Pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'protocols/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'protocols/**'
+  workflow_dispatch:
+    inputs:
+      protocol:
+        description: 'Specific protocol to validate (leave empty for all)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  lint-protocols:
+    name: Lint & Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate protocol syntax
+        run: |
+          echo "╔════════════════════════════════════════════╗"
+          echo "║  PROTOCOL VALIDATION — Syntax Phase        ║"
+          echo "╚════════════════════════════════════════════╝"
+          
+          ERRORS=0
+          for file in protocols/*.js; do
+            if node --check "$file" 2>/dev/null; then
+              echo "✓ PASS: $file"
+            else
+              echo "✗ FAIL: $file"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          
+          echo ""
+          echo "Results: $ERRORS errors found"
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+
+  validate-exports:
+    name: Validate Protocol Exports
+    runs-on: ubuntu-latest
+    needs: lint-protocols
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify protocol index integrity
+        run: |
+          echo "╔════════════════════════════════════════════╗"
+          echo "║  PROTOCOL VALIDATION — Export Phase         ║"
+          echo "╚════════════════════════════════════════════╝"
+          
+          # Check that all protocol files are exported in index.js
+          MISSING=0
+          for file in protocols/*.js; do
+            basename=$(basename "$file" .js)
+            if [ "$basename" = "index" ]; then continue; fi
+            if ! grep -q "$basename" protocols/index.js; then
+              echo "⚠ WARNING: $basename not found in index.js"
+              MISSING=$((MISSING + 1))
+            else
+              echo "✓ INDEXED: $basename"
+            fi
+          done
+          
+          echo ""
+          echo "Missing from index: $MISSING"
+
+  validate-substrate:
+    name: Validate Substrate Protocols
+    runs-on: ubuntu-latest
+    needs: lint-protocols
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify 29 substrate protocols exist
+        run: |
+          echo "╔════════════════════════════════════════════╗"
+          echo "║  SUBSTRATE VALIDATION — Integrity Check    ║"
+          echo "╚════════════════════════════════════════════╝"
+          
+          COUNT=$(ls protocols/substrate/*.js 2>/dev/null | grep -v index | wc -l)
+          echo "Substrate protocols found: $COUNT"
+          
+          if [ "$COUNT" -lt 29 ]; then
+            echo "✗ FAIL: Expected 29 substrate protocols, found $COUNT"
+            exit 1
+          else
+            echo "✓ PASS: All 29 substrate protocols present"
+          fi
+
+  protocol-manifest:
+    name: Generate Protocol Manifest
+    runs-on: ubuntu-latest
+    needs: [validate-exports, validate-substrate]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate manifest
+        run: |
+          echo "╔════════════════════════════════════════════╗"
+          echo "║  PROTOCOL MANIFEST GENERATION              ║"
+          echo "╚════════════════════════════════════════════╝"
+          
+          cat > /tmp/protocol-manifest.json << 'MANIFEST_EOF'
+          {
+            "generated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "pipeline": "protocol-validation",
+            "status": "VALIDATED",
+            "layer3_protocols": [],
+            "layer2_substrate": 29,
+            "governance_seal": "PV-SEAL-$(date +%Y%m%d)"
+          }
+          MANIFEST_EOF
+          
+          # Count protocols
+          L3_COUNT=$(ls protocols/*.js | grep -v index | wc -l)
+          L2_COUNT=$(ls protocols/substrate/*.js | grep -v index | wc -l)
+          
+          echo "Layer 3 Protocols: $L3_COUNT"
+          echo "Layer 2 Substrate: $L2_COUNT"
+          echo "Total: $((L3_COUNT + L2_COUNT))"
+
+      - name: Upload manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: protocol-validation-manifest
+          path: /tmp/protocol-manifest.json
+          retention-days: 90

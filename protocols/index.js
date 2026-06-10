@@ -25,6 +25,13 @@ export { LensIntelligenceProtocol } from './lens-intelligence-protocol.js';
 export { HookLifecycleProtocol } from './hook-lifecycle-protocol.js';
 export { TriggerEventProtocol } from './trigger-event-protocol.js';
 export { MemoryRuntimeGovernanceProtocol, CLAIM_CLASS, AUTHORITY_LAYER, EVIDENCE_POSTURE } from './memory-runtime-governance-protocol.js';
+export { QuantumStateConsensusEngine, ConsensusState, QuantumStateVector } from './quantum-state-consensus-protocol.js';
+export { SwarmCoordinator, SwarmAgent, SwarmRole, SwarmState } from './neural-swarm-coordination-protocol.js';
+export { TemporalRollbackEngine, TemporalTimeline, TemporalState } from './temporal-rollback-recovery-protocol.js';
+export { SovereignMeshFederation, MeshNode, FederationRole } from './sovereign-mesh-federation-protocol.js';
+export { PredictiveFaultIsolationEngine, FaultPredictor, IsolationLevel } from './predictive-fault-isolation-protocol.js';
+export { HolographicMemoryStore, HolographicEncoder, EncodingMode } from './holographic-memory-compression-protocol.js';
+export { CrossChainResonanceNetwork, ResonanceMonitor } from './cross-chain-resonance.js';
 
 // ═══════════════════════════════════════════════════════════════════
 // SUBSTRATE PROTOCOLS — 29 UNBREAKABLE EMBEDDED PROTOCOLS

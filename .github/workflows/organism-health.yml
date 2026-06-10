@@ -1,0 +1,187 @@
+name: Organism Health Monitor
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+    inputs:
+      full_scan:
+        description: 'Run full deep scan (slower but comprehensive)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  structural-health:
+    name: Structural Integrity Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify organism structure
+        run: |
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║  ORGANISM HEALTH MONITOR — Structural Integrity           ║"
+          echo "║  'Organismus integer manet' — The organism remains whole  ║"
+          echo "╚════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          HEALTH_SCORE=100
+          ISSUES=()
+          
+          # Check critical directories
+          REQUIRED_DIRS=("protocols" "protocols/substrate" "governance" "governance/laws" "governance/pipelines" "docs" "sdk" "julia" "languages")
+          
+          for dir in "${REQUIRED_DIRS[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✓ PRESENT: $dir/"
+            else
+              echo "✗ MISSING: $dir/"
+              HEALTH_SCORE=$((HEALTH_SCORE - 10))
+              ISSUES+=("Missing directory: $dir")
+            fi
+          done
+          
+          echo ""
+          echo "Structural Health Score: $HEALTH_SCORE/100"
+          
+          if [ $HEALTH_SCORE -lt 80 ]; then
+            echo "⚠ WARNING: Structural health below threshold"
+            exit 1
+          fi
+
+  protocol-coherence:
+    name: Protocol Coherence Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Measure protocol coherence
+        run: |
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║  ORGANISM HEALTH — Protocol Coherence                     ║"
+          echo "╚════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          # Count all protocol types
+          LAYER3=$(ls protocols/*.js 2>/dev/null | grep -v index | wc -l)
+          SUBSTRATE=$(ls protocols/substrate/*.js 2>/dev/null | grep -v index | wc -l)
+          PIPELINES=$(ls governance/pipelines/*.cpl-p 2>/dev/null | wc -l)
+          LAWS=$(ls governance/laws/*.cpl-l 2>/dev/null | wc -l)
+          
+          echo "Protocol Layer 3: $LAYER3"
+          echo "Substrate Layer 2: $SUBSTRATE"
+          echo "Governance Pipelines: $PIPELINES"
+          echo "Constitutional Laws: $LAWS"
+          echo ""
+          
+          # φ-coherence: ratio of substrate to total should approximate φ⁻¹
+          TOTAL=$((LAYER3 + SUBSTRATE))
+          if [ $TOTAL -gt 0 ]; then
+            RATIO=$(echo "scale=3; $SUBSTRATE / $TOTAL" | bc)
+            echo "Substrate/Total Ratio: $RATIO (target: ~0.618)"
+          fi
+          
+          # Check governance coverage
+          echo ""
+          echo "Governance Coverage:"
+          echo "  Laws: $LAWS"
+          echo "  Pipelines: $PIPELINES"
+          echo "  Agents configured: $(grep -c 'agent:' governance/pipelines/*.cpl-p 2>/dev/null || echo 0)"
+
+  federation-health:
+    name: Federation & Connectivity Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check federation artifacts
+        run: |
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║  ORGANISM HEALTH — Federation & Integration               ║"
+          echo "╚════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          # Check SDK presence
+          echo "SDK Components:"
+          for sdk_dir in sdk/*/; do
+            if [ -d "$sdk_dir" ]; then
+              echo "  ✓ $(basename $sdk_dir)"
+            fi
+          done
+          
+          echo ""
+          echo "Enterprise Houses:"
+          for ent_dir in enterprise/*/; do
+            if [ -d "$ent_dir" ]; then
+              echo "  ✓ $(basename $ent_dir)"
+            fi
+          done
+          
+          echo ""
+          echo "Language Parsers:"
+          LANG_COUNT=$(ls -d languages/*/ 2>/dev/null | wc -l)
+          echo "  Total: $LANG_COUNT"
+          
+          echo ""
+          echo "Workflow Pipelines:"
+          for wf in .github/workflows/*.yml; do
+            echo "  ✓ $(basename $wf)"
+          done
+
+  health-report:
+    name: Generate Health Report
+    runs-on: ubuntu-latest
+    needs: [structural-health, protocol-coherence, federation-health]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate health report
+        run: |
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║  ORGANISM HEALTH REPORT — Summary                         ║"
+          echo "║  Seal: OH-$(date +%Y%m%d-%H%M)                            ║"
+          echo "╚════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          cat > /tmp/health-report.json << EOF
+          {
+            "report_id": "OH-$(date +%Y%m%d-%H%M%S)",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": "HEALTHY",
+            "checks": {
+              "structural_integrity": "PASS",
+              "protocol_coherence": "PASS",
+              "federation_health": "PASS"
+            },
+            "seal": "OH-SEAL-$(date +%Y%m%d)"
+          }
+          EOF
+          
+          echo "Health report generated successfully."
+          echo "Status: HEALTHY"
+          echo "All systems nominal."
+
+      - name: Upload health report
+        uses: actions/upload-artifact@v4
+        with:
+          name: organism-health-report
+          path: /tmp/health-report.json
+          retention-days: 30

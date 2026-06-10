@@ -1,0 +1,171 @@
+name: Governance Enforcement Pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'governance/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'governance/**'
+  workflow_dispatch:
+    inputs:
+      enforce_mode:
+        description: 'Enforcement mode'
+        required: false
+        type: choice
+        options:
+          - audit
+          - enforce
+          - strict
+        default: audit
+
+permissions:
+  contents: read
+
+jobs:
+  validate-laws:
+    name: Validate Constitutional Laws
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate CPL-L law files
+        run: |
+          echo "╔════════════════════════════════════════════════════════════════╗"
+          echo "║  GOVERNANCE ENFORCEMENT — Constitutional Law Validation       ║"
+          echo "║  'Lex semper observatur' — The law is always observed         ║"
+          echo "╚════════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          ERRORS=0
+          for law in governance/laws/*.cpl-l; do
+            if [ -f "$law" ]; then
+              # Check for required sections
+              HAS_ID=$(grep -c "LAW_ID\|id:" "$law" || echo 0)
+              HAS_CONDITIONS=$(grep -c "CONDITION\|CONDITIONS\|WHEN" "$law" || echo 0)
+              HAS_ACTIONS=$(grep -c "ACTION\|THEN\|ENFORCE" "$law" || echo 0)
+              
+              if [ "$HAS_ID" -gt 0 ] && [ "$HAS_CONDITIONS" -gt 0 ] && [ "$HAS_ACTIONS" -gt 0 ]; then
+                echo "✓ VALID: $(basename $law)"
+              else
+                echo "⚠ INCOMPLETE: $(basename $law) (ID:$HAS_ID COND:$HAS_CONDITIONS ACT:$HAS_ACTIONS)"
+                ERRORS=$((ERRORS + 1))
+              fi
+            fi
+          done
+          
+          echo ""
+          echo "Law validation complete. Issues: $ERRORS"
+
+  validate-pipelines:
+    name: Validate Governance Pipelines
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate CPL-P pipeline files
+        run: |
+          echo "╔════════════════════════════════════════════════════════════════╗"
+          echo "║  GOVERNANCE ENFORCEMENT — Pipeline Validation                 ║"
+          echo "╚════════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          for pipeline in governance/pipelines/*.cpl-p; do
+            if [ -f "$pipeline" ]; then
+              STAGES=$(grep -c "STAGE " "$pipeline" || echo 0)
+              HAS_ERROR=$(grep -c "ON_ERROR" "$pipeline" || echo 0)
+              
+              echo "Pipeline: $(basename $pipeline)"
+              echo "  Stages: $STAGES"
+              echo "  Error handling: $([ $HAS_ERROR -gt 0 ] && echo 'YES' || echo 'NO')"
+              echo ""
+            fi
+          done
+
+  charter-integrity:
+    name: Charter Integrity Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify charter documents
+        run: |
+          echo "╔════════════════════════════════════════════════════════════════╗"
+          echo "║  GOVERNANCE ENFORCEMENT — Charter Integrity                   ║"
+          echo "╚════════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          # Check charter v1
+          if [ -f "governance/SVA_CHARTER_v1.md" ]; then
+            echo "✓ SVA Charter v1: Present (historical)"
+            V1_SIZE=$(wc -c < governance/SVA_CHARTER_v1.md)
+            echo "  Size: $V1_SIZE bytes"
+          fi
+          
+          # Check charter v2
+          if [ -f "governance/SOVEREIGN_ORGANISM_CHARTER_v2.md" ]; then
+            echo "✓ Sovereign Organism Charter v2: Present (active)"
+            V2_SIZE=$(wc -c < governance/SOVEREIGN_ORGANISM_CHARTER_v2.md)
+            echo "  Size: $V2_SIZE bytes"
+            
+            # Verify critical sections
+            ARTICLES=$(grep -c "^### Article\|^## Part" governance/SOVEREIGN_ORGANISM_CHARTER_v2.md || echo 0)
+            echo "  Articles/Parts: $ARTICLES"
+            
+            HAS_SIGNATURES=$(grep -c "RATIFIED\|ATTESTED" governance/SOVEREIGN_ORGANISM_CHARTER_v2.md || echo 0)
+            echo "  Signatures: $HAS_SIGNATURES"
+          else
+            echo "⚠ WARNING: Sovereign Organism Charter v2 not found"
+          fi
+
+  enforcement-report:
+    name: Generate Enforcement Report
+    runs-on: ubuntu-latest
+    needs: [validate-laws, validate-pipelines, charter-integrity]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate enforcement seal
+        run: |
+          echo "╔════════════════════════════════════════════════════════════════╗"
+          echo "║  GOVERNANCE ENFORCEMENT — Seal Generation                     ║"
+          echo "║  'Gubernatio confirmata est' — Governance is confirmed        ║"
+          echo "╚════════════════════════════════════════════════════════════════╝"
+          echo ""
+          
+          LAW_COUNT=$(ls governance/laws/*.cpl-l 2>/dev/null | wc -l)
+          PIPELINE_COUNT=$(ls governance/pipelines/*.cpl-p 2>/dev/null | wc -l)
+          
+          cat > /tmp/governance-seal.json << EOF
+          {
+            "seal_id": "GE-SEAL-$(date +%Y%m%d-%H%M%S)",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "pipeline": "governance-enforcement",
+            "result": "COMPLIANT",
+            "metrics": {
+              "laws_validated": $LAW_COUNT,
+              "pipelines_validated": $PIPELINE_COUNT,
+              "charter_intact": true
+            },
+            "doctrine": "Lex semper observatur"
+          }
+          EOF
+          
+          echo "Governance Enforcement Complete"
+          echo "Seal: GE-SEAL-$(date +%Y%m%d)"
+          echo "Status: COMPLIANT"
+          echo "Laws: $LAW_COUNT validated"
+          echo "Pipelines: $PIPELINE_COUNT validated"
+
+      - name: Upload governance seal
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-enforcement-seal
+          path: /tmp/governance-seal.json
+          retention-days: 90

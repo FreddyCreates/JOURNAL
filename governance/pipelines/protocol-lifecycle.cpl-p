@@ -1,0 +1,284 @@
+id: "pipeline://governance/protocol_lifecycle"
+
+PIPELINE protocol_lifecycle {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIPELINE.PROTO.LIFECYCLE.001"
+  RUNTIME: cpl-p-executor
+
+  // ================================================================
+  // STAGE 1: Protocol Proposal
+  // ================================================================
+  STAGE proposal {
+    NOMEN_LATINUM: PROPOSITIO_PROTOCOLI
+
+    INPUTS {
+      protocol_spec: {
+        TYPE: ProtocolSpecification
+        REQUIRED: TRUE
+        DESCRIPTION: "Full specification of the proposed protocol"
+      }
+      proposer: {
+        TYPE: AgentId
+        REQUIRED: TRUE
+        DESCRIPTION: "Agent proposing the new protocol"
+      }
+    }
+
+    ACTIONS {
+      validate_spec: {
+        USE: "protocol.validate_specification"
+        ARGS: {
+          spec: "${protocol_spec}",
+          required_fields: ["PROTOCOL_ID", "PROTOCOL_NAME", "DOCTRINE", "exports"]
+        }
+      }
+
+      check_uniqueness: {
+        USE: "protocol.check_id_unique"
+        ARGS: {
+          protocol_id: "${protocol_spec.PROTOCOL_ID}",
+          registry: "protocols/index.js"
+        }
+      }
+
+      assess_phi_compliance: {
+        USE: "protocol.assess_phi_compliance"
+        ARGS: {
+          spec: "${protocol_spec}",
+          thresholds: {
+            required_phi_usage: TRUE,
+            min_phi_references: 1
+          }
+        }
+      }
+    }
+
+    OUTPUTS {
+      spec_valid: "${validate_spec.valid}"
+      is_unique: "${check_uniqueness.unique}"
+      phi_compliant: "${assess_phi_compliance.compliant}"
+      can_proceed: "${spec_valid && is_unique && phi_compliant}"
+    }
+
+    NEXT: security_review
+    CONDITION: "${can_proceed}"
+  }
+
+  // ================================================================
+  // STAGE 2: Security Review
+  // ================================================================
+  STAGE security_review {
+    NOMEN_LATINUM: REVISIO_SECURITATIS
+
+    INPUTS {
+      protocol_spec: { TYPE: ProtocolSpecification }
+    }
+
+    ACTIONS {
+      sentinel_review: {
+        USE: "sentinel.review_protocol"
+        ARGS: {
+          spec: "${protocol_spec}",
+          checks: [
+            "no_external_data_exfiltration",
+            "no_privilege_escalation",
+            "respects_agent_boundaries",
+            "no_substrate_override",
+            "sandboxed_execution"
+          ]
+        }
+      }
+
+      threat_model: {
+        USE: "sentinel.generate_threat_model"
+        ARGS: {
+          protocol: "${protocol_spec}",
+          attack_vectors: ["injection", "privilege_escalation", "data_leak", "dos"]
+        }
+      }
+    }
+
+    OUTPUTS {
+      security_passed: "${sentinel_review.all_passed}"
+      threat_level: "${threat_model.overall_risk}"
+      mitigations: "${threat_model.recommended_mitigations}"
+    }
+
+    NEXT: governance_approval
+    CONDITION: "${security_passed}"
+  }
+
+  // ================================================================
+  // STAGE 3: Governance Approval
+  // ================================================================
+  STAGE governance_approval {
+    NOMEN_LATINUM: APPROBATIO_GUBERNATIONIS
+
+    INPUTS {
+      protocol_spec: { TYPE: ProtocolSpecification }
+      security_passed: { TYPE: Boolean }
+      threat_level: { TYPE: ThreatLevel }
+    }
+
+    ACTIONS {
+      civos_review: {
+        USE: "civos_prime.review_protocol_addition"
+        ARGS: {
+          spec: "${protocol_spec}",
+          security_assessment: {
+            passed: "${security_passed}",
+            threat_level: "${threat_level}"
+          }
+        }
+      }
+
+      check_constitutional_compliance: {
+        USE: "governance.check_charter_compliance"
+        ARGS: {
+          action: "PROTOCOL_ADDITION",
+          charter: "SOVEREIGN_ORGANISM_CHARTER_v2",
+          article: "Article 16"
+        }
+      }
+
+      request_human_approval: {
+        USE: "governance.request_human_approval"
+        ARGS: {
+          target: "human://freddy",
+          request_type: "PROTOCOL_ADDITION",
+          protocol: "${protocol_spec.PROTOCOL_NAME}",
+          risk: "${threat_level}"
+        }
+        CONDITION: "${threat_level == 'MEDIUM' || threat_level == 'HIGH'}"
+      }
+    }
+
+    OUTPUTS {
+      approved: "${civos_review.approved && check_constitutional_compliance.compliant}"
+      approval_seal: "${civos_review.seal}"
+    }
+
+    NEXT: activation
+    CONDITION: "${approved}"
+  }
+
+  // ================================================================
+  // STAGE 4: Protocol Activation
+  // ================================================================
+  STAGE activation {
+    NOMEN_LATINUM: ACTIVATIO_PROTOCOLI
+
+    INPUTS {
+      protocol_spec: { TYPE: ProtocolSpecification }
+      approval_seal: { TYPE: GovernanceSeal }
+    }
+
+    ACTIONS {
+      register_protocol: {
+        USE: "protocol.register_in_index"
+        ARGS: {
+          spec: "${protocol_spec}",
+          index_file: "protocols/index.js",
+          seal: "${approval_seal}"
+        }
+      }
+
+      update_manifest: {
+        USE: "protocol.update_manifest"
+        ARGS: {
+          protocol_id: "${protocol_spec.PROTOCOL_ID}",
+          status: "ACTIVE",
+          activated_at: "${now()}"
+        }
+      }
+
+      emit_activation_event: {
+        USE: "governance.emit_event"
+        ARGS: {
+          event_type: "PROTOCOL_ACTIVATED",
+          payload: {
+            protocol_id: "${protocol_spec.PROTOCOL_ID}",
+            protocol_name: "${protocol_spec.PROTOCOL_NAME}",
+            seal: "${approval_seal}",
+            activated_at: "${now()}"
+          }
+        }
+      }
+    }
+
+    OUTPUTS {
+      registered: "${register_protocol.success}"
+      manifest_updated: "${update_manifest.success}"
+      event_emitted: TRUE
+    }
+
+    NEXT: verification
+  }
+
+  // ================================================================
+  // STAGE 5: Post-Activation Verification
+  // ================================================================
+  STAGE verification {
+    NOMEN_LATINUM: VERIFICATIO_POST_ACTIVATIONEM
+
+    INPUTS {
+      protocol_spec: { TYPE: ProtocolSpecification }
+      approval_seal: { TYPE: GovernanceSeal }
+    }
+
+    ACTIONS {
+      thesis_verify: {
+        USE: "thesis.verify_protocol_claims"
+        ARGS: {
+          protocol: "${protocol_spec}",
+          verify_doctrine: TRUE,
+          verify_exports: TRUE,
+          verify_phi_compliance: TRUE
+        }
+      }
+
+      record_in_cil: {
+        USE: "governance.record_cil_entry"
+        ARGS: {
+          entity_id: "${protocol_spec.PROTOCOL_ID}",
+          action: "ACTIVATED",
+          seal: "${approval_seal}",
+          thesis_result: "${thesis_verify.result}",
+          timestamp: "${now()}"
+        }
+      }
+
+      create_final_seal: {
+        USE: "governance.create_seal"
+        ARGS: {
+          type: "PROTOCOL_LIFECYCLE_COMPLETE",
+          protocol: "${protocol_spec.PROTOCOL_ID}",
+          verification: "${thesis_verify.result}",
+          statement: "Protocol ${protocol_spec.PROTOCOL_NAME} activated and verified — ${now()}"
+        }
+      }
+    }
+
+    OUTPUTS {
+      verified: "${thesis_verify.passed}"
+      cil_recorded: TRUE
+      final_seal: "${create_final_seal.result}"
+    }
+  }
+
+  // ================================================================
+  // ERROR HANDLING
+  // ================================================================
+  ON_ERROR {
+    USE: "governance.handle_pipeline_error"
+    ARGS: {
+      error: "${error}",
+      stage: "${current_stage}",
+      context: "${context}",
+      pipeline: "PROTOCOL_LIFECYCLE"
+    }
+    ESCALATE: TRUE
+    TARGET: "human://freddy"
+    SEVERITY: HIGH
+  }
+}
