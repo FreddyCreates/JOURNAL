@@ -68,6 +68,12 @@ include("MultiModel/FusionEngine.jl")
 include("MultiModel/ConsensusResolver.jl")
 
 # ════════════════════════════════════════════════════════════════════════════════
+# DATASETS SDK
+# ════════════════════════════════════════════════════════════════════════════════
+
+include("Datasets/Datasets.jl")
+
+# ════════════════════════════════════════════════════════════════════════════════
 # RE-EXPORTS — Full SDK surface
 # ════════════════════════════════════════════════════════════════════════════════
 
@@ -95,6 +101,9 @@ using .OrganismLifecycleProtocol
 using .ModelRegistry
 using .FusionEngine
 using .ConsensusResolver
+
+# Datasets
+using .Datasets
 
 # ════════════════════════════════════════════════════════════════════════════════
 # SDK METADATA
@@ -130,6 +139,10 @@ function sdk_info()
         ],
         multi_model = [
             :ModelRegistry, :FusionEngine, :ConsensusResolver
+        ],
+        datasets = [
+            :NLP, :CodeIntelligence, :Reasoning, :Conversational,
+            :Multimodal, :Safety, :KnowledgeGraph
         ]
     )
 end

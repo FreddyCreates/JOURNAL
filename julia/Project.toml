@@ -1,16 +1,20 @@
 name = "MedinaIntelligenceSDK"
 uuid = "f8e9d7c6-b5a4-3210-9876-543210fedcba"
-authors = ["Alfredo 'Freddy' Medina Hernandez <medina@sovereign.ai>"]
 version = "1.0.0"
+authors = ["Alfredo 'Freddy' Medina Hernandez <medina@sovereign.ai>"]
 
 [deps]
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+StructTypes = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
 
 [compat]
+JSON3 = "1.14.3"
+StructTypes = "1.11.0"
 julia = "1.9"
 
 [extras]
