@@ -1,0 +1,196 @@
+LAW CIVOS_PRIME_GOVERNANCE {
+  VERSION "1.0.0"
+  ENCODED_ID: "LAW.CIVOS.PRIME.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  RATIFIED: 2026-06-09
+  ENFORCEMENT: RUNTIME
+
+  // ================================================================
+  // RULE 1: Inter-Agent Coherence — All agents must remain aligned
+  // ================================================================
+  RULE INTER_AGENT_COHERENCE {
+    CLAUSE agent_alignment_check {
+      IF context.civos_prime.agent_divergence_score > 0.4
+      AND context.civos_prime.affected_agents.length > 1
+      THEN {
+        ACTION: REQUIRE
+        TARGET: coherence_reconciliation
+        SEVERITY: HIGH
+        MESSAGE: "Agent divergence exceeds threshold. Inter-agent reconciliation required."
+      }
+    }
+
+    CLAUSE contradictory_outputs {
+      IF context.civos_prime.contradictory_claims > 0
+      AND context.civos_prime.contradiction_severity == "CRITICAL"
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        SEVERITY: CRITICAL
+        MESSAGE: "Critical contradiction between agents detected. Resolve before release."
+      }
+    }
+
+    CLAUSE thesis_auro_alignment {
+      IF context.civos_prime.thesis_verification.posture != context.civos_prime.auro_declaration.posture
+      AND context.civos_prime.posture_delta > 0.3
+      THEN {
+        ACTION: REQUIRE
+        TARGET: posture_reconciliation
+        MESSAGE: "THESIS verification and Auro declaration postures diverge. Reconcile."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 2: Constitutional Compliance — System-level truth enforcement
+  // ================================================================
+  RULE CONSTITUTIONAL_COMPLIANCE {
+    CLAUSE evidence_constitution {
+      IF context.civos_prime.claim_without_evidence == TRUE
+      AND context.civos_prime.claim_class IN ["PROVEN", "DEMONSTRATED", "VALIDATED"]
+      THEN {
+        ACTION: FORBID
+        TARGET: publication
+        SEVERITY: CRITICAL
+        MESSAGE: "Constitutional violation: claim classified as proven without evidence."
+      }
+    }
+
+    CLAUSE sovereignty_boundary {
+      IF context.civos_prime.external_dependency_ratio > 0.6
+      AND context.civos_prime.critical_path_external == TRUE
+      THEN {
+        ACTION: REQUIRE
+        TARGET: sovereignty_review
+        SEVERITY: HIGH
+        MESSAGE: "Critical path depends on external systems. Sovereignty boundary at risk."
+      }
+    }
+
+    CLAUSE reproducibility_mandate {
+      IF context.civos_prime.reproducibility_score < 0.4
+      AND context.release_type == "production"
+      AND context.publication_target IN ["journal", "conference"]
+      THEN {
+        ACTION: FORBID
+        TARGET: publication
+        SEVERITY: HIGH
+        MESSAGE: "Reproducibility below constitutional minimum for formal publication."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 3: Governance Cascade — Multi-layer verification
+  // ================================================================
+  RULE GOVERNANCE_CASCADE {
+    CLAUSE thesis_must_verify_before_release {
+      IF context.civos_prime.thesis_seal == NULL
+      AND context.release_type != "draft"
+      THEN {
+        ACTION: REQUIRE
+        TARGET: thesis_verification
+        MESSAGE: "THESIS verification seal required before CIVOS-PRIME can approve release."
+      }
+    }
+
+    CLAUSE origo_build_integrity {
+      IF context.civos_prime.origo_build_status != "GREEN"
+      AND context.civos_prime.origo_affected_modules > 0
+      THEN {
+        ACTION: REQUIRE
+        TARGET: origo_rebuild
+        MESSAGE: "Origo build not green. Rebuild affected modules before governance approval."
+      }
+    }
+
+    CLAUSE codex_execution_boundary {
+      IF context.civos_prime.codex_execution_risk > 0.7
+      AND context.civos_prime.codex_sandbox == FALSE
+      THEN {
+        ACTION: FORBID
+        TARGET: execution
+        SEVERITY: CRITICAL
+        MESSAGE: "Codex execution risk too high without sandbox. Enable sandboxed execution."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 4: Truth Layer Integrity — No false claims propagate
+  // ================================================================
+  RULE TRUTH_LAYER_INTEGRITY {
+    CLAUSE verification_report_required {
+      IF context.civos_prime.claims_modified > 0
+      AND context.civos_prime.verification_report == NULL
+      THEN {
+        ACTION: REQUIRE
+        TARGET: verification_report
+        MESSAGE: "Claims modified without verification report. Generate report before merge."
+      }
+    }
+
+    CLAUSE risk_score_threshold {
+      IF context.civos_prime.aggregate_risk_score > 0.8
+      THEN {
+        ACTION: FORBID
+        TARGET: merge
+        SEVERITY: CRITICAL
+        MESSAGE: "Aggregate risk score exceeds safety threshold. Human review required."
+      }
+      AND {
+        ACTION: REQUIRE
+        TARGET: human_review
+        ESCALATION: immediate
+        OPERATOR: "human://freddy"
+      }
+    }
+
+    CLAUSE evidence_chain_unbroken {
+      IF context.civos_prime.evidence_chain_valid == FALSE
+      AND context.civos_prime.chain_break_count > 0
+      THEN {
+        ACTION: FORBID
+        TARGET: release
+        SEVERITY: CRITICAL
+        MESSAGE: "Evidence chain broken. Restore chain integrity before release."
+      }
+    }
+  }
+
+  // ================================================================
+  // RULE 5: Ecosystem Governance — Cross-product lane alignment
+  // ================================================================
+  RULE ECOSYSTEM_GOVERNANCE {
+    CLAUSE marketplace_hub_sync {
+      IF context.civos_prime.marketplace_version != context.civos_prime.hub_version
+      AND context.civos_prime.version_delta > 1
+      THEN {
+        ACTION: REQUIRE
+        TARGET: version_sync
+        MESSAGE: "Marketplace and Hub versions diverged beyond tolerance. Synchronize."
+      }
+    }
+
+    CLAUSE verifier_independence {
+      IF context.civos_prime.verifier_depends_on_verified == TRUE
+      THEN {
+        ACTION: FORBID
+        TARGET: deployment
+        SEVERITY: CRITICAL
+        MESSAGE: "Verifier cannot depend on the system it verifies. Circular dependency detected."
+      }
+    }
+
+    CLAUSE schema_compatibility {
+      IF context.civos_prime.schema_breaking_change == TRUE
+      AND context.civos_prime.migration_plan == NULL
+      THEN {
+        ACTION: REQUIRE
+        TARGET: migration_plan
+        MESSAGE: "Breaking schema change without migration plan. Provide migration before merge."
+      }
+    }
+  }
+}
