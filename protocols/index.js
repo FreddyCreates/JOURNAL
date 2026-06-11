@@ -34,6 +34,28 @@ export { HolographicMemoryStore, HolographicEncoder, EncodingMode } from './holo
 export { CrossChainResonanceNetwork, ResonanceMonitor } from './cross-chain-resonance.js';
 
 // ═══════════════════════════════════════════════════════════════════
+// 18 NEW SOVEREIGN PROTOCOLS — PHI-WIRED INTELLIGENCE EXPANSION
+// ═══════════════════════════════════════════════════════════════════
+export { GravitationalBindingEngine, StateMassCalculator, BindingState } from './gravitational-state-binding-protocol.js';
+export { CognitiveAmplifier, ResonanceChamber, ResonanceState, AmplificationMode } from './cognitive-resonance-amplification-protocol.js';
+export { AutonomousEvolutionEngine, GeneticCode, EvolutionState, MutationType } from './autonomous-evolution-mutation-protocol.js';
+export { DistributedConsciousnessEngine, ConsciousnessNode, ConsciousnessState, SyncMode } from './distributed-consciousness-sync-protocol.js';
+export { DecayResistanceEngine, EntropyMeter, EntropyState, ResistanceStrategy } from './entropic-decay-resistance-protocol.js';
+export { FractalDecisionEngine, FractalNode, DecisionState, BranchStrategy } from './fractal-decision-tree-protocol.js';
+export { MorphicFieldEngine, MorphicPattern, FieldState, PropagationMode } from './morphic-field-propagation-protocol.js';
+export { SynapticOptimizer, NeuralLayer, Synapse, OptimizationState, OptimizerType } from './synaptic-weight-optimization-protocol.js';
+export { CausalInferenceEngine, CausalGraph, CausalNode, CausalState, CausalRelation } from './causal-inference-engine-protocol.js';
+export { DimensionalFoldingEngine, DimensionalManifold, FoldingState, FoldingDimension } from './dimensional-folding-compression-protocol.js';
+export { SovereignImmuneEngine, Antibody, ImmuneState, ThreatLevel, DefenseType } from './sovereign-immune-defense-protocol.js';
+export { HarmonicAlignmentEngine, Oscillator, AlignmentState, HarmonicSeries } from './harmonic-frequency-alignment-protocol.js';
+export { EmergentBehaviorEngine, SimpleAgent, EmergenceState, RuleType } from './emergent-behavior-synthesis-protocol.js';
+export { RecursiveSelfReflectionEngine, ReflectionLayer, ReflectionState, InsightType } from './recursive-self-reflection-protocol.js';
+export { TopologicalDataEngine, Simplex, PersistenceState, TopologyType } from './topological-data-persistence-protocol.js';
+export { SemanticLatticeEngine, SemanticNode, ReasoningState, RelationType } from './semantic-lattice-reasoning-protocol.js';
+export { ZeroPointHarvester, EnergyCell, HarvestState, EnergyMode } from './zero-point-energy-harvesting-protocol.js';
+export { CollectiveMemoryWeaver, MemoryThread, WeavingState, ThreadType } from './collective-memory-weaving-protocol.js';
+
+// ═══════════════════════════════════════════════════════════════════
 // SUBSTRATE PROTOCOLS — 29 UNBREAKABLE EMBEDDED PROTOCOLS
 // These form the constitutional bedrock of the organism.
 // They cannot be overridden, disabled, or modified at runtime.
