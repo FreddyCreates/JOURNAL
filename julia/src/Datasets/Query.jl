@@ -10,7 +10,7 @@ using Random
 Filter samples that have a `domain` field matching the given value.
 """
 function filter_by_domain(dataset::Dataset, domain::String)
-    return filter(s -> hasproperty(s, :domain) && s.domain == domain, dataset.samples)
+    return filter(s -> _has_field(s, :domain) && s.domain == domain, dataset.samples)
 end
 
 """
@@ -19,7 +19,7 @@ end
 Filter samples with confidence >= min_confidence.
 """
 function filter_by_confidence(dataset::Dataset, min_confidence::Float64)
-    return filter(s -> hasproperty(s, :confidence) && s.confidence >= min_confidence, dataset.samples)
+    return filter(s -> _has_field(s, :confidence) && s.confidence >= min_confidence, dataset.samples)
 end
 
 """
@@ -28,7 +28,7 @@ end
 Filter samples matching the given difficulty level.
 """
 function filter_by_difficulty(dataset::Dataset, difficulty::String)
-    return filter(s -> hasproperty(s, :difficulty) && s.difficulty == difficulty, dataset.samples)
+    return filter(s -> _has_field(s, :difficulty) && s.difficulty == difficulty, dataset.samples)
 end
 
 """
@@ -37,7 +37,7 @@ end
 Filter samples matching the given label.
 """
 function filter_by_label(dataset::Dataset, label::String)
-    return filter(s -> hasproperty(s, :label) && s.label == label, dataset.samples)
+    return filter(s -> _has_field(s, :label) && s.label == label, dataset.samples)
 end
 
 """
@@ -63,7 +63,7 @@ function dataset_stats(dataset::Dataset)
     # Try to extract domain distribution
     domains = Dict{String,Int}()
     for s in dataset.samples
-        if hasproperty(s, :domain)
+        if _has_field(s, :domain)
             d = s.domain
             domains[d] = get(domains, d, 0) + 1
         end
@@ -80,7 +80,7 @@ function dataset_stats(dataset::Dataset)
     )
 end
 
-# Helper to check if a struct has a property
-function hasproperty(obj, prop::Symbol)
+# Helper to check if a struct has a given field
+function _has_field(obj, prop::Symbol)
     return prop in fieldnames(typeof(obj))
 end

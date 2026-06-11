@@ -90,7 +90,7 @@ function datasets_info()
         author = "Alfredo 'Freddy' Medina Hernandez",
         domains = [:NLP, :CodeIntelligence, :Reasoning, :Conversational,
                    :Multimodal, :Safety, :KnowledgeGraph],
-        total_datasets = 14,
+        total_datasets = 17,
         root_path = DATASETS_ROOT
     )
 end
