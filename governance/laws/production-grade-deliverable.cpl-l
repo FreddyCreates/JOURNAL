@@ -1,0 +1,55 @@
+# Production-Grade Deliverable Law
+# Authority: Root governance
+# Version: 1.0.0
+# Scope: All deliverables in this repository
+
+law "production-grade-deliverable" {
+  version = "1.0.0"
+  scope   = "repository-wide"
+
+  principle "every-deliverable-is-a-packet" {
+    description = "Every deliverable must be scaffolded as a production-grade packet with README, policy, manifest, quality gate, and reports."
+  }
+
+  principle "self-verifying" {
+    description = "Every packet carries its own quality_gate.py that exits 0 on pass, 1 on fail."
+  }
+
+  principle "no-loose-deliverables" {
+    description = "No file tree ships without manifest.json, PACKET_POLICY.md, and tools/quality_gate.py."
+  }
+
+  rule "scaffold-first" {
+    description = "Use production-grade-builder/tools/scaffold.py to generate the packet skeleton before adding content."
+    enforcement = "manual + CI"
+  }
+
+  rule "gate-before-export" {
+    description = "Run tools/quality_gate.py and confirm exit 0 before any release, merge, or export."
+    enforcement = "CI-blocking"
+  }
+
+  rule "manifest-required" {
+    description = "manifest.json must contain: name, version, kind, created_at at minimum."
+    enforcement = "quality_gate.py"
+  }
+
+  surfaces = [
+    "static-app",
+    "python-service",
+    "node-service",
+    "benchmark-engine",
+    "local-api",
+    "ci-workflow",
+    "dataset",
+    "manifest",
+    "proof-pack",
+    "research-packet",
+    "dashboard",
+    "docs",
+    "deploy-scaffold",
+    "repo-surface"
+  ]
+
+  default_scaffold_engine = "production-grade-builder/tools/scaffold.py"
+}

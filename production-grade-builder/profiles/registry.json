@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "profiles": {
+    "static-app": {
+      "description": "Static HTML/CSS/JS application",
+      "required_files": ["index.html"],
+      "optional_files": ["assets/style.css", "assets/app.js"],
+      "entry_point": "index.html"
+    },
+    "python-service": {
+      "description": "Python backend service",
+      "required_files": ["requirements.txt"],
+      "optional_files": ["app.py", "main.py", "src/__init__.py"],
+      "entry_point": "app.py"
+    },
+    "node-service": {
+      "description": "Node.js backend service",
+      "required_files": ["package.json"],
+      "optional_files": ["index.js", "server.js", "src/index.js"],
+      "entry_point": "index.js"
+    },
+    "benchmark-engine": {
+      "description": "Benchmark or testing engine",
+      "required_files": ["benchmarks/"],
+      "optional_files": ["run_benchmarks.py", "config.json"],
+      "entry_point": "run_benchmarks.py"
+    },
+    "local-api": {
+      "description": "Local API service",
+      "required_files": ["openapi.yaml"],
+      "optional_files": ["routes/", "app.py", "server.js"],
+      "entry_point": "app.py"
+    },
+    "ci-workflow": {
+      "description": "CI/CD workflow definitions",
+      "required_files": ["workflows/"],
+      "optional_files": ["workflows/ci.yml", "workflows/deploy.yml"],
+      "entry_point": "workflows/ci.yml"
+    },
+    "dataset": {
+      "description": "Structured dataset package",
+      "required_files": ["data/", "schema.json"],
+      "optional_files": ["data/main.csv", "data/main.json"],
+      "entry_point": "data/"
+    },
+    "manifest": {
+      "description": "Registry manifest package",
+      "required_files": ["registry.json"],
+      "optional_files": ["schema.json", "entries/"],
+      "entry_point": "registry.json"
+    },
+    "proof-pack": {
+      "description": "Proof and evidence packet",
+      "required_files": ["evidence/", "checksums.sha256"],
+      "optional_files": ["verify.py", "evidence/claim.md"],
+      "entry_point": "evidence/"
+    },
+    "research-packet": {
+      "description": "Research deliverable",
+      "required_files": ["paper.md", "references.bib"],
+      "optional_files": ["findings/", "data/"],
+      "entry_point": "paper.md"
+    },
+    "dashboard": {
+      "description": "Dashboard interface",
+      "required_files": ["dashboard.html"],
+      "optional_files": ["config.json", "assets/"],
+      "entry_point": "dashboard.html"
+    },
+    "docs": {
+      "description": "Documentation package",
+      "required_files": ["index.md"],
+      "optional_files": ["toc.md", "chapters/"],
+      "entry_point": "index.md"
+    },
+    "deploy-scaffold": {
+      "description": "Deployment scaffold",
+      "required_files": ["deploy.yml"],
+      "optional_files": ["Dockerfile", "terraform/", ".env.template"],
+      "entry_point": "deploy.yml"
+    },
+    "repo-surface": {
+      "description": "Repository-level surface",
+      "required_files": ["CONTRIBUTING.md"],
+      "optional_files": ["CODE_OF_CONDUCT.md", ".github/"],
+      "entry_point": "CONTRIBUTING.md"
+    }
+  }
+}
