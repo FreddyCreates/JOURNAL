@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Production-Grade Packet Manifest",
+  "type": "object",
+  "required": ["name", "version", "kind", "created_at"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the deliverable"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "static-app", "python-service", "node-service", "benchmark-engine",
+        "local-api", "ci-workflow", "dataset", "manifest", "proof-pack",
+        "research-packet", "dashboard", "docs", "deploy-scaffold", "repo-surface"
+      ],
+      "description": "Deliverable type from the profile registry"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 creation timestamp"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the deliverable"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or team"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "production", "archived"],
+      "default": "draft"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of dependency identifiers"
+    }
+  }
+}

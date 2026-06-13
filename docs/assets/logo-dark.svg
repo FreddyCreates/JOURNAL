@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" fill="none">
+  <defs>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#818cf8"/>
+      <stop offset="50%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#c4b5fd"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="100%" style="stop-color:#fde68a"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#818cf8" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Shield/Vault Icon -->
+  <g transform="translate(20, 15)" filter="url(#shadow)">
+    <path d="M75 10 L140 35 L140 85 Q140 130 75 150 Q10 130 10 85 L10 35 Z" 
+          fill="url(#glow)" opacity="0.9"/>
+    <path d="M75 22 L128 42 L128 82 Q128 120 75 137 Q22 120 22 82 L22 42 Z" 
+          fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+    <text x="75" y="100" font-family="Georgia, serif" font-size="55" fill="white" 
+          text-anchor="middle" font-style="italic" opacity="0.95">φ</text>
+    <ellipse cx="75" cy="80" rx="45" ry="18" fill="none" stroke="url(#gold)" 
+             stroke-width="1.5" opacity="0.6" transform="rotate(-20, 75, 80)"/>
+    <ellipse cx="75" cy="80" rx="45" ry="18" fill="none" stroke="url(#gold)" 
+             stroke-width="1.5" opacity="0.4" transform="rotate(20, 75, 80)"/>
+  </g>
+  
+  <!-- Title Text -->
+  <text x="185" y="75" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" 
+        font-size="42" font-weight="700" fill="#e0e7ff" letter-spacing="-1">
+    SOVEREIGN
+  </text>
+  <text x="185" y="120" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" 
+        font-size="42" font-weight="700" fill="url(#glow)" letter-spacing="-1">
+    ORGANISM
+  </text>
+  
+  <!-- Tagline -->
+  <text x="185" y="152" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" 
+        font-size="14" fill="#9ca3af" letter-spacing="2" font-weight="400">
+    INTELLIGENCE THAT OWNS ITSELF
+  </text>
+  
+  <!-- Version pill -->
+  <rect x="470" y="55" width="90" height="26" rx="13" fill="#1a2e1a" stroke="#4ade80" stroke-width="1"/>
+  <text x="515" y="73" font-family="'Inter', system-ui, sans-serif" font-size="12" 
+        fill="#86efac" text-anchor="middle" font-weight="600">v2.0</text>
+</svg>

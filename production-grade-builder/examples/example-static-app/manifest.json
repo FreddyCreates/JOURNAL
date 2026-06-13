@@ -1,0 +1,10 @@
+{
+  "name": "example-static-app",
+  "version": "0.1.0",
+  "kind": "static-app",
+  "created_at": "2026-06-11T08:41:42.887436+00:00",
+  "description": "static-app deliverable: example-static-app",
+  "author": "production-grade-builder",
+  "status": "draft",
+  "dependencies": []
+}

@@ -1,0 +1,343 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    name: Repository Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate project structure
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  SOVEREIGN ORGANISM — Structure Validation"
+          echo "══════════════════════════════════════════════"
+          
+          PASS=0
+          FAIL=0
+          
+          check_dir() {
+            if [ -d "$1" ]; then
+              echo "✓ $1"
+              PASS=$((PASS + 1))
+            else
+              echo "✗ $1 — MISSING"
+              FAIL=$((FAIL + 1))
+            fi
+          }
+          
+          check_file() {
+            if [ -f "$1" ]; then
+              echo "✓ $1"
+              PASS=$((PASS + 1))
+            else
+              echo "✗ $1 — MISSING"
+              FAIL=$((FAIL + 1))
+            fi
+          }
+          
+          echo ""
+          echo "── Core Directories ──"
+          check_dir "protocols"
+          check_dir "protocols/substrate"
+          check_dir "governance"
+          check_dir "governance/laws"
+          check_dir "governance/pipelines"
+          check_dir "sdk"
+          check_dir "julia"
+          check_dir "rust"
+          check_dir "languages"
+          check_dir "docs"
+          check_dir "datasets"
+          check_dir "enterprise"
+          
+          echo ""
+          echo "── Core Files ──"
+          check_file "README.md"
+          check_file "FEATURES.md"
+          check_file "USES.md"
+          check_file "run-all-tests.sh"
+          check_file "julia/Project.toml"
+          check_file "rust/Cargo.toml"
+          
+          echo ""
+          echo "── Results ──"
+          echo "Passed: $PASS"
+          echo "Failed: $FAIL"
+          
+          if [ $FAIL -gt 0 ]; then
+            exit 1
+          fi
+
+  protocols:
+    name: Protocol Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate protocol syntax
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  Protocol Syntax Validation"
+          echo "══════════════════════════════════════════════"
+          
+          ERRORS=0
+          PASS=0
+          
+          for file in protocols/*.js; do
+            if [ -f "$file" ] && [ "$(basename "$file")" != "index.js" ]; then
+              if node --check "$file" 2>/dev/null; then
+                PASS=$((PASS + 1))
+              else
+                echo "✗ SYNTAX ERROR: $file"
+                ERRORS=$((ERRORS + 1))
+              fi
+            fi
+          done
+          
+          for file in protocols/substrate/*.js; do
+            if [ -f "$file" ] && [ "$(basename "$file")" != "index.js" ]; then
+              if node --check "$file" 2>/dev/null; then
+                PASS=$((PASS + 1))
+              else
+                echo "✗ SYNTAX ERROR: $file"
+                ERRORS=$((ERRORS + 1))
+              fi
+            fi
+          done
+          
+          echo ""
+          echo "Protocols validated: $PASS"
+          echo "Errors: $ERRORS"
+          
+          if [ $ERRORS -gt 0 ]; then
+            exit 1
+          fi
+          echo "✓ All protocols pass syntax validation"
+
+  governance:
+    name: Governance Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate governance artifacts
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  Governance Integrity Check"
+          echo "══════════════════════════════════════════════"
+          
+          LAWS=$(find governance/laws -name "*.cpl-l" 2>/dev/null | wc -l)
+          PIPELINES=$(find governance/pipelines -name "*.cpl-p" 2>/dev/null | wc -l)
+          
+          echo "Constitutional Laws (CPL-L): $LAWS"
+          echo "Governance Pipelines (CPL-P): $PIPELINES"
+          echo ""
+          
+          if [ "$LAWS" -lt 1 ]; then
+            echo "✗ No governance laws found"
+            exit 1
+          fi
+          
+          if [ "$PIPELINES" -lt 1 ]; then
+            echo "✗ No governance pipelines found"
+            exit 1
+          fi
+          
+          echo "── Laws ──"
+          for law in governance/laws/*.cpl-l; do
+            if [ -f "$law" ]; then
+              echo "  ✓ $(basename "$law")"
+            fi
+          done
+          
+          echo ""
+          echo "── Pipelines ──"
+          for pipe in governance/pipelines/*.cpl-p; do
+            if [ -f "$pipe" ]; then
+              echo "  ✓ $(basename "$pipe")"
+            fi
+          done
+          
+          echo ""
+          echo "✓ Governance integrity verified"
+
+  sdk-audit:
+    name: SDK Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit SDK packages
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  SDK Package Audit"
+          echo "══════════════════════════════════════════════"
+          
+          TOTAL=0
+          VALID=0
+          
+          for sdk_dir in sdk/*/; do
+            if [ -d "$sdk_dir" ]; then
+              TOTAL=$((TOTAL + 1))
+              name=$(basename "$sdk_dir")
+              
+              if [ -f "$sdk_dir/package.json" ]; then
+                # Validate JSON syntax
+                if node -e "JSON.parse(require('fs').readFileSync('$sdk_dir/package.json', 'utf8'))" 2>/dev/null; then
+                  VALID=$((VALID + 1))
+                  echo "  ✓ $name"
+                else
+                  echo "  ✗ $name — invalid package.json"
+                fi
+              elif [ -f "$sdk_dir/src/index.js" ] || [ -f "$sdk_dir/index.js" ]; then
+                VALID=$((VALID + 1))
+                echo "  ✓ $name (source present)"
+              else
+                echo "  ○ $name (no package.json or index)"
+                VALID=$((VALID + 1))  # Still counts as present
+              fi
+            fi
+          done
+          
+          echo ""
+          echo "Total SDKs: $TOTAL"
+          echo "Valid: $VALID"
+          echo ""
+          
+          if [ $TOTAL -lt 5 ]; then
+            echo "✗ Expected at least 5 SDKs"
+            exit 1
+          fi
+          
+          echo "✓ SDK audit passed ($TOTAL packages)"
+
+  julia:
+    name: Julia / THESIS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.9'
+
+      - name: Validate Julia project
+        run: |
+          cd julia
+          julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+
+      - name: Run THESIS tests
+        run: |
+          cd julia
+          julia test/test_thesis.jl
+
+      - name: THESIS self-verification
+        run: |
+          cd julia
+          julia thesis.jl verify . --json --output /tmp/thesis-packet.json
+
+  rust:
+    name: Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Check Rust compilation
+        run: |
+          cd rust
+          cargo check
+
+      - name: Run Rust tests
+        run: |
+          cd rust
+          cargo test
+
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate documentation
+        run: |
+          echo "══════════════════════════════════════════════"
+          echo "  Documentation Validation"
+          echo "══════════════════════════════════════════════"
+          
+          PASS=0
+          FAIL=0
+          
+          # Check HTML files are valid
+          for html in docs/*.html; do
+            if [ -f "$html" ]; then
+              if grep -q "<!DOCTYPE html>" "$html" || grep -q "<html" "$html"; then
+                PASS=$((PASS + 1))
+              else
+                echo "✗ Invalid HTML: $html"
+                FAIL=$((FAIL + 1))
+              fi
+            fi
+          done
+          
+          # Check CSS exists
+          if [ -f "docs/assets/style.css" ]; then
+            PASS=$((PASS + 1))
+            echo "✓ Stylesheet present"
+          fi
+          
+          # Check research papers
+          PAPERS=$(find docs -name "RESEARCH_PAPER_*.md" | wc -l)
+          echo "Research papers: $PAPERS"
+          PASS=$((PASS + 1))
+          
+          echo ""
+          echo "HTML pages validated: $PASS"
+          echo "Failures: $FAIL"
+          
+          if [ $FAIL -gt 0 ]; then
+            exit 1
+          fi
+          
+          echo "✓ Documentation validated"
+
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [structure, protocols, governance, sdk-audit, julia, rust, docs]
+    steps:
+      - name: All checks passed
+        run: |
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║        SOVEREIGN ORGANISM — ALL CHECKS PASSED             ║"
+          echo "║                                                            ║"
+          echo "║  ✓ Repository Structure                                    ║"
+          echo "║  ✓ Protocol Validation                                     ║"
+          echo "║  ✓ Governance Integrity                                    ║"
+          echo "║  ✓ SDK Audit                                               ║"
+          echo "║  ✓ Julia / THESIS                                          ║"
+          echo "║  ✓ Rust                                                    ║"
+          echo "║  ✓ Documentation                                           ║"
+          echo "║                                                            ║"
+          echo "║  Status: CERTIFIED                                         ║"
+          echo "╚════════════════════════════════════════════════════════════╝"

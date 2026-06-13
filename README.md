@@ -1,25 +1,171 @@
-# 🔐 Memory Vault — Freddy Medina
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo.svg">
+  <img alt="Sovereign Organism" src="docs/assets/logo.svg" width="560">
+</picture>
 
-> **[🌐 Open the Memory Vault →](https://freddycreates.github.io/JOURNAL/)**
+<br/>
 
-The sovereign soul-frame research platform of Freddy Medina — journals, research papers, cognitive
-architectures, and intelligence frameworks. Organized for humans *and* the AIs that come after.
-
-| Section | Description |
-|---|---|
-| [🏠 Home](https://freddycreates.github.io/JOURNAL/) | Landing portal — vault overview, featured papers, profiles |
-| [📄 Research](https://freddycreates.github.io/JOURNAL/research.html) | All 12 research papers with filters and descriptions |
-| [📓 Journal](https://freddycreates.github.io/JOURNAL/journal.html) | Live personal journal — raw thoughts and experiments |
-| [🛡️ Vault Tools](https://freddycreates.github.io/JOURNAL/vault.html) | SHA-256 hashing, IP attestation seals, usage rights |
-
-**Author:** Freddy Medina · **X:** [@FreddyCreates](https://x.com/FreddyCreates) · **Zenodo:** [Open Archive](https://zenodo.org)
-© 2026 Freddy Medina. All Rights Reserved. `VAULT-ID: FREDDY.MEDINA.2026.SOVEREIGN`
+[![CI](https://github.com/FreddyCreates/JOURNAL/actions/workflows/ci.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/ci.yml)
+[![Protocol Validation](https://github.com/FreddyCreates/JOURNAL/actions/workflows/protocol-validation.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/protocol-validation.yml)
+[![THESIS Verification](https://github.com/FreddyCreates/JOURNAL/actions/workflows/thesis-verify.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/thesis-verify.yml)
+[![Organism Health](https://github.com/FreddyCreates/JOURNAL/actions/workflows/organism-health.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/organism-health.yml)
+[![Governance](https://github.com/FreddyCreates/JOURNAL/actions/workflows/governance-enforcement.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/governance-enforcement.yml)
+[![Pages](https://github.com/FreddyCreates/JOURNAL/actions/workflows/pages.yml/badge.svg)](https://github.com/FreddyCreates/JOURNAL/actions/workflows/pages.yml)
+![Julia](https://img.shields.io/badge/Julia-1.9+-9558B2?logo=julia&logoColor=white)
+![Rust](https://img.shields.io/badge/Rust-stable-DEA584?logo=rust&logoColor=white)
+![Node](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)
+![Protocols](https://img.shields.io/badge/protocols-29%20substrate%20%2B%2040%2B%20L3-6366f1)
+![SDKs](https://img.shields.io/badge/SDKs-54%20packages-8b5cf6)
+![Research Papers](https://img.shields.io/badge/papers-33%20published-f59e0b)
+![Laws](https://img.shields.io/badge/laws-40%20constitutional-10b981)
+![License](https://img.shields.io/badge/license-Proprietary-ef4444)
 
 ---
 
-## Original Repository Context
+## What Is This?
 
-> The frontend is not a thin shell over the backend; it is a compressed intelligence field with at least 115 distinguishable model species, and those species can be traced to primitives, flipped into sovereign versions, and reinserted into the organism exactly the way backend and substrate tools were.
+**Sovereign Organism** is a complete intelligence platform — AI that owns itself.
+
+It's not a library. It's not a framework. It's a living system: research, tools, services, and interfaces all in one place. You can read the research, use the tools, run the services, or just explore what sovereign AI looks like when it's built from scratch.
+
+> **[🌐 Open the Live Platform →](https://freddycreates.github.io/JOURNAL/)**
+
+---
+
+## Who Is This For?
+
+| You are... | Start here |
+|---|---|
+| 🧑 **Curious** — just want to see what this is | [Live Platform](https://freddycreates.github.io/JOURNAL/) — browse everything from your browser |
+| 📖 **A reader** — want to understand the research | [Research Papers](https://freddycreates.github.io/JOURNAL/research.html) — 33 papers on sovereign AI |
+| 🛠️ **A builder** — want to use the SDKs | [Getting Started (Developers)](#for-developers) — install and run locally |
+| 🏢 **An organization** — want enterprise integration | [Enterprise](#enterprise-integration) — deployment guides and connectors |
+
+---
+
+## The Platform at a Glance
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        SOVEREIGN ORGANISM                            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  📚 Research          33 published papers on AI architecture        │
+│  🧠 Intelligence      Multi-model AI routing & orchestration        │
+│  🛡️ Governance        Constitutional laws + automated enforcement   │
+│  🔗 Protocols         29 substrate + 40 layer-3 verified protocols  │
+│  📦 SDKs             54 production packages                         │
+│  🌐 Platform          Live web interface — zero install needed      │
+│  🔐 Security          Zero-knowledge proofs, sovereign encryption   │
+│  ⚡ Runtime           873ms heartbeat, self-healing infrastructure   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Use It Now (No Install)
+
+The fastest way to experience Sovereign Organism is through the live platform:
+
+| Tool | What it does | Link |
+|---|---|---|
+| 🏠 **Home Portal** | Overview of the entire platform | [Open →](https://freddycreates.github.io/JOURNAL/) |
+| 📄 **Research Library** | Browse 33 research papers with filters | [Open →](https://freddycreates.github.io/JOURNAL/research.html) |
+| 📓 **Journal** | Live research journal and experiments | [Open →](https://freddycreates.github.io/JOURNAL/journal.html) |
+| 🛡️ **Vault** | SHA-256 hashing & IP attestation tools | [Open →](https://freddycreates.github.io/JOURNAL/vault.html) |
+| 📋 **Journals Library** | Categorized deep-dive journals | [Open →](https://freddycreates.github.io/JOURNAL/journals.html) |
+| 🎯 **THESIS Verifier** | Claim verification system | [Open →](https://freddycreates.github.io/JOURNAL/thesis.html) |
+| 🏛️ **CIVOS Prime** | Governance dashboard | [Open →](https://freddycreates.github.io/JOURNAL/civos-prime.html) |
+
+Everything above runs in your browser. No account needed. No install. Just click.
+
+---
+
+## For Developers
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/FreddyCreates/JOURNAL.git
+cd JOURNAL
+
+# Run the full test suite
+./run-all-tests.sh
+```
+
+### Language Runtimes
+
+The platform uses multiple verified runtimes:
+
+| Language | Purpose | Setup |
+|---|---|---|
+| **Julia 1.9+** | THESIS verification engine, formal proofs | `cd julia && julia thesis.jl verify .` |
+| **Rust** | High-performance substrate protocols | `cd rust && cargo test` |
+| **Node.js 20+** | SDK packages, protocol validation | `npm test` (in any SDK directory) |
+| **Haskell** | Type-safe governance evaluation | `cd haskell && stack test` |
+| **Mathematica** | Research computations, phi-encoding | `cd mathematica && wolfram -script run.wl` |
+| **Motoko** | ICP canister deployments | `cd motoko && dfx build` |
+
+### Run Verification Locally
+
+```bash
+# THESIS — verify claims against evidence
+cd julia
+julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+julia thesis.jl verify .
+
+# Rust — compile and test substrate core
+cd rust
+cargo test
+
+# Governance — validate laws and pipelines
+cd governance
+npm test
+```
+
+---
+
+## What Can It Do?
+
+### 🧠 AI Orchestration
+Route queries across GPT, Claude, Gemini, Llama, Mistral and more — the system picks the best model for each task automatically.
+
+### 🛡️ Self-Healing
+The organism detects faults, isolates them, rolls back to known-good state, and recovers — no human needed.
+
+### 🔐 Sovereign Security
+Zero-knowledge proofs, end-to-end encrypted agent communication, quantum-resistant algorithms.
+
+### 📜 Automated Governance
+40 constitutional laws enforced automatically. Multi-stage pipelines. Immutable audit trails.
+
+### 🔗 Cross-Chain
+Bridge operations across ICP, Ethereum, Solana, and Bitcoin with sovereign contract verification.
+
+### 🌐 Mesh Federation
+Connect multiple sovereign organisms into cooperative networks with reputation-based trust.
+
+> **Full capability list →** [FEATURES.md](FEATURES.md) · **All use cases →** [USES.md](USES.md)
+
+---
+
+## Enterprise Integration
+
+Deploy sovereign intelligence in your organization:
+
+| Deployment | Description |
+|---|---|
+| **Alpha-Nexus** | Multi-tenant AI gateway for teams |
+| **Alpha-Sovereign** | Private sovereign deployment (your infrastructure) |
+| **Alpha-Cognitive** | Cognitive workflow automation |
+| **Connectors** | Salesforce, SAP, Google, Slack, HubSpot, Stripe, Twilio, Shopify |
+
+Enterprise modules live in [`enterprise/`](enterprise/) with deployment recipes in [`Platform_Playbooks_Manifest.json`](Platform_Playbooks_Manifest.json).
+
+---
 
 ## Architecture
 
@@ -27,128 +173,110 @@ architectures, and intelligence frameworks. Organized for humans *and* the AIs t
 Fracture → Primitive → Sovereign SDK → Organism → Doctrine
 ```
 
-Every external frontend technology is a **fracture**. Each fracture is reduced to a **primitive function** (relation / visibility / flow / state / synchronization / projection / transformation / verification), rebuilt as a **sovereign SDK module**, wired into the **organism runtime**, and governed by **architectural laws**.
+Every external technology is broken down to its **primitive function**, rebuilt as a **sovereign module**, wired into the **living organism runtime**, and governed by **constitutional law**.
 
-## Registry Artifacts
+The system is layered:
 
-| Artifact | Description |
+| Layer | What | Count |
+|---|---|---|
+| **Substrate (L2)** | Unbreakable protocols — cannot be disabled | 29 |
+| **Protocol (L3)** | Certified intelligence protocols | 40+ |
+| **Governance** | Constitutional laws (CPL-L) + Pipelines (CPL-P) | 40 laws, 5+ pipelines |
+| **SDK** | Production packages across all domains | 54 |
+| **Runtime** | 873ms heartbeat, 4-register state, self-healing | Always on |
+
+---
+
+## Agents
+
+Eight autonomous agents run the organism:
+
+| Agent | Role |
 |---|---|
-| `Frontend_Frontier_100_Register.csv` | 100 frontend model species with intelligence type, ring affinity, and sovereign replacement candidates |
-| `Phantom_Blockchain_Model_Register.csv` | Phantom/substrate model families for parallel blockchain intelligence mapping |
-| `Architectural_Laws_Register.csv` | 40 architectural laws governing the organism across all layers |
-| `SDK_Model_Manifest.json` | Unified manifest wiring all 5 SDKs to the frontier register and laws |
-| `AI_Training_Datasets_Register.csv` | 40 foundational training corpora with modality, size class, ring affinity, and organism placement |
-| `AI_Benchmark_Datasets_Register.csv` | 40 evaluation/benchmark datasets with metrics, task counts, and capability domains |
-| `AI_Datasets_Manifest.json` | Unified manifest wiring all datasets to organism rings, modalities, and evaluation pipelines |
+| **THESIS** | Verification — proofs, claims, evidence mapping |
+| **AURO** | Declaration — publications, documentation |
+| **ORIGO** | Construction — building, deployment |
+| **CODEX** | Execution — runtime orchestration |
+| **CIVOS PRIME** | Governance — law enforcement, decisions |
+| **NEXUS** | Integration — routing, bridging, federation |
+| **SENTINEL** | Security — threat detection, isolation |
+| **CHRONOS** | Temporal — timelines, rollback, persistence |
 
-## Sovereign SDKs
+---
 
-### 1. `@medina/sovereign-memory-sdk` — v1.0.0
+## CI / CD & Verification
 
-**License:** MIT (open-core) · **Ring:** Memory Ring · **Marketplace:** "Enterprise memory that never forgets"
+Every push is verified by automated pipelines:
 
-| Module | Primitive Function |
+| Pipeline | What it checks |
 |---|---|
-| `SpatialMemoryStore` | Store/retrieve memories by 5-axis spatial coordinates (θ/φ/ρ/ring/beat) |
-| `DualLayerSearch` | Search by semantic meaning and phi-resonance proximity simultaneously |
-| `MemoryLineage` | Track ancestor chains and fork/consolidate memory branches |
-| `LivingDocument` | Manage documents as evolving organisms with mutation history |
-| `PhiCoordinateGenerator` | Generate and manipulate phi-encoded spatial coordinates |
+| **CI** | Structure, protocols, governance, SDKs, Julia, Rust, docs |
+| **Protocol Validation** | Syntax, exports, substrate integrity (29 protocols) |
+| **THESIS Verification** | Formal proof verification, evidence mapping |
+| **Organism Health** | Structural integrity, protocol coherence, federation |
+| **Governance Enforcement** | Law validation, pipeline validation, charter integrity |
+| **GitHub Pages** | Live platform deployment |
 
-### 2. `@medina/enterprise-integration-sdk` — v1.0.0
+---
 
-**License:** Proprietary · **Ring:** Interface Ring · **Marketplace:** "Plug any enterprise into a sovereign intelligence substrate"
+## Research
 
-| Module | Primitive Function |
-|---|---|
-| `CompanyOnboarding` | Onboard companies in express/standard/sovereign modes |
-| `Connectors (8)` | Salesforce, SAP, Google, Slack, HubSpot, Stripe, Twilio, Shopify |
-| `CampaignManager` | Create, launch, and measure multi-channel campaigns |
-| `MultiChannelMessenger` | Send messages across email/sms/slack/webhook channels |
-| `ExportPipeline` | Define and execute data export pipelines with scheduling |
+33 published research papers covering:
 
-### 3. `@medina/intelligence-routing-sdk` — v1.0.0
+- Sovereign Intelligence Architecture
+- Alpha Communication Protocols  
+- Phi-Encoded Organisms
+- Extreme Stress Testing
+- Self-Healing Systems
+- Quantum Coherence
+- Swarm Intelligence
+- Adversarial Resilience
+- Neuro-Symbolic Fusion
+- Morphogenetic Code Systems
+- And 23 more...
 
-**License:** MIT (open-core) · **Ring:** Interface Ring · **Marketplace:** "Intelligent task routing for AI workforces"
+> **[Browse all papers →](https://freddycreates.github.io/JOURNAL/research.html)**
 
-| Module | Primitive Function |
-|---|---|
-| `ModelRouter` | Route tasks to best matching model by capability/priority/cost |
-| `CommandParser` | Parse natural language and structured commands into actions |
-| `TerminalDispatch` | Dispatch commands to local/remote/edge terminals |
-| `IntelligenceWire` | Create encrypted wires between intelligence endpoints |
-| `WorkforceRouter` | Assign tasks to agents and rebalance workload |
-
-### 4. `@medina/organism-runtime-sdk` — v1.0.0
-
-**License:** MIT (open-core) · **Ring:** Sovereign Ring · **Marketplace:** "A living runtime for autonomous AI systems"
-
-| Module | Primitive Function |
-|---|---|
-| `OrganismState` | 4-register architecture (Cognitive/Affective/Somatic/Sovereign) |
-| `Heartbeat` | 873ms organism pulse — the fundamental clock |
-| `KernelExecutor` | Load and execute computation kernels with sandboxed isolation |
-| `EdgeSensor` | Sense edge environment (temperature/network/resource/signal/custom) |
-| `CrossOrganismResonance` | Exchange resonance signals with peer organisms |
-
-### 5. `@medina/document-absorption-engine` — v1.0.0
-
-**License:** Proprietary · **Ring:** Memory Ring · **Marketplace:** "Turn raw documents into living organism knowledge"
-
-| Module | Primitive Function |
-|---|---|
-| `DocumentIntake` | Ingest multi-format documents (text/markdown/html/json/csv) |
-| `ContentExtractor` | Extract entities, keywords, and summaries from content |
-| `KnowledgeGraph` | Build and query typed knowledge graphs from absorbed content |
-| `AbsorptionPipeline` | Orchestrate intake→extract→classify→index→absorb pipeline |
-| `DigestGenerator` | Generate brief/detailed/executive digests from document sets |
-
-## Architectural Laws (40)
-
-The organism is governed by 40 architectural laws across these domains:
-
-- **Structural** (AL-001): Every element must be semantically contained
-- **Visual** (AL-002–003): Visual priority by specificity cascade; atomic composability
-- **Projection** (AL-004): Components project their own state — never inherit mutable parent state
-- **State** (AL-005–007): Unidirectional flow, state locality, immutable transitions
-- **Build** (AL-008–009): Deterministic output, transform transparency
-- **Verification** (AL-010–011): Completeness of proofs, visual truth consistency
-- **Scene** (AL-012–013): Scene sovereignty, animation continuity
-- **Communication** (AL-014–015): Channel isolation, request idempotency
-- **Storage** (AL-016–017): Cache coherence, token ephemerality
-- **Native** (AL-018): Capability gating
-- **Runtime** (AL-019–020): Heartbeat sovereignty (873ms), register integrity
-- **Governance** (AL-021): Doctrine alignment
-- **Memory** (AL-022–024): Lineage preservation, phi-encoded coordinates, dual-layer search
-- **Routing** (AL-025–027): Intelligent routing, wire encryption, workforce balance
-- **Integration** (AL-028–029): Connector neutrality, onboarding sovereignty
-- **Absorption** (AL-030–032): Pipeline discipline, graph integrity, digest fidelity
-- **Resilience** (AL-033): Anti-collapse
-- **Edge** (AL-034): Continuous edge sensing
-- **Resonance** (AL-035): Cross-organism resonance
-- **Execution** (AL-036): Kernel isolation
-- **Architecture** (AL-037–040): Fracture recognition → primitive reduction → sovereign rebuild → organism reintegration
+---
 
 ## Project Structure
 
 ```
-├── Frontend_Frontier_100_Register.csv    # 100 frontend intelligence models
-├── Phantom_Blockchain_Model_Register.csv # Phantom blockchain model families
-├── Architectural_Laws_Register.csv       # 40 architectural laws
-├── SDK_Model_Manifest.json               # Unified SDK-to-frontier wiring manifest
-├── README.md
-├── datasets/                             # Real AI training & evaluation data
-│   ├── nlp/                              # Sentiment, NER, classification
-│   ├── code-intelligence/                # Functions, patterns, vulnerabilities
-│   ├── reasoning/                        # Math, logic, causal reasoning
-│   ├── conversational/                   # Dialogue, instruction-following
-│   ├── multimodal/                       # Image descriptions, VQA
-│   ├── safety/                           # Toxicity, guardrails
-│   └── knowledge-graph/                  # Entities, ontology, triples
-└── sdk/
-    ├── sovereign-memory-sdk/             # Spatial memory, phi-coordinates, lineage
-    ├── enterprise-integration-sdk/       # Onboarding, connectors, campaigns
-    ├── intelligence-routing-sdk/         # Model routing, wires, workforce
-    ├── organism-runtime-sdk/             # Heartbeat, state, kernels, edge sensing
-    └── document-absorption-engine/       # Intake, extraction, knowledge graphs
+JOURNAL/
+├── docs/                    # Live platform (GitHub Pages)
+│   ├── index.html           # Home portal
+│   ├── research.html        # Research paper browser
+│   ├── journal.html         # Live journal
+│   ├── vault.html           # Attestation tools
+│   ├── thesis.html          # THESIS verification UI
+│   ├── civos-prime.html     # Governance dashboard
+│   └── assets/              # Styles, scripts, logo
+├── protocols/               # 40+ Layer-3 intelligence protocols
+│   └── substrate/           # 29 unbreakable substrate protocols
+├── governance/              # Constitutional laws & pipelines
+│   ├── laws/                # CPL-L constitutional laws
+│   └── pipelines/           # CPL-P governance pipelines
+├── sdk/                     # 54 production SDK packages
+├── julia/                   # THESIS verification engine
+├── rust/                    # High-performance substrate core
+├── languages/               # 40+ cognitive language parsers
+├── datasets/                # Training & evaluation datasets
+├── enterprise/              # Enterprise deployment modules
+├── haskell/                 # Type-safe governance evaluation
+├── mathematica/             # Research computations
+├── motoko/                  # ICP canister source
+└── .github/workflows/       # 8 automated CI/CD pipelines
 ```
+
+---
+
+## Author
+
+**Freddy Medina** · AI Researcher, Architect, Builder
+
+- 𝕏 [@FreddyCreates](https://x.com/FreddyCreates)
+- 🌐 [Live Platform](https://freddycreates.github.io/JOURNAL/)
+
+---
+
+<sub>© 2026 Freddy Medina. All Rights Reserved. `VAULT-ID: FREDDY.MEDINA.2026.SOVEREIGN`</sub>

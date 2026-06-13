@@ -1,0 +1,12 @@
+{
+  "name": "tokenomics-engine",
+  "version": "1.0.0",
+  "description": "Tokenomic Measurement System — cognitive return per token scoring, salience allocation, compression auditing, and benchmark harness for AI agent output governance",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["tokenomics", "cognitive-return", "salience", "compression", "benchmarking", "ai-governance"],
+  "license": "MIT"
+}

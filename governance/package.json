@@ -1,0 +1,12 @@
+{
+  "name": "@medina/governance-protocols",
+  "version": "1.0.0",
+  "description": "Major governance macro protocols — temporal, user, policy, ethics, HTTP, federation",
+  "type": "module",
+  "main": "protocols/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": ["governance", "protocols", "ethics", "policy", "temporal", "federation"],
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "example-static-app",
+  "kind": "static-app",
+  "generated_at": "2026-06-11T08:41:42.887710+00:00",
+  "generator": "production-grade-builder v1.0.0",
+  "checks": {
+    "readme": "present",
+    "policy": "present",
+    "manifest": "valid",
+    "quality_gate": "present",
+    "reports_dir": "present"
+  },
+  "score": "100/100",
+  "status": "scaffold_complete"
+}

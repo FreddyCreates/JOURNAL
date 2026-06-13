@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journals — Memory Vault Research Institute</title>
+  <meta name="description" content="Five peer-level research journals spanning sovereign architecture, protocols, quantum emergence, defense systems, and cognitive science. All original research by Freddy Medina." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .journals-hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .journals-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, #93c5fd 70%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .journals-hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .journal-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      padding: 60px 0;
+    }
+    .journal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .journal-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+    .journal-card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+    }
+    .journal-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .journal-card .subtitle {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .journal-card p {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .journal-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .journal-card-footer .paper-count {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .journal-card-footer a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      padding: 6px 14px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .journal-card-footer a:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .institute-banner {
+      background: linear-gradient(135deg, rgba(59,130,246,.06), rgba(139,92,246,.03));
+      border: 1px solid rgba(59,130,246,.15);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+    .institute-banner h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .institute-banner p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="journals.html" class="active">Journals</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="platform.html">Platform</a></li>
+      <li><a href="thesis.html">THESIS</a></li>
+      <li><a href="vault.html">Vault</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="journals-hero">
+  <div class="container">
+    <span class="section-tag">📚 Research Journals</span>
+    <h1>The Memory Vault Journals</h1>
+    <p>
+      Five peer-level research journals publishing original work on sovereign intelligence,
+      cognitive architectures, quantum emergence, defense systems, and autonomous protocols.
+      All research by Freddy Medina.
+    </p>
+    <div class="hero-meta" style="margin-top: 24px;">
+      <span>✍️ Freddy Medina</span>
+      <span>📅 Est. 2026</span>
+      <span>🔒 © All Rights Reserved</span>
+      <span>📄 33+ Papers</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+
+    <div class="institute-banner">
+      <h3>Memory Vault Research Institute</h3>
+      <p>
+        An independent research institution dedicated to advancing sovereign artificial intelligence,
+        cognitive architecture theory, and autonomous systems governance. Every paper is formally structured,
+        peer-level quality, and rendered for professional consumption.
+      </p>
+    </div>
+
+    <div class="journal-cards">
+
+      <!-- Journal 1: Architecture -->
+      <div class="journal-card">
+        <div class="journal-card-icon">🏛️</div>
+        <h2>Journal of Sovereign Architecture</h2>
+        <div class="subtitle">ISSN: MVRI-ARCH-2026</div>
+        <p>
+          Foundational frameworks for self-organizing, self-healing AI systems. Covers multi-tier governance structures,
+          phi-encoded substrates, organism-pattern computing, and constitutional system design.
+        </p>
+        <div class="journal-card-footer">
+          <span class="paper-count">7 papers published</span>
+          <a href="journals/architecture.html">Browse →</a>
+        </div>
+      </div>
+
+      <!-- Journal 2: Protocols -->
+      <div class="journal-card">
+        <div class="journal-card-icon">⚡</div>
+        <h2>Journal of Sovereign Protocols</h2>
+        <div class="subtitle">ISSN: MVRI-PROTO-2026</div>
+        <p>
+          Communication standards, execution pipelines, and operational protocols for autonomous AI systems.
+          Spectral encoding, intent-bearing transmission, and constitutional compliance verification.
+        </p>
+        <div class="journal-card-footer">
+          <span class="paper-count">7 papers published</span>
+          <a href="journals/protocols.html">Browse →</a>
+        </div>
+      </div>
+
+      <!-- Journal 3: Quantum & Emergence -->
+      <div class="journal-card">
+        <div class="journal-card-icon">🌀</div>
+        <h2>Journal of Quantum &amp; Emergent Systems</h2>
+        <div class="subtitle">ISSN: MVRI-QES-2026</div>
+        <p>
+          Quantum-inspired computing, emergent intelligence phenomena, swarm dynamics, and coherence theory.
+          Exploring the boundaries between classical computation and quantum-derived architectures.
+        </p>
+        <div class="journal-card-footer">
+          <span class="paper-count">7 papers published</span>
+          <a href="journals/quantum.html">Browse →</a>
+        </div>
+      </div>
+
+      <!-- Journal 4: Defense & Security -->
+      <div class="journal-card">
+        <div class="journal-card-icon">🛡️</div>
+        <h2>Journal of Defense &amp; Security Systems</h2>
+        <div class="subtitle">ISSN: MVRI-DEF-2026</div>
+        <p>
+          Autonomous threat modeling, adversarial resilience, constitutional cryptography, and sovereign defense.
+          Frameworks for AI systems that protect themselves within governance boundaries.
+        </p>
+        <div class="journal-card-footer">
+          <span class="paper-count">6 papers published</span>
+          <a href="journals/defense.html">Browse →</a>
+        </div>
+      </div>
+
+      <!-- Journal 5: Cognitive Science -->
+      <div class="journal-card">
+        <div class="journal-card-icon">🧠</div>
+        <h2>Journal of Cognitive Systems</h2>
+        <div class="subtitle">ISSN: MVRI-COG-2026</div>
+        <p>
+          Memory governance, consciousness metrics, neuro-symbolic fusion, affective computing, and cognitive load theory.
+          The science of artificial minds — how they think, remember, and evolve.
+        </p>
+        <div class="journal-card-footer">
+          <span class="paper-count">6 papers published</span>
+          <a href="journals/cognitive.html">Browse →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding: 48px 0; border-top: 1px solid var(--border); text-align: center;">
+  <div class="container">
+    <p style="font-size: 0.85rem; color: var(--text-muted);">
+      © 2026 Freddy Medina — Memory Vault Research Institute. All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

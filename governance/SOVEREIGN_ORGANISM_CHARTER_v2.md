@@ -436,6 +436,192 @@ Action → Agent → Protocol → Law → Charter Article → Principle
 
 ---
 
+## Part IX: Governance Macro Protocols
+
+### Article 19 — Macro Protocol Registry
+
+19.1. The following macro-level governance protocols govern how the system operates across time, users, policies, ethics, services, and federations:
+
+| Protocol ID | Name | Domain | Authority | Status |
+|-------------|------|--------|-----------|--------|
+| GOV-TEMPORAL-001 | Temporal Governance Protocol | Time, epochs, rollback, scheduling | CHRONOS + CIVOS PRIME | ACTIVE |
+| GOV-USER-001 | User Lifecycle Governance Protocol | Identity, roles, consent, data sovereignty | CIVOS PRIME + SENTINEL | ACTIVE |
+| GOV-POLICY-001 | Policy Engine Protocol | Rule creation, evaluation, enforcement, versioning | CIVOS PRIME | ACTIVE |
+| GOV-ETHICS-001 | Ethics Framework Protocol | Bias detection, fairness, harm prevention, transparency | CIVOS PRIME + SENTINEL + Human | ACTIVE |
+| GOV-HTTP-001 | HTTP Service Governance Protocol | Service mesh, health, rate limiting, circuit breaking | NEXUS + SENTINEL | ACTIVE |
+| GOV-FEDERATION-001 | Federation Authority Protocol | Inter-organism trust, treaties, shared governance | NEXUS + CIVOS PRIME | ACTIVE |
+
+### Article 20 — Temporal Governance
+
+20.1. All system state transitions occur within **epochs** — bounded temporal windows with:
+- Explicit start and end timestamps
+- Decision recording and checkpoint creation
+- Rollback capability within configurable windows
+- Parent-child epoch relationships for nested governance
+
+20.2. Temporal health is measured using φ⁻¹ thresholds:
+- **Healthy**: ≥ 61.8% of epochs completed successfully
+- **Degraded**: 38.2% – 61.8% completion rate
+- **Critical**: < 38.2% completion rate
+
+### Article 21 — User Governance
+
+21.1. User lifecycle follows a governed progression:
+```
+Registered → Consent Given → Active → [Suspended] → Offboarded
+```
+
+21.2. Principles:
+- **Data Sovereignty**: All user data is user-owned by default
+- **Consent-First**: No activation without explicit consent
+- **Trust Scoring**: φ-based trust accumulation through positive actions
+- **Right to Exit**: Users may offboard at any time with data export guaranteed
+
+### Article 22 — Policy Governance
+
+22.1. Policies follow a lifecycle:
+```
+Draft → Active → [Retired/Superseded]
+```
+
+22.2. Policy evaluation is:
+- **Priority-ordered**: Higher priority policies evaluate first
+- **Rule-based**: Supports equality, comparison, containment, existence, and function operators
+- **Tracked**: Every evaluation records compliance metrics
+- **Versioned**: Retired policies remain in history, never deleted
+
+### Article 23 — Ethics Governance
+
+23.1. The Ethics Framework enforces six mandatory principles:
+1. **Harm Prevention** — No action may cause harm
+2. **Transparency** — All decisions must be explainable
+3. **Consent** — User consent required for data operations
+4. **Fairness** — No discriminatory treatment
+5. **Privacy** — User privacy respected by default
+6. **Accountability** — Every action has a traceable owner
+
+23.2. Bias detection uses disparity thresholds based on (1 - φ⁻¹) = 0.382:
+- If approval rate disparity between groups exceeds 38.2%, bias is flagged
+
+23.3. Ethical constraints are hard limits that cannot be overridden:
+- **Prohibitions**: Actions that are never allowed (harm, discrimination, deception)
+- **Obligations**: Requirements that must always be met (transparency, consent)
+
+### Article 24 — HTTP Service Governance
+
+24.1. All HTTP services in the organism are governed through:
+- **Registration**: Services must register with metadata, health endpoints, and auth requirements
+- **Health Monitoring**: Periodic health checks with status tracking
+- **Rate Limiting**: Configurable per-service and per-client limits
+- **Circuit Breaking**: Automatic circuit opening after threshold failures (5 consecutive)
+- **Service Mesh**: Unified view of all services, health, and routing
+
+24.2. Service lifecycle:
+```
+Registered → Active → [Unhealthy/Circuit Open] → Decommissioned
+```
+
+24.3. Circuit breaker states:
+- **Closed**: Healthy, requests flow normally
+- **Open**: Broken, requests blocked (cooldown: 30s)
+- **Half-Open**: Testing, single request allowed to verify recovery
+
+### Article 25 — Federation Governance
+
+25.1. Inter-organism federation operates through:
+- **Membership**: Join → Pending → Approved → Active → [Suspended]
+- **Treaties**: Formal agreements ratified by φ⁻¹ quorum of voting power
+- **Shared Policies**: Federation-wide rules enforced by all members
+- **Trust Networks**: Per-member trust levels affecting governance weight
+
+25.2. Consensus mechanism:
+- Quorum threshold: φ⁻¹ (61.8%) of total voting power
+- Voting power is configurable per member
+- Abstentions do not count toward quorum
+
+---
+
+## Part X: Research Papers & Publications
+
+### Article 26 — Active Research Papers
+
+| Paper | Domain | Status | Location |
+|-------|--------|--------|----------|
+| Sovereign Intelligence Architecture | Architecture | Published | docs/papers/architecture/ |
+| φ-Harmonic Governance Systems | Governance | Published | docs/papers/protocols/ |
+| Multi-Agent Coordination Theory | AI/Agents | Published | docs/papers/cognitive/ |
+| Quantum State Consensus Protocol | Quantum | Published | docs/papers/quantum/ |
+| Sovereign Immune Defense Systems | Defense | Published | docs/papers/defense/ |
+| Temporal Governance in Distributed Systems | Governance | Draft | governance/research/ |
+| Ethical AI: φ-Based Fairness Metrics | Ethics | Draft | governance/research/ |
+| HTTP Service Mesh Governance Patterns | Services | Draft | governance/research/ |
+
+### Article 27 — Publication Standards
+
+27.1. All research papers MUST:
+- Contain verifiable claims backed by THESIS
+- Reference applicable protocols and substrate laws
+- Include methodology, findings, and reproducibility criteria
+- Be reviewed by at least 2 agents (THESIS + domain expert)
+- Be published in the Memory Vault documentation system
+
+---
+
+## Part XI: HTTP Service Registry
+
+### Article 28 — Service Architecture
+
+28.1. The organism exposes governed HTTP services for:
+
+| Service | Endpoint Pattern | Auth | Purpose |
+|---------|-----------------|------|---------|
+| Governance API | `/api/governance/*` | Required | Policy evaluation, compliance queries |
+| Health Service | `/api/health/*` | Public | System health, service mesh status |
+| Federation API | `/api/federation/*` | Required | Inter-organism communication |
+| Ethics Audit | `/api/ethics/*` | Required | Transparency reports, bias detection |
+| Temporal API | `/api/temporal/*` | Required | Epoch management, rollback |
+| User Governance | `/api/users/*` | Required | User lifecycle, consent management |
+| Service Mesh | `/api/mesh/*` | Required | Service registration, discovery |
+
+28.2. All services MUST:
+- Register through the HTTP Service Governance Protocol
+- Implement `/health` endpoint returning JSON status
+- Respect rate limits and circuit breaker states
+- Authenticate via sovereign token exchange
+- Log all requests to the Constitutional Immutable Ledger
+
+28.3. Service mesh guarantees:
+- φ⁻¹ (61.8%) healthy services = mesh status "healthy"
+- Automatic circuit breaking at 5 consecutive failures
+- 30-second cooldown before half-open testing
+- Configurable per-service timeouts and retry policies
+
+---
+
+## Part XII: Supplementary Charters
+
+### Article 29 — Sub-Charter Registry
+
+| Charter | Scope | Version | Status |
+|---------|-------|---------|--------|
+| SVA Charter v1 | Original sovereign verification | 1.0.0 | Historical |
+| Bot Fleet Safety Charter | CI/CD bot governance | 1.0.0 | Active |
+| Federation Membership Charter | Inter-organism membership | 1.0.0 | Active |
+| Data Sovereignty Charter | User data rights & export | 1.0.0 | Active |
+| Ethics Review Charter | AI ethics review process | 1.0.0 | Active |
+| HTTP Service Charter | Service registration & governance | 1.0.0 | Active |
+| Research Publication Charter | Paper review & publication | 1.0.0 | Active |
+
+### Article 30 — Charter Precedence
+
+30.1. In case of conflict between charters:
+1. This Sovereign Organism Charter takes supreme precedence
+2. Sub-charters are subordinate and must not contradict
+3. If contradiction is found, CIVOS PRIME escalates to Human Sovereign
+4. Resolution is recorded in the CIL with amendment reference
+
+---
+
 ## Signatures & Ratification
 
 ```
