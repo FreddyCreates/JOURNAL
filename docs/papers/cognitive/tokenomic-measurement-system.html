@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Measurement and Benchmarking Framework — Freddy Medina Research</title>
+  <meta name="description" content="Formalizing the measurement layer for Tokenomics through Token Value Functions, Cognitive Return Metrics, Salience Allocation, Compression Efficiency, and Benchmark Tasks." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../assets/paper.css" />
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="../index.html">
+      <span class="icon">🔐</span>
+      <span>Memory Vault</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../journals.html">Journals</a></li>
+      <li><a href="../research.html" class="active">Research</a></li>
+      <li><a href="../platform.html">Platform</a></li>
+      <li><a href="../thesis.html">THESIS</a></li>
+      <li><a href="../vault.html">Vault</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="paper-viewer">
+
+  <div class="paper-toolbar">
+    <a href="../journals/cognitive.html">← Back to Cognitive Science Journal</a>
+    <button onclick="window.print()">🖨️ Print / Save PDF</button>
+  </div>
+
+  <article class="paper-document">
+
+    <header class="paper-header">
+      <div class="paper-journal-badge">Journal of Cognitive Systems · Vol. 1</div>
+      <h1 class="paper-title">Measurement and Benchmarking Framework for Tokenomic AI Systems</h1>
+      <p class="paper-subtitle">Token Value Functions, Cognitive Return Metrics, Salience Allocation, and Compression Efficiency</p>
+      <div class="paper-authors">Freddy Medina</div>
+      <div class="paper-affiliation">Independent Researcher — Memory Vault Research Institute</div>
+      <div class="paper-meta-row">
+        <span>📅 Published: 2026</span>
+        <span>📄 Paper ID: TMF-001</span>
+        <span>🔒 © All Rights Reserved</span>
+      </div>
+    </header>
+
+    <div class="paper-abstract">
+      <h2>Abstract</h2>
+      <p>
+        For Tokenomics to move from conceptual framework to deployable runtime architecture, it must become measurable. This paper formalizes the measurement layer through five components: a Token Value Function, Cognitive Return Metrics, Salience Allocation Equations, Compression Efficiency Metrics, and Benchmark Tasks comparing tokenomic and non-tokenomic systems. The goal is to evaluate not whether an AI system produces fewer tokens, but whether it produces greater <strong>useful cognition per token</strong>. We present formal equations, scoring rubrics, benchmark task classes, a runtime measurement loop, and evaluation criteria that together establish the transition from doctrine to deployable system.
+      </p>
+    </div>
+
+    <div class="paper-keywords">
+      <strong>Keywords:</strong>
+      <span class="kw">Tokenomics</span>
+      <span class="kw">Cognitive Return Per Token</span>
+      <span class="kw">Token Value Function</span>
+      <span class="kw">Salience Allocation</span>
+      <span class="kw">Compression Efficiency</span>
+      <span class="kw">AI Benchmarking</span>
+    </div>
+
+    <h2>1. Token Value Function</h2>
+
+    <p>
+      A token should be evaluated by the value it contributes to the task. In a tokenomic system, each emitted token is treated as a unit of compute, attention, memory surface, and action influence. The value of a token can be modeled as:
+    </p>
+
+    <pre>TV(t) = w_d·D_t + w_a·A_t + w_r·R_t + w_c·C_t + w_m·M_t − w_n·N_t</pre>
+
+    <table>
+      <thead>
+        <tr><th>Symbol</th><th>Dimension</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>TV(t)</td><td>Token Value</td><td>Token value at token t</td></tr>
+        <tr><td>D_t</td><td>Decision Value</td><td>Decision value contributed by the token</td></tr>
+        <tr><td>A_t</td><td>Action Usefulness</td><td>Action usefulness of the token</td></tr>
+        <tr><td>R_t</td><td>Risk Reduction</td><td>Risk reduction contributed</td></tr>
+        <tr><td>C_t</td><td>Compression</td><td>Compression contribution</td></tr>
+        <tr><td>M_t</td><td>Memory/Reuse</td><td>Memory or reuse value</td></tr>
+        <tr><td>N_t</td><td>Noise Cost</td><td>Noise, redundancy, or attention waste</td></tr>
+        <tr><td>w</td><td>Weights</td><td>Task-specific weighting coefficients</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      A token has positive value when it improves decision quality, enables action, reduces risk, compresses useful knowledge, or creates reusable memory. A token has negative value when it repeats already-known context, adds generic language, increases ambiguity, or consumes attention without improving the outcome.
+    </p>
+
+    <p>This produces the simplified operational formula:</p>
+
+    <pre>TV = DQ + ACT + RISK + REUSE + LEARN − WASTE</pre>
+
+    <table>
+      <thead>
+        <tr><th>Term</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>DQ</td><td>Decision quality</td></tr>
+        <tr><td>ACT</td><td>Actionability</td></tr>
+        <tr><td>RISK</td><td>Risk control</td></tr>
+        <tr><td>REUSE</td><td>Reusable artifact or rule value</td></tr>
+        <tr><td>LEARN</td><td>Future system learning</td></tr>
+        <tr><td>WASTE</td><td>Redundancy, filler, or irrelevant output</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      This function gives the system a practical rule: <strong>Do not optimize for fewer tokens. Optimize for higher-value tokens.</strong>
+    </p>
+
+    <h2>2. Cognitive Return Metrics</h2>
+
+    <p>The primary system-level metric is Cognitive Return Per Token:</p>
+
+    <pre>CRPT = Cognitive Return / (Prompt Tokens + Output Tokens)</pre>
+
+    <p>Cognitive Return can be scored across five categories:</p>
+
+    <pre>CR = DQ + ACT + RISK + REUSE + LEARN</pre>
+
+    <p>Each category can be scored on a 0–5 scale:</p>
+
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Evaluation Question</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Decision Quality</td><td>Did the response improve the actual decision?</td></tr>
+        <tr><td>Actionability</td><td>Can the user or system act immediately?</td></tr>
+        <tr><td>Risk Control</td><td>Did the response identify or reduce meaningful failure modes?</td></tr>
+        <tr><td>Reuse Value</td><td>Did the response create a reusable rule, template, memory, artifact, or procedure?</td></tr>
+        <tr><td>Learning Gain</td><td>Did the interaction improve future system behavior?</td></tr>
+      </tbody>
+    </table>
+
+    <p>The resulting Cognitive Return Per Token score becomes:</p>
+
+    <pre>CRPT = (DQ + ACT + RISK + REUSE + LEARN) / TotalTokens</pre>
+
+    <p>
+      This metric rewards systems that produce compact but useful outputs. It penalizes long outputs that do not improve action, judgment, risk control, or future reuse.
+    </p>
+
+    <h2>3. Salience Allocation Equations</h2>
+
+    <p>
+      Tokenomic systems must allocate attention before generating output. A Salience Engine ranks what deserves token budget based on urgency, risk, mission relevance, novelty, time sensitivity, and whether the context is already known.
+    </p>
+
+    <p>A salience score for each information unit <em>i</em> can be represented as:</p>
+
+    <pre>S_i = α·U_i + β·R_i + γ·M_i + δ·T_i + ε·N_i − ζ·K_i</pre>
+
+    <table>
+      <thead>
+        <tr><th>Symbol</th><th>Factor</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>S_i</td><td>Salience Score</td><td>Salience score for item i</td></tr>
+        <tr><td>U_i</td><td>Urgency</td><td>How immediately is this needed?</td></tr>
+        <tr><td>R_i</td><td>Risk</td><td>Risk or consequence of getting this wrong</td></tr>
+        <tr><td>M_i</td><td>Mission</td><td>Mission relevance</td></tr>
+        <tr><td>T_i</td><td>Time Sensitivity</td><td>Is there a deadline?</td></tr>
+        <tr><td>N_i</td><td>Novelty</td><td>Novelty or uncertainty</td></tr>
+        <tr><td>K_i</td><td>Known Context</td><td>Known or already-settled context (penalty)</td></tr>
+        <tr><td>α, β, γ, δ, ε, ζ</td><td>Weights</td><td>Task-specific weight coefficients</td></tr>
+      </tbody>
+    </table>
+
+    <p>The system then allocates token budget proportionally:</p>
+
+    <pre>B_i = B_total × (S_i / ΣS)</pre>
+
+    <p>
+      Where <em>B_i</em> is the token budget allocated to item <em>i</em>, <em>B_total</em> is the total available output budget, and <em>ΣS</em> is the total salience across all candidate items.
+    </p>
+
+    <p>
+      This prevents low-value context from consuming high-value token space. The system should spend tokens on what is urgent, risky, mission-relevant, time-sensitive, uncertain, and not already known.
+    </p>
+
+    <h2>4. Compression Efficiency Metrics</h2>
+
+    <p>
+      Compression is not the same as shortening. A compressed response is successful only if it preserves meaning, action clarity, and risk awareness.
+    </p>
+
+    <p>Compression Efficiency can be represented as:</p>
+
+    <pre>CE = MeaningPreserved / TokensUsed</pre>
+
+    <p>A more operational version is:</p>
+
+    <pre>CEF = (InformationRetained + ActionClarity + RiskPreserved) / OutputTokens</pre>
+
+    <table>
+      <thead>
+        <tr><th>Term</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>InformationRetained</td><td>Preservation of important task-relevant content</td></tr>
+        <tr><td>ActionClarity</td><td>Clarity of the next step or decision</td></tr>
+        <tr><td>RiskPreserved</td><td>Preservation of necessary caution, uncertainty, or constraints</td></tr>
+        <tr><td>OutputTokens</td><td>Total output tokens used</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      Good compression reduces surface length while preserving correct action. Bad compression merely deletes context and can increase operational risk. A compressed output passes the tokenomic test only if the user or downstream system can still act correctly.
+    </p>
+
+    <h2>5. Tokenomic vs. Non-Tokenomic Benchmark Tasks</h2>
+
+    <p>To validate Tokenomics empirically, benchmark tasks should compare two systems:</p>
+
+    <p>
+      <strong>System A: Non-Tokenomic Baseline</strong> — A standard AI response system with no explicit token allocation, salience scoring, compression audit, or cognitive return measurement.
+    </p>
+
+    <p>
+      <strong>System B: Tokenomic System</strong> — An AI system using salience ranking, token budgeting, sparse module activation, compression auditing, risk preservation, and reuse extraction.
+    </p>
+
+    <p>The benchmark should test multiple task classes:</p>
+
+    <table>
+      <thead>
+        <tr><th>Task Class</th><th>Example Benchmark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Invoice Execution</td><td>Update hours, apply payments, recalculate balance, produce corrected output</td></tr>
+        <tr><td>Estimating</td><td>Convert messy scope into labor pricing and assumptions</td></tr>
+        <tr><td>Cashflow Decision</td><td>Decide whether to schedule labor before payment clears</td></tr>
+        <tr><td>Proposal Generation</td><td>Produce client-facing proposal from internal scope logic</td></tr>
+        <tr><td>Research Synthesis</td><td>Convert doctrine into structured technical paper sections</td></tr>
+        <tr><td>Architecture Design</td><td>Define modules, equations, interfaces, and evaluation metrics</td></tr>
+        <tr><td>Red-Team Review</td><td>Identify hidden failure modes in a plan or system</td></tr>
+        <tr><td>Memory Consolidation</td><td>Convert repeated work into reusable rules or templates</td></tr>
+      </tbody>
+    </table>
+
+    <p>Each task should be scored using:</p>
+
+    <pre>Score = DQ + ACT + RISK + REUSE + ACCURACY − WASTE</pre>
+
+    <p>The tokenomic gain can then be calculated as:</p>
+
+    <pre>TokenomicGain = (Score_B / Tokens_B) − (Score_A / Tokens_A)</pre>
+
+    <p>
+      A tokenomic system is superior when it produces equal or higher task score with fewer tokens, or significantly higher task score with a justified increase in tokens.
+    </p>
+
+    <h2>6. Runtime Measurement Loop</h2>
+
+    <p>A deployable Tokenomic AI System should evaluate itself through a runtime measurement loop:</p>
+
+    <ol>
+      <li>Classify the task.</li>
+      <li>Estimate task risk and complexity.</li>
+      <li>Rank salience targets.</li>
+      <li>Allocate token budget.</li>
+      <li>Recruit only necessary modules or agents.</li>
+      <li>Generate the response or artifact.</li>
+      <li>Audit compression quality.</li>
+      <li>Score cognitive return.</li>
+      <li>Detect wasted tokens.</li>
+      <li>Extract reusable rules or memory.</li>
+      <li>Update future token allocation policy.</li>
+    </ol>
+
+    <p>
+      This creates a feedback loop where every interaction improves future efficiency. A successful interaction should not only solve the current task, but reduce the cost of solving similar tasks later.
+    </p>
+
+    <h2>7. Evaluation Criteria</h2>
+
+    <p>A mature tokenomic system should be evaluated by the following criteria:</p>
+
+    <table>
+      <thead>
+        <tr><th>Criterion</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Cognitive Return Per Token</td><td>Useful cognition generated per total token spent</td></tr>
+        <tr><td>Compression Fidelity</td><td>Degree to which compressed output preserves meaning</td></tr>
+        <tr><td>Action Conversion Rate</td><td>Percentage of outputs that lead directly to correct action</td></tr>
+        <tr><td>Risk Preservation</td><td>Ability to stay concise without hiding important uncertainty</td></tr>
+        <tr><td>Reuse Extraction Rate</td><td>Frequency of converting interactions into reusable rules, templates, or memory</td></tr>
+        <tr><td>Context Hygiene</td><td>Ability to avoid polluting context with irrelevant information</td></tr>
+        <tr><td>Adaptive Depth Accuracy</td><td>Ability to expand or compress based on task stakes</td></tr>
+        <tr><td>Error Avoidance</td><td>Ability to prevent math, scope, logic, or operational mistakes</td></tr>
+      </tbody>
+    </table>
+
+    <p>These metrics move Tokenomics from stylistic preference to measurable system performance.</p>
+
+    <h2>8. Research Hypothesis</h2>
+
+    <p>The central benchmark hypothesis is:</p>
+
+    <p>
+      <strong>AI systems governed by Tokenomic allocation will produce higher cognitive return per token than non-tokenomic systems, especially in operational, financial, research, and multi-step reasoning tasks.</strong>
+    </p>
+
+    <p>A secondary hypothesis is:</p>
+
+    <p>
+      <strong>Tokenomic systems will improve over time because reuse extraction and memory consolidation reduce future token cost while increasing task accuracy.</strong>
+    </p>
+
+    <h2>9. Conclusion</h2>
+
+    <p>
+      Tokenomics becomes operational when tokens are measured by their contribution to decision quality, actionability, risk control, reuse, learning, and compression fidelity. The proposed measurement framework defines the transition from doctrine to system: token value can be scored, salience can be allocated, compression can be audited, and tokenomic systems can be benchmarked against standard AI outputs.
+    </p>
+
+    <p>
+      This creates the foundation for a new class of AI runtime: one that does not merely generate language, but <strong>governs cognitive expenditure</strong>.
+    </p>
+
+    <div class="paper-references">
+      <h2>References</h2>
+      <ol>
+        <li>Medina, F. (2026). "Sovereign Intelligence Architecture." <em>Memory Vault Research</em>.</li>
+        <li>Medina, F. (2026). "Cognitive Load Balancing in Multi-Process Sovereign Systems." <em>Memory Vault Research</em>.</li>
+        <li>Medina, F. (2026). "Alpha Communication Protocols." <em>Memory Vault Research</em>.</li>
+        <li>Medina, F. (2026). "Phi-Encoded Cognitive Architecture." <em>Memory Vault Research</em>.</li>
+        <li>Medina, F. (2026). "Tokenomics: A Measurable Runtime Control System for Cognitive Return Per Token in AI Agents." <em>Memory Vault Research</em>. Paper ID: RP-034.</li>
+      </ol>
+    </div>
+
+  </article>
+</div>
+
+</body>
+</html>
