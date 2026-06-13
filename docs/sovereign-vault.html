@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Vault — Token Ledger</title>
+  <meta name="description" content="Sovereign Vault — the credential ledger and governance bridge for Medina Sovereign Intelligence." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .vault-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; margin-top:24px; }
+    .vault-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+      padding:24px; transition:border-color .2s;
+    }
+    .vault-card:hover { border-color:var(--border-glow); }
+    .vault-card h3 { font-size:1rem; margin-bottom:4px; }
+    .vault-card .provider { font-size:.78rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; }
+    .vault-card .scopes { margin-top:12px; display:flex; flex-wrap:wrap; gap:6px; }
+    .scope-badge {
+      padding:3px 8px; border-radius:4px; font-size:.72rem; font-family:var(--font-mono);
+      background:rgba(34,197,94,.1); color:var(--green); border:1px solid rgba(34,197,94,.2);
+    }
+    .restriction-badge {
+      padding:3px 8px; border-radius:4px; font-size:.72rem; font-family:var(--font-mono);
+      background:rgba(239,68,68,.1); color:var(--red); border:1px solid rgba(239,68,68,.2);
+    }
+    .policy-badge {
+      padding:3px 8px; border-radius:4px; font-size:.72rem; font-family:var(--font-mono);
+      background:rgba(245,158,11,.1); color:var(--gold); border:1px solid rgba(245,158,11,.2);
+    }
+    .status-active { color:var(--green); }
+    .status-revoked { color:var(--red); }
+    .class-section { margin-top:48px; }
+    .class-section h2 { font-size:1.3rem; margin-bottom:8px; }
+    .class-section > p { color:var(--text-muted); font-size:.88rem; margin-bottom:16px; }
+    .architecture-diagram {
+      background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+      padding:24px; font-family:var(--font-mono); font-size:.8rem; color:var(--text-dim);
+      white-space:pre; overflow-x:auto; line-height:1.6; margin:24px 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-container">
+      <a href="index.html" class="nav-brand">Memory Vault</a>
+      <div class="nav-links">
+        <a href="research.html">Research</a>
+        <a href="journals.html">Journals</a>
+        <a href="vault.html">IP Tools</a>
+        <a href="sovereign-vault.html" class="active">Sovereign Vault</a>
+        <a href="thesis.html">THESIS</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero" style="padding:48px 0 24px;">
+      <h1>🔐 Sovereign Vault</h1>
+      <p class="hero-subtitle">Token Ledger & Governance Bridge — the credential layer of Medina Sovereign Intelligence</p>
+    </section>
+
+    <section>
+      <h2>Architecture</h2>
+      <div class="architecture-diagram">
+┌─────────────────────────────────────────────────────────────────┐
+│                    SOVEREIGN VAULT SYSTEM                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐   │
+│  │ ledger.json  │───▶│  bridge.js   │───▶│ GitHub Secrets   │   │
+│  │  (metadata)  │    │  (resolver)  │    │  (actual values) │   │
+│  └──────────────┘    └──────────────┘    └──────────────────┘   │
+│         │                    │                                    │
+│         ▼                    ▼                                    │
+│  ┌──────────────┐    ┌──────────────┐                           │
+│  │ Governance   │    │ Audit Trail  │                           │
+│  │ Laws & Pipes │    │ (phi-hashed) │                           │
+│  └──────────────┘    └──────────────┘                           │
+│                                                                   │
+├─────────────────────────────────────────────────────────────────┤
+│  Token Classes:  [Integration]  [Cognition]  [Memory]           │
+└─────────────────────────────────────────────────────────────────┘
+      </div>
+    </section>
+
+    <section class="class-section">
+      <h2>🌐 Integration Tokens</h2>
+      <p>External service credentials — Zenodo, ICP, IPFS, and third-party APIs.</p>
+      <div class="vault-grid" id="integration-tokens"></div>
+    </section>
+
+    <section class="class-section">
+      <h2>🧠 Cognition Tokens</h2>
+      <p>Cognitive agent operations — memory read/write, reasoning chains, attention budgets.</p>
+      <div class="vault-grid" id="cognition-tokens">
+        <div class="vault-card" style="border-style:dashed; opacity:.6;">
+          <h3>Awaiting Registration</h3>
+          <p class="provider">No cognition tokens registered yet</p>
+          <p style="font-size:.82rem; color:var(--text-muted); margin-top:8px;">Future tokens for cognitive operations will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="class-section">
+      <h2>💾 Memory Tokens</h2>
+      <p>Vault persistence — reads, writes, checkpoints, ledger operations.</p>
+      <div class="vault-grid" id="memory-tokens">
+        <div class="vault-card" style="border-style:dashed; opacity:.6;">
+          <h3>Awaiting Registration</h3>
+          <p class="provider">No memory tokens registered yet</p>
+          <p style="font-size:.82rem; color:var(--text-muted); margin-top:8px;">Future tokens for memory persistence will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:48px;">
+      <h2>Access Policies</h2>
+      <table class="doc-table" style="width:100%; border-collapse:collapse; font-size:.85rem; margin-top:16px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);">Policy</th>
+            <th style="text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);">Human Required</th>
+            <th style="text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);">Audit</th>
+            <th style="text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);">Rate Limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);"><code>agent_write</code></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">No</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">Yes</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">60/hr</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);"><code>agent_read</code></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">No</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">No</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">1000/hr</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);"><code>human_gate</code></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">Yes</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">Yes</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border);">10/hr</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px;"><code>sovereign_only</code></td>
+            <td style="padding:10px 12px;">Yes</td>
+            <td style="padding:10px 12px;">Yes</td>
+            <td style="padding:10px 12px;">5/hr</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section style="margin-top:48px; padding-bottom:64px;">
+      <h2>Governance</h2>
+      <p style="color:var(--text-muted); font-size:.88rem;">The Sovereign Vault is enforced by:</p>
+      <ul style="margin-top:12px; font-size:.88rem; color:var(--text-dim);">
+        <li><code>governance/laws/sovereign-vault.cpl-l</code> — Access control, audit requirements, lifecycle rules</li>
+        <li><code>governance/pipelines/sovereign-vault-ops.cpl-p</code> — Resolution, registration, revocation, health check</li>
+        <li><code>.github/workflows/vault-bridge.yml</code> — Runtime bridge (GitHub Actions secret injection)</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // Render integration tokens from ledger metadata (public info only)
+    const integrationTokens = [
+      {
+        id: 'MEDINASITECH',
+        alias: 'Zenodo Write Token (Primary)',
+        provider: 'Zenodo',
+        scopes: ['deposit:write'],
+        restrictions: ['no_publish'],
+        policy: 'agent_write',
+        status: 'active'
+      },
+      {
+        id: 'COPILOT_CLAUDE_ZENODO',
+        alias: 'Copilot/Claude Zenodo Write Token',
+        provider: 'Zenodo',
+        scopes: ['deposit:write', 'user:email'],
+        restrictions: ['no_publish'],
+        policy: 'agent_write',
+        status: 'active'
+      }
+    ];
+
+    const container = document.getElementById('integration-tokens');
+    integrationTokens.forEach(token => {
+      const card = document.createElement('div');
+      card.className = 'vault-card';
+      card.innerHTML = `
+        <h3>${token.alias} <span class="status-${token.status}" style="font-size:.72rem;">● ${token.status}</span></h3>
+        <p class="provider">${token.provider}</p>
+        <div class="scopes">
+          ${token.scopes.map(s => `<span class="scope-badge">${s}</span>`).join('')}
+          ${token.restrictions.map(r => `<span class="restriction-badge">${r}</span>`).join('')}
+          <span class="policy-badge">${token.policy}</span>
+        </div>
+        <p style="font-size:.75rem; color:var(--text-muted); margin-top:10px; font-family:var(--font-mono);">ID: ${token.id}</p>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
