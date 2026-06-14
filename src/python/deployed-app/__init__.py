@@ -33,6 +33,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
+# Import Third-Party AI API
+try:
+    from third_party_ai_api import ThirdPartyAIAPI
+except ImportError:
+    # Fallback if module path is different
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from third_party_ai_api import ThirdPartyAIAPI
+
 logger = logging.getLogger(__name__)
 
 # ============================================================================
@@ -297,6 +306,9 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
     # Initialize engine
     engine = DeployedAppEngine(docs_dir=docs_dir)
     
+    # Initialize Third-Party AI API
+    ai_api = ThirdPartyAIAPI(docs_dir=docs_dir)
+    
     # ====================================================================
     # Health & Info Routes
     # ====================================================================
@@ -435,6 +447,208 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
                 )
         except Exception as e:
             logger.error(f"WebSocket error: {e}")
+    
+    # ====================================================================
+    # Third-Party AI API Routes
+    # ====================================================================
+    
+    @app.get("/api/ai/search")
+    async def ai_search_all(
+        query: str = Query(""),
+        resource_types: Optional[str] = Query(None),
+        limit: int = Query(100, le=500),
+    ):
+        """Search across all resources (papers, journals) for AI systems."""
+        try:
+            types = resource_types.split(",") if resource_types else None
+            results = await ai_api.search_all(
+                query=query,
+                resource_types=types,
+                limit=limit
+            )
+            return {
+                "query": query,
+                "count": len(results),
+                "results": [r.to_dict() for r in results],
+            }
+        except Exception as e:
+            logger.error(f"AI search error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/papers/search")
+    async def ai_search_papers(
+        query: str = Query(""),
+        category: Optional[str] = Query(None),
+        tags: Optional[str] = Query(None),
+        author: Optional[str] = Query(None),
+        limit: int = Query(50, le=500),
+    ):
+        """Full-text search papers for AI systems."""
+        try:
+            tag_list = tags.split(",") if tags else None
+            results = await ai_api.search_papers(
+                query=query,
+                category=category,
+                tags=tag_list,
+                author=author,
+                limit=limit
+            )
+            return {
+                "resource_type": "paper",
+                "query": query,
+                "count": len(results),
+                "results": [r.to_dict() for r in results],
+            }
+        except Exception as e:
+            logger.error(f"Paper search error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/journals/search")
+    async def ai_search_journals(
+        query: str = Query(""),
+        category: Optional[str] = Query(None),
+        tags: Optional[str] = Query(None),
+        limit: int = Query(50, le=500),
+    ):
+        """Full-text search journals for AI systems."""
+        try:
+            tag_list = tags.split(",") if tags else None
+            results = await ai_api.search_journals(
+                query=query,
+                category=category,
+                tags=tag_list,
+                limit=limit
+            )
+            return {
+                "resource_type": "journal",
+                "query": query,
+                "count": len(results),
+                "results": [r.to_dict() for r in results],
+            }
+        except Exception as e:
+            logger.error(f"Journal search error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/fingerprints")
+    async def ai_get_fingerprints(
+        resource_type: Optional[str] = Query(None),
+        limit: int = Query(500, le=5000),
+    ):
+        """Get digital fingerprints for all resources."""
+        try:
+            fingerprints = await ai_api.get_fingerprints(
+                resource_type=resource_type,
+                limit=limit
+            )
+            return {
+                "count": len(fingerprints),
+                "fingerprints": [f.to_dict() for f in fingerprints],
+            }
+        except Exception as e:
+            logger.error(f"Fingerprint fetch error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/fingerprints/{resource_id}")
+    async def ai_get_fingerprint(resource_id: str):
+        """Get fingerprint for a specific resource."""
+        try:
+            fingerprints = await ai_api.get_fingerprints()
+            fp = next((f for f in fingerprints if f.resource_id == resource_id), None)
+            
+            if not fp:
+                raise HTTPException(status_code=404, detail="Fingerprint not found")
+            
+            return {
+                "resource_id": resource_id,
+                "fingerprint": fp.to_dict(),
+            }
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Fingerprint fetch error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.post("/api/ai/fingerprints/verify")
+    async def ai_verify_resource(
+        resource_id: str = Query(...),
+        content_hash: str = Query(...),
+    ):
+        """Verify resource integrity using fingerprint."""
+        try:
+            is_valid = await ai_api.verify_resource(resource_id, content_hash)
+            return {
+                "resource_id": resource_id,
+                "valid": is_valid,
+                "timestamp": datetime.utcnow().isoformat(),
+            }
+        except Exception as e:
+            logger.error(f"Verification error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/index")
+    async def ai_get_index():
+        """Get comprehensive public index of all resources."""
+        try:
+            index = await ai_api.get_index()
+            return {
+                "index_version": "1.0",
+                "generated_at": datetime.utcnow().isoformat(),
+                "index": index,
+            }
+        except Exception as e:
+            logger.error(f"Index generation error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/manifest")
+    async def ai_get_manifest():
+        """Get manifest for bulk indexing by AI systems."""
+        try:
+            manifest = await ai_api.export_manifest()
+            return manifest
+        except Exception as e:
+            logger.error(f"Manifest export error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/papers/{paper_id}")
+    async def ai_get_paper_with_fingerprint(paper_id: str):
+        """Get paper with fingerprint for verification."""
+        try:
+            result = await ai_api.get_paper_with_fingerprint(paper_id)
+            if not result:
+                raise HTTPException(status_code=404, detail="Paper not found")
+            return result
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Paper fetch error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/journals/{journal_id}")
+    async def ai_get_journal_with_fingerprint(journal_id: str):
+        """Get journal with fingerprint for verification."""
+        try:
+            result = await ai_api.get_journal_with_fingerprint(journal_id)
+            if not result:
+                raise HTTPException(status_code=404, detail="Journal not found")
+            return result
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Journal fetch error: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    
+    @app.get("/api/ai/stats")
+    async def ai_get_stats():
+        """Get API statistics and resource counts."""
+        return {
+            "timestamp": datetime.utcnow().isoformat(),
+            "total_papers": len(ai_api.papers),
+            "total_journals": len(ai_api.journals),
+            "total_fingerprints": len(ai_api.fingerprints),
+            "total_authors": len(ai_api.author_index),
+            "total_categories": len(ai_api.category_index),
+            "total_tags": len(ai_api.tag_index),
+        }
     
     return app
 
