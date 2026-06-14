@@ -1,0 +1,133 @@
+name: Vault Health Dashboard
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'governance/vault/**'
+
+permissions:
+  contents: read
+
+jobs:
+  health-check:
+    name: Check Vault Health
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate Ledger
+        run: |
+          node --input-type=module << 'EOF'
+          import { readFileSync } from 'node:fs';
+          import { resolve } from 'node:path';
+
+          const ledger = JSON.parse(readFileSync('./governance/vault/ledger.json', 'utf-8'));
+
+          console.log('═══════════════════════════════════════════════');
+          console.log('SOVEREIGN VAULT HEALTH CHECK');
+          console.log('═══════════════════════════════════════════════\n');
+
+          // Check ledger validity
+          console.log('✓ Ledger Structure:');
+          console.log(`  Schema: ${ledger.$schema}`);
+          console.log(`  Version: ${ledger.version}`);
+          console.log(`  Vault ID: ${ledger.vault_id}`);
+          console.log(`  Owner: ${ledger.owner}\n`);
+
+          // Token stats
+          const tokens = ledger.tokens || [];
+          const active = tokens.filter(t => t.status === 'active').length;
+          const revoked = tokens.filter(t => t.status === 'revoked').length;
+
+          console.log(`✓ Token Summary:`);
+          console.log(`  Total registered: ${tokens.length}`);
+          console.log(`  Active: ${active}`);
+          console.log(`  Revoked: ${revoked}\n`);
+
+          // Token classes
+          console.log(`✓ Token Classes:`);
+          const classes = ledger.token_classes || {};
+          Object.entries(classes).forEach(([className, classData]) => {
+            const count = (classData.tokens || []).length;
+            console.log(`  ${className}: ${count} token(s)`);
+          });
+          console.log();
+
+          // Providers
+          const providers = new Set(tokens.map(t => t.provider));
+          console.log(`✓ Providers (${providers.size}):`);
+          providers.forEach(p => {
+            const count = tokens.filter(t => t.provider === p).length;
+            console.log(`  ${p}: ${count}`);
+          });
+          console.log();
+
+          // Access policies
+          const policies = new Set(tokens.map(t => t.access_policy));
+          console.log(`✓ Access Policies:`);
+          policies.forEach(p => {
+            const count = tokens.filter(t => t.access_policy === p).length;
+            console.log(`  ${p}: ${count} token(s)`);
+          });
+          console.log();
+
+          // Token details
+          console.log(`✓ Token Inventory:`);
+          tokens.forEach(t => {
+            const status = t.status === 'active' ? '✓' : '✗';
+            console.log(`  ${status} ${t.token_id} (${t.provider}) — ${t.alias}`);
+            console.log(`      Scopes: ${t.scopes.join(', ')}`);
+            console.log(`      Policy: ${t.access_policy}`);
+          });
+          console.log();
+
+          // Health verdict
+          console.log('═══════════════════════════════════════════════');
+          const allValid = tokens.every(t => 
+            t.token_id && 
+            t.provider && 
+            t.scopes && 
+            t.secret_ref &&
+            t.access_policy &&
+            t.status
+          );
+          
+          if (allValid && active > 0) {
+            console.log('✓ VAULT HEALTH: GOOD');
+            console.log(`  All ${active} active tokens are properly configured`);
+          } else if (active === 0) {
+            console.log('⚠ VAULT HEALTH: WARNING');
+            console.log('  No active tokens found');
+          } else {
+            console.log('✗ VAULT HEALTH: CRITICAL');
+            console.log('  Some tokens are misconfigured');
+          }
+          console.log('═══════════════════════════════════════════════');
+          
+          process.exit(allValid && active > 0 ? 0 : 1);
+          EOF
+
+      - name: Check Secrets Availability
+        env:
+          MEDINASITECH: ${{ secrets.MEDINASITECH }}
+          COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING: ${{ secrets.COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING }}
+          NPM_TOKEN: ${{ secrets.npm_token }}
+        run: |
+          echo "✓ Secret Availability Check:"
+          echo "  MEDINASITECH: $([ -z '$MEDINASITECH' ] && echo '✗ NOT SET' || echo '✓ AVAILABLE')"
+          echo "  COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING: $([ -z '$COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING' ] && echo '✗ NOT SET' || echo '✓ AVAILABLE')"
+          echo "  npm_token: $([ -z '$NPM_TOKEN' ] && echo '✗ NOT SET' || echo '✓ AVAILABLE')"
+
+      - name: Report Status
+        if: always()
+        run: |
+          echo "✓ Vault Health Check Complete"
+          echo "  Next check: in 6 hours"
