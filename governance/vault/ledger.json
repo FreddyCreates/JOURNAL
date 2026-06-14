@@ -32,10 +32,40 @@
       "status": "active",
       "access_policy": "agent_write",
       "notes": "Agent-accessible write token with email scope. Used by Copilot and Claude for sovereign deposit operations."
+    },
+    {
+      "token_id": "NPM_PUBLISH_TOKEN",
+      "alias": "NPM Registry Publish Token",
+      "provider": "npmjs",
+      "scopes": ["publish:write", "read:packages"],
+      "capabilities": ["publish_package", "unpublish_package", "read_registry"],
+      "restrictions": ["scope:@medina"],
+      "secret_ref": "secrets.npm_token",
+      "registered": "2026-06-14T00:45:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "NPM registry token for automated package publishing in CI/CD workflows."
+    },
+    {
+      "token_id": "GITHUB_PAGES_DEPLOY",
+      "alias": "GitHub Pages Deployment Token",
+      "provider": "github",
+      "scopes": ["pages:write", "contents:read"],
+      "capabilities": ["deploy_pages", "read_repo"],
+      "restrictions": ["target:memory-vault-site"],
+      "secret_ref": "secrets.GITHUB_TOKEN",
+      "registered": "2026-06-14T00:45:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "GitHub Actions token for deploying GitHub Pages. Scoped to specific repository."
     }
   ],
 
   "token_classes": {
+    "integration": {
+      "description": "Tokens for external service integration — Zenodo, NPM, GitHub, ICP, IPFS, etc.",
+      "tokens": ["MEDINASITECH", "COPILOT_CLAUDE_ZENODO", "NPM_PUBLISH_TOKEN", "GITHUB_PAGES_DEPLOY"]
+    },
     "cognition": {
       "description": "Tokens governing cognitive agent operations — memory read/write, reasoning chains, attention budgets.",
       "tokens": []
@@ -44,9 +74,13 @@
       "description": "Tokens governing memory persistence — vault reads, ledger writes, checkpoint creation.",
       "tokens": []
     },
-    "integration": {
-      "description": "Tokens for external service integration — Zenodo, ICP, IPFS, etc.",
-      "tokens": ["MEDINASITECH", "COPILOT_CLAUDE_ZENODO"]
+    "system": {
+      "description": "System-level tokens for platform operations — governance enforcement, organism fleet coordination.",
+      "tokens": []
+    },
+    "enterprise": {
+      "description": "Enterprise connector tokens — Salesforce, SAP, HubSpot, Stripe, Google, Shopify, Slack, Twilio, etc.",
+      "tokens": []
     }
   },
 
