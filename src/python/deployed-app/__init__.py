@@ -27,20 +27,19 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, List, Any
+import importlib.util
 
 from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
-# Import Third-Party AI API
-try:
-    from third_party_ai_api import ThirdPartyAIAPI
-except ImportError:
-    # Fallback if module path is different
-    import sys
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from third_party_ai_api import ThirdPartyAIAPI
+# Import Third-Party AI API using importlib to handle hyphenated module name
+_module_path = Path(__file__).parent.parent / "third-party-ai-api" / "__init__.py"
+_spec = importlib.util.spec_from_file_location("third_party_ai_api", _module_path)
+_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_module)
+ThirdPartyAIAPI = _module.ThirdPartyAIAPI
 
 logger = logging.getLogger(__name__)
 
