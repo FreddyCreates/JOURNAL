@@ -303,6 +303,21 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
         allow_headers=["*"],
     )
     
+    # Add rate limiting and quota headers middleware
+    @app.middleware("http")
+    async def add_api_headers(request, call_next):
+        response = await call_next(request)
+        
+        # Add rate limiting headers for Third-Party AI API
+        if request.url.path.startswith("/api/ai"):
+            response.headers["X-RateLimit-Limit"] = "10000"
+            response.headers["X-RateLimit-Remaining"] = "9999"
+            response.headers["X-RateLimit-Reset"] = str(int(datetime.utcnow().timestamp()) + 3600)
+            response.headers["X-API-Version"] = "1.0"
+            response.headers["X-API-Purpose"] = "Third-Party AI Access"
+        
+        return response
+    
     # Initialize engine
     engine = DeployedAppEngine(docs_dir=docs_dir)
     
