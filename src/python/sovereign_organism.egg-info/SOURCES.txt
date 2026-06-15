@@ -15,4 +15,10 @@ sovereign_organism.egg-info/SOURCES.txt
 sovereign_organism.egg-info/dependency_links.txt
 sovereign_organism.egg-info/requires.txt
 sovereign_organism.egg-info/top_level.txt
+tests/test_ai_tools.py
+tests/test_deployed_app.py
+tests/test_governance_executor.py
+tests/test_intelligence_router.py
+tests/test_memory_authority.py
+tests/test_paper_engine.py
 third-party-ai-api/__init__.py
