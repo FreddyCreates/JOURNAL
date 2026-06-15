@@ -1,0 +1,11 @@
+ai-aware-tools
+ai-tools
+cross-domain-uses
+deployed-app
+deployment
+governance-executor
+intelligence-router
+memory-authority
+paper-engine
+sovereign
+third-party-ai-api

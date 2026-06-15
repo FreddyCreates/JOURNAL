@@ -32,6 +32,7 @@ export create_token, evolve_token!, merge_tokens!, split_token!
 export simulate_universe!, monte_carlo_evolution
 export TokenMetrics, calculate_metrics, coherence_forecast
 export EconomicModel, simulate_economy, energy_flow_analysis
+export Genesis, Sovereign, Dormant, Ascended, add_token!
 
 # ════════════════════════════════════════════════════════════════════════════════
 # TOKEN CONSTANTS

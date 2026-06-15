@@ -32,6 +32,7 @@ export coherence_to_fidelity, fidelity_to_coherence
 export apply_gate, measure, partial_trace
 export TokenQuantumBridge, bridge_token, sync_quantum_state
 export lindblad_evolve!, decoherence_rate
+export state_to_density
 
 # ════════════════════════════════════════════════════════════════════════════════
 # QUANTUM CONSTANTS
