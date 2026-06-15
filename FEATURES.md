@@ -150,4 +150,57 @@
 
 ---
 
+## 9 Core Engines
+
+| Engine | Purpose | Technology | Status |
+|--------|---------|-----------|--------|
+| **Intelligence Router** | Multi-model AI orchestration | FastAPI + async Python | Production |
+| **Paper Synthesis Engine** | Automated research publication | HTML/PDF generation + Zenodo | Production |
+| **THESIS Verifier** | Formal proof verification | Julia + logic validation | Production |
+| **Memory Authority** | Temporal knowledge vault | LRU cache + voting | Production |
+| **Governance Executor** | Constitutional law enforcement | CPL-L/CPL-P evaluation | Production |
+| **AI-Aware Tools** | Self-describing APIs | Tool registry + capability discovery | Production |
+| **Cross-Domain Workflows** | Multi-language orchestration | Julia/Rust/Haskell interop | Production |
+| **Sovereign Vault** | Credential management | Token ledger + secret storage | Production |
+| **Third-Party AI API** | External system integration | 11 endpoints + SHA-256 fingerprinting | Production |
+
+---
+
+## 54 Production SDK Packages
+
+- **Intelligence Routing**: 5 SDKs (router, φ-encoder, multi-model, token-estimator, selector)
+- **Governance**: 5 SDKs (executor, validator, pipeline, enforcement, audit)
+- **Memory & Knowledge**: 5 SDKs (memory, vault, graph, temporal, search)
+- **Research & Papers**: 5 SDKs (synthesis, engine, zenodo, citations, metadata)
+- **Tools & Integration**: 5 SDKs (ai-aware, composer, discovery, cross-domain, validator)
+- **Deployment**: 5 SDKs (memory, runtime, enterprise, connectors, monitoring)
+- **Plus 24 additional domain-specific and integration packages**
+
+All packages are:
+- ✓ Production-grade tested
+- ✓ Fully documented with examples
+- ✓ Available as MIT or proprietary licenses
+- ✓ Compatible with JavaScript, Python, Rust, and Go
+
+---
+
+## Commercial Deployment Options
+
+| Option | Infrastructure | Best For | Pricing |
+|--------|-----------------|----------|---------|
+| **Public SaaS** | GitHub Pages + FastAPI Cloud | General research, public platform | Free tier + usage-based |
+| **Private Sovereign** | Your VPC/Servers (Docker) | Enterprise, regulated industries | License + support subscription |
+| **Multi-Tenant Gateway** | Kubernetes + PostgreSQL | Team collaboration, managed service | Per-user or per-org subscription |
+| **Embedded SDK** | Your tech stack (54 packages) | Custom integration, white-label | One-time license or per-deployment |
+
+All deployments include:
+- ✓ 9 core engines (FastAPI-based, async-first)
+- ✓ 54 production SDK packages
+- ✓ 8 autonomous agents (THESIS, AURO, ORIGO, CODEX, CIVOS PRIME, NEXUS, SENTINEL, CHRONOS)
+- ✓ 40 constitutional laws (CPL-L) with automated enforcement
+- ✓ Full monitoring, health checks, and self-healing
+- ✓ Docker Compose orchestration with FastAPI, Redis, PostgreSQL, Julia, Rust runtimes
+
+---
+
 *This register is a living document. Features are added through the Protocol Lifecycle Pipeline (governance/pipelines/protocol-lifecycle.cpl-p) and verified by THESIS.*
