@@ -672,7 +672,7 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
     try:
         from pathlib import Path as PathlibPath
         import importlib.util
-        _worker_module_path = PathlibPath(__file__).parent.parent / "sovereign-workers" / "__init__.py"
+        _worker_module_path = PathlibPath(__file__).parent.parent / "sovereign_workers" / "__init__.py"
         _worker_spec = importlib.util.spec_from_file_location("sovereign_workers", _worker_module_path)
         _worker_module = importlib.util.module_from_spec(_worker_spec)
         _worker_spec.loader.exec_module(_worker_module)
@@ -680,7 +680,7 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
         SovereignWorkerRegistry = _worker_module.SovereignWorkerRegistry
         WorkerTask = _worker_module.WorkerTask
     except Exception as e:
-        logger.warning(f"Could not import sovereign-workers: {e}")
+        logger.warning(f"Could not import sovereign_workers: {e}")
         SovereignWorker = None
         SovereignWorkerRegistry = None
         WorkerTask = None
@@ -845,7 +845,7 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
         try:
             from pathlib import Path as PathlibPath
             import importlib.util
-            _orch_module_path = PathlibPath(__file__).parent.parent / "sovereign-workers" / "orchestrator.py"
+            _orch_module_path = PathlibPath(__file__).parent.parent / "sovereign_workers" / "orchestrator.py"
             _orch_spec = importlib.util.spec_from_file_location("orchestrator", _orch_module_path)
             _orch_module = importlib.util.module_from_spec(_orch_spec)
             _orch_spec.loader.exec_module(_orch_module)
