@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools & Engines — Sovereign Organism</title>
+  <meta name="description" content="Complete tools and engines catalog for AI-Native Sovereign System — 9 core engines, 54 SDKs, 8 autonomous agents, and commercial deployment options." />
+  <meta name="author" content="Freddy Medina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .tools-hero {
+      padding: 80px 0 60px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .engine-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 32px;
+    }
+    @media (max-width: 768px) { .engine-grid { grid-template-columns: 1fr; } }
+    
+    .engine-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .engine-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow);
+    }
+    
+    .engine-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .engine-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .engine-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .engine-desc {
+      color: var(--text-dim);
+      font-size: .9rem;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .feature-list li {
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+      font-size: .85rem;
+      color: var(--text-dim);
+    }
+    .feature-list li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+    
+    .agent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    @media (max-width: 768px) { .agent-grid { grid-template-columns: 1fr; } }
+    
+    .agent-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+    }
+    .agent-badge {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .agent-name {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .agent-capability {
+      font-size: .8rem;
+      color: var(--text-muted);
+    }
+    
+    .sdk-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .sdk-item {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: .85rem;
+      font-family: var(--font-mono);
+    }
+    
+    .section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child { border-bottom: none; }
+    
+    .deployment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    @media (max-width: 768px) { .deployment-grid { grid-template-columns: 1fr; } }
+    
+    .deployment-card {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .deployment-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+    .deployment-desc {
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    
+    .api-endpoint {
+      background: var(--surface-2);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="icon">🔐</span>
+      <span>Sovereign Organism</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="journals.html">Journals</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="tools-engines.html" class="active">Tools & Engines</a></li>
+      <li><a href="platform.html">Platform</a></li>
+      <li><a href="thesis.html">THESIS</a></li>
+      <li><a href="vault.html">Vault</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="tools-hero">
+  <div class="container">
+    <div style="margin-bottom: 24px;">
+      <span style="display: inline-block; background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 8px 16px; font-size: .85rem; font-weight: 600; color: var(--text-muted);">⚙️ COMPLETE TOOLING SUITE</span>
+    </div>
+    <h1>Tools & Engines Catalog</h1>
+    <p style="font-size: 1.1rem; color: var(--text-dim); margin-bottom: 32px; max-width: 700px;">
+      9 core engines, 54 production SDKs, 8 autonomous agents, and an open API for building sovereign AI systems. All self-aware, self-healing, and always-on.
+    </p>
+  </div>
+</section>
+
+<!-- ── Core Engines ── -->
+<section class="section">
+  <div class="container">
+    <h2>9 Core Engines</h2>
+    <p style="color: var(--text-dim); margin-bottom: 32px;">
+      The foundation: FastAPI-based, async-first, production-grade engines that power autonomous cognition.
+    </p>
+    
+    <div class="engine-grid">
+      <!-- Intelligence Router -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🧠</div>
+          <h3 class="engine-title">Intelligence Router</h3>
+        </div>
+        <p class="engine-desc">Multi-model AI orchestration with φ-weighted selection</p>
+        <ul class="feature-list">
+          <li>Routes across GPT-4, Claude, Gemini, Llama, Mistral</li>
+          <li>Async parallel execution with fallback chains</li>
+          <li>Token estimation and cost optimization</li>
+          <li>Model capability detection</li>
+          <li>Response normalization</li>
+        </ul>
+      </div>
+      
+      <!-- Paper Synthesis Engine -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">📄</div>
+          <h3 class="engine-title">Paper Synthesis Engine</h3>
+        </div>
+        <p class="engine-desc">Automated research publication and knowledge synthesis</p>
+        <ul class="feature-list">
+          <li>HTML/PDF paper generation from content</li>
+          <li>Automatic metadata extraction</li>
+          <li>Zenodo archival integration</li>
+          <li>Citation graph maintenance</li>
+          <li>Self-publishing pipeline</li>
+        </ul>
+      </div>
+      
+      <!-- THESIS Verifier -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">✓</div>
+          <h3 class="engine-title">THESIS Verifier</h3>
+        </div>
+        <p class="engine-desc">Formal proof verification with evidence mapping</p>
+        <ul class="feature-list">
+          <li>Julia-based claim validation</li>
+          <li>Evidence boundary detection</li>
+          <li>Proof posture analysis</li>
+          <li>Hash manifest verification</li>
+          <li>Packet building for transmission</li>
+        </ul>
+      </div>
+      
+      <!-- Memory Authority -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🧠</div>
+          <h3 class="engine-title">Memory Authority</h3>
+        </div>
+        <p class="engine-desc">Temporal knowledge vault with governance</p>
+        <ul class="feature-list">
+          <li>LRU-evicted memory storage</li>
+          <li>Upvote/downvote voting system</li>
+          <li>Full-text search with filters</li>
+          <li>Optional persistence to disk</li>
+          <li>Audit trail tracking</li>
+        </ul>
+      </div>
+      
+      <!-- Governance Executor -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">⚖️</div>
+          <h3 class="engine-title">Governance Executor</h3>
+        </div>
+        <p class="engine-desc">Constitutional law enforcement and automation</p>
+        <ul class="feature-list">
+          <li>40 CPL-L constitutional laws</li>
+          <li>Multi-stage pipeline execution</li>
+          <li>Automated decision-making</li>
+          <li>Immutable audit trails</li>
+          <li>Governance law evaluation</li>
+        </ul>
+      </div>
+      
+      <!-- AI-Aware Tools -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🔧</div>
+          <h3 class="engine-title">AI-Aware Tools</h3>
+        </div>
+        <p class="engine-desc">Self-describing APIs with verification</p>
+        <ul class="feature-list">
+          <li>Tool self-description protocol</li>
+          <li>Precondition checking</li>
+          <li>Postcondition application</li>
+          <li>Capability discovery</li>
+          <li>Lateral workflow composition</li>
+        </ul>
+      </div>
+      
+      <!-- Cross-Domain Workflows -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🌐</div>
+          <h3 class="engine-title">Cross-Domain Workflows</h3>
+        </div>
+        <p class="engine-desc">Multi-language orchestration and integration</p>
+        <ul class="feature-list">
+          <li>Julia, Rust, Haskell interop</li>
+          <li>JSON I/O subprocess calling</li>
+          <li>Timeout and error handling</li>
+          <li>Language-specific verification</li>
+          <li>Result aggregation</li>
+        </ul>
+      </div>
+      
+      <!-- Sovereign Vault -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🔐</div>
+          <h3 class="engine-title">Sovereign Vault</h3>
+        </div>
+        <p class="engine-desc">Credential management and secret storage</p>
+        <ul class="feature-list">
+          <li>Token ledger with metadata</li>
+          <li>GitHub Secrets integration</li>
+          <li>Governance law enforcement</li>
+          <li>Health monitoring</li>
+          <li>Token rotation policies</li>
+        </ul>
+      </div>
+      
+      <!-- Third-Party AI API -->
+      <div class="engine-card">
+        <div class="engine-header">
+          <div class="engine-icon">🔌</div>
+          <h3 class="engine-title">Third-Party AI API</h3>
+        </div>
+        <p class="engine-desc">External system integration and discovery</p>
+        <ul class="feature-list">
+          <li>11 endpoints for papers/journals/vault</li>
+          <li>Digital fingerprinting (SHA-256)</li>
+          <li>Content integrity verification</li>
+          <li>Bulk export and indexing</li>
+          <li>CORS support for external access</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Autonomous Agents ── -->
+<section class="section">
+  <div class="container">
+    <h2>8 Autonomous Agents</h2>
+    <p style="color: var(--text-dim); margin-bottom: 32px;">
+      Always-on, self-thinking agents that orchestrate the organism. Each is self-aware, self-researching, and can operate independently or in coordination.
+    </p>
+    
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-badge">✓</div>
+        <div class="agent-name">THESIS</div>
+        <div class="agent-capability">Verification & Claims</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Generates proofs autonomously, validates claims across domains</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">✍️</div>
+        <div class="agent-name">AURO</div>
+        <div class="agent-capability">Publishing & Docs</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Publishes papers and generates documentation</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">🔨</div>
+        <div class="agent-name">ORIGO</div>
+        <div class="agent-capability">Building & Deploy</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Builds, tests, and deploys infrastructure</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">⚙️</div>
+        <div class="agent-name">CODEX</div>
+        <div class="agent-capability">Runtime & Routing</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Orchestrates runtime and routes queries</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">⚖️</div>
+        <div class="agent-name">CIVOS PRIME</div>
+        <div class="agent-capability">Governance & Law</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Enforces laws and makes decisions</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">🌐</div>
+        <div class="agent-name">NEXUS</div>
+        <div class="agent-capability">Integration & Fed</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Bridges systems and federates organisms</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">🛡️</div>
+        <div class="agent-name">SENTINEL</div>
+        <div class="agent-capability">Security & Heal</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Detects threats and heals systems</p>
+      </div>
+      <div class="agent-card">
+        <div class="agent-badge">⏱️</div>
+        <div class="agent-name">CHRONOS</div>
+        <div class="agent-capability">Temporal & State</div>
+        <p style="font-size: .75rem; color: var(--text-muted); margin-top: 8px;">Manages timelines and rollbacks</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SDK Packages ── -->
+<section class="section">
+  <div class="container">
+    <h2>54 Production SDK Packages</h2>
+    <p style="color: var(--text-dim); margin-bottom: 24px;">
+      Ready-to-use packages across intelligence routing, governance, memory, papers, tools, and domain-specific modules.
+    </p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">🧠 Core Intelligence</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">intelligence-router-sdk</div>
+          <div class="sdk-item">φ-encoder-sdk</div>
+          <div class="sdk-item">multi-model-orchestration</div>
+          <div class="sdk-item">token-estimator</div>
+          <div class="sdk-item">model-selector</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">⚖️ Governance</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">governance-executor-sdk</div>
+          <div class="sdk-item">cpl-l-validator</div>
+          <div class="sdk-item">cpl-p-pipeline</div>
+          <div class="sdk-item">law-enforcement</div>
+          <div class="sdk-item">audit-trail-sdk</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">💾 Memory & Knowledge</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">memory-authority-sdk</div>
+          <div class="sdk-item">vault-client-sdk</div>
+          <div class="sdk-item">knowledge-graph-sdk</div>
+          <div class="sdk-item">temporal-vault-sdk</div>
+          <div class="sdk-item">search-engine-sdk</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">📚 Research & Papers</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">paper-synthesis-sdk</div>
+          <div class="sdk-item">paper-engine-sdk</div>
+          <div class="sdk-item">zenodo-integration</div>
+          <div class="sdk-item">citation-graph-sdk</div>
+          <div class="sdk-item">metadata-extractor</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">🔧 Tools & Integration</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">ai-aware-tools-sdk</div>
+          <div class="sdk-item">tool-composer-sdk</div>
+          <div class="sdk-item">capability-discovery</div>
+          <div class="sdk-item">cross-domain-sdk</div>
+          <div class="sdk-item">protocol-validator</div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 16px; color: var(--accent);">🌐 Deployment</h4>
+        <div class="sdk-list">
+          <div class="sdk-item">sovereign-memory-sdk</div>
+          <div class="sdk-item">organism-runtime-sdk</div>
+          <div class="sdk-item">enterprise-integration</div>
+          <div class="sdk-item">connector-sdk</div>
+          <div class="sdk-item">monitoring-sdk</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Commercial Deployment ── -->
+<section class="section">
+  <div class="container">
+    <h2>Commercial Deployment Options</h2>
+    <p style="color: var(--text-dim); margin-bottom: 32px;">
+      Deploy as SaaS, private sovereign, multi-tenant, or embedded. Full Docker Compose orchestration with FastAPI, Redis, PostgreSQL, and language runtimes.
+    </p>
+    
+    <div class="deployment-grid">
+      <div class="deployment-card">
+        <div class="deployment-title">🌐 Public SaaS</div>
+        <div class="deployment-desc">
+          <p><strong>Best for:</strong> General AI research, paper synthesis, public knowledge platform</p>
+          <p><strong>Infrastructure:</strong> GitHub Pages + FastAPI Cloud</p>
+          <p><strong>Pricing:</strong> Free tier, pay-per-API-call for usage</p>
+        </div>
+      </div>
+      <div class="deployment-card">
+        <div class="deployment-title">🔒 Private Sovereign</div>
+        <div class="deployment-desc">
+          <p><strong>Best for:</strong> Enterprise, regulated industries, proprietary research</p>
+          <p><strong>Infrastructure:</strong> Your VPC/servers (Docker Compose)</p>
+          <p><strong>Pricing:</strong> License + support subscription</p>
+        </div>
+      </div>
+      <div class="deployment-card">
+        <div class="deployment-title">👥 Multi-Tenant Gateway</div>
+        <div class="deployment-desc">
+          <p><strong>Best for:</strong> Team collaboration, managed platform service</p>
+          <p><strong>Infrastructure:</strong> Kubernetes + PostgreSQL</p>
+          <p><strong>Pricing:</strong> Per-user/per-org subscription</p>
+        </div>
+      </div>
+      <div class="deployment-card">
+        <div class="deployment-title">📦 Embedded SDK</div>
+        <div class="deployment-desc">
+          <p><strong>Best for:</strong> Integration into existing apps</p>
+          <p><strong>Infrastructure:</strong> Your tech stack (54 packages)</p>
+          <p><strong>Pricing:</strong> One-time SDK license or per-deployment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Third-Party AI API ── -->
+<section class="section">
+  <div class="container">
+    <h2>Third-Party AI API</h2>
+    <p style="color: var(--text-dim); margin-bottom: 32px;">
+      11 endpoints for external AI systems to access papers, journals, memory, and perform integrity verification.
+    </p>
+    
+    <div style="max-width: 800px;">
+      <div class="api-endpoint">GET /api/ai/papers</div>
+      <div class="api-endpoint">GET /api/ai/papers/{id}</div>
+      <div class="api-endpoint">GET /api/ai/journals</div>
+      <div class="api-endpoint">GET /api/ai/memory/search?q=query</div>
+      <div class="api-endpoint">GET /api/ai/fingerprints/{sha256}</div>
+      <div class="api-endpoint">POST /api/ai/index/papers</div>
+      <div class="api-endpoint">POST /api/ai/bulk-export</div>
+      <div class="api-endpoint">POST /api/ai/verify/content</div>
+      <div class="api-endpoint">GET /api/ai/vault/attest</div>
+      <div class="api-endpoint">GET /api/ai/protocols</div>
+      <div class="api-endpoint">GET /api/ai/status</div>
+    </div>
+    
+    <p style="color: var(--text-dim); margin-top: 24px; font-size: .9rem;">
+      All endpoints support SHA-256 digital fingerprinting for content integrity verification. <strong>CORS enabled</strong> for external AI systems and platforms.
+    </p>
+  </div>
+</section>
+
+<!-- ── Getting Started ── -->
+<section class="section">
+  <div class="container">
+    <h2>Get Started Now</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <h4 style="margin-bottom: 16px;">For Researchers</h4>
+        <p style="color: var(--text-dim); margin-bottom: 16px; font-size: .9rem;">
+          Browse 34+ published papers, use THESIS for verification, or synthesize new research papers.
+        </p>
+        <a href="research.html" style="display: inline-block; background: var(--accent); color: white; padding: 8px 16px; border-radius: var(--radius); text-decoration: none; font-size: .85rem; font-weight: 600;">Explore Research</a>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <h4 style="margin-bottom: 16px;">For Builders</h4>
+        <p style="color: var(--text-dim); margin-bottom: 16px; font-size: .9rem;">
+          Install SDKs, use the APIs, deploy via Docker, or integrate into your apps.
+        </p>
+        <a href="https://github.com/FreddyCreates/JOURNAL" style="display: inline-block; background: var(--accent); color: white; padding: 8px 16px; border-radius: var(--radius); text-decoration: none; font-size: .85rem; font-weight: 600;">GitHub Repository</a>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <h4 style="margin-bottom: 16px;">For Enterprises</h4>
+        <p style="color: var(--text-dim); margin-bottom: 16px; font-size: .9rem;">
+          Deploy privately, integrate via connectors, or run multi-tenant.
+        </p>
+        <a href="index.html" style="display: inline-block; background: var(--accent); color: white; padding: 8px 16px; border-radius: var(--radius); text-decoration: none; font-size: .85rem; font-weight: 600;">Commercial Options</a>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <h4 style="margin-bottom: 16px;">For AI Systems</h4>
+        <p style="color: var(--text-dim); margin-bottom: 16px; font-size: .9rem;">
+          Use the Third-Party AI API to access papers, journals, and memory.
+        </p>
+        <a href="vault.html" style="display: inline-block; background: var(--accent); color: white; padding: 8px 16px; border-radius: var(--radius); text-decoration: none; font-size: .85rem; font-weight: 600;">API & Vault Tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer style="border-top: 1px solid var(--border); padding: 40px 0; margin-top: 60px;">
+  <div class="container" style="text-align: center; color: var(--text-muted); font-size: .85rem;">
+    <p>© 2026 Freddy Medina. All Rights Reserved. | Sovereign Organism v3.0</p>
+    <p style="margin-top: 8px;"><a href="index.html" style="color: var(--accent); text-decoration: none;">Home</a> · <a href="research.html" style="color: var(--accent); text-decoration: none;">Research</a> · <a href="https://github.com/FreddyCreates/JOURNAL" style="color: var(--accent); text-decoration: none;">GitHub</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
