@@ -50,4 +50,4 @@ Repository = "https://github.com/FreddyCreates/JOURNAL"
 Documentation = "https://freddycreates.github.io/JOURNAL/"
 
 [tool.setuptools]
-packages = ["ai-aware-tools", "ai-tools", "cross-domain-uses", "deployed-app", "deployment", "governance-executor", "intelligence-router", "memory-authority", "paper-engine", "sovereign", "third-party-ai-api"]
+packages = ["ai-aware-tools", "ai-tools", "cross-domain-uses", "deployed-app", "deployment", "governance-executor", "intelligence-router", "memory-authority", "paper-engine", "sovereign", "sovereign-workers", "third-party-ai-api"]

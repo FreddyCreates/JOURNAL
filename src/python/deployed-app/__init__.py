@@ -663,7 +663,205 @@ def create_app(docs_dir: Path = Path("docs")) -> FastAPI:
             "total_categories": len(ai_api.category_index),
             "total_tags": len(ai_api.tag_index),
         }
-    
+     
+    # ====================================================================
+    # Sovereign Worker Routes
+    # ====================================================================
+     
+    # Import worker module
+    try:
+        from pathlib import Path as PathlibPath
+        import importlib.util
+        _worker_module_path = PathlibPath(__file__).parent.parent / "sovereign-workers" / "__init__.py"
+        _worker_spec = importlib.util.spec_from_file_location("sovereign_workers", _worker_module_path)
+        _worker_module = importlib.util.module_from_spec(_worker_spec)
+        _worker_spec.loader.exec_module(_worker_module)
+        SovereignWorker = _worker_module.SovereignWorker
+        SovereignWorkerRegistry = _worker_module.SovereignWorkerRegistry
+        WorkerTask = _worker_module.WorkerTask
+    except Exception as e:
+        logger.warning(f"Could not import sovereign-workers: {e}")
+        SovereignWorker = None
+        SovereignWorkerRegistry = None
+        WorkerTask = None
+     
+    # Initialize worker registry (can be configured with other components)
+    worker_registry = SovereignWorkerRegistry() if SovereignWorkerRegistry else None
+     
+    class WorkerRequest(BaseModel):
+        """Request to create a worker."""
+        name: str
+        description: str = ""
+        capabilities: List[str] = []
+     
+    class TaskRequest(BaseModel):
+        """Request to submit a task to a worker."""
+        name: str
+        description: str = ""
+        payload: dict = {}
+        priority: str = "NORMAL"
+        timeout_seconds: float = 300.0
+     
+    class WorkflowRequest(BaseModel):
+        """Request to execute a workflow."""
+        name: str
+        steps: List[dict]
+        parallel: bool = False
+     
+    @app.post("/api/workers")
+    async def create_worker(request: WorkerRequest):
+        """Create a new sovereign worker."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        try:
+            worker = worker_registry.create_worker(
+                name=request.name,
+                description=request.description,
+                capabilities=request.capabilities,
+            )
+            return {
+                "worker_id": worker.worker_id,
+                "name": worker.name,
+                "capabilities": worker.capabilities,
+                "created_at": datetime.utcnow().isoformat(),
+            }
+        except Exception as e:
+            logger.error(f"Failed to create worker: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+     
+    @app.get("/api/workers")
+    async def list_workers():
+        """List all sovereign workers."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        return {
+            "workers": worker_registry.list_workers(),
+            "total": len(worker_registry.workers),
+        }
+     
+    @app.get("/api/workers/{worker_id}")
+    async def get_worker_status(worker_id: str):
+        """Get status of a specific worker."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        worker = worker_registry.get_worker(worker_id)
+        if not worker:
+            raise HTTPException(status_code=404, detail="Worker not found")
+         
+        return worker.get_status()
+     
+    @app.post("/api/workers/{worker_id}/start")
+    async def start_worker(worker_id: str):
+        """Start a worker."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        worker = worker_registry.get_worker(worker_id)
+        if not worker:
+            raise HTTPException(status_code=404, detail="Worker not found")
+         
+        try:
+            await worker.start()
+            return {
+                "worker_id": worker_id,
+                "status": "started",
+                "timestamp": datetime.utcnow().isoformat(),
+            }
+        except Exception as e:
+            logger.error(f"Failed to start worker: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+     
+    @app.post("/api/workers/{worker_id}/stop")
+    async def stop_worker(worker_id: str):
+        """Stop a worker."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        worker = worker_registry.get_worker(worker_id)
+        if not worker:
+            raise HTTPException(status_code=404, detail="Worker not found")
+         
+        try:
+            await worker.stop()
+            return {
+                "worker_id": worker_id,
+                "status": "stopped",
+                "timestamp": datetime.utcnow().isoformat(),
+            }
+        except Exception as e:
+            logger.error(f"Failed to stop worker: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+     
+    @app.post("/api/workers/{worker_id}/tasks")
+    async def submit_task(worker_id: str, request: TaskRequest):
+        """Submit a task to a worker."""
+        if not worker_registry or not WorkerTask:
+            raise HTTPException(status_code=503, detail="Worker system not available")
+         
+        worker = worker_registry.get_worker(worker_id)
+        if not worker:
+            raise HTTPException(status_code=404, detail="Worker not found")
+         
+        try:
+            task = WorkerTask(
+                name=request.name,
+                description=request.description,
+                payload=request.payload,
+                timeout_seconds=request.timeout_seconds,
+            )
+             
+            # Execute task
+            result_task = await worker.execute_task(task)
+             
+            return {
+                "task_id": result_task.task_id,
+                "status": result_task.status.value,
+                "result": result_task.result,
+                "error": result_task.error,
+                "execution_time": result_task.execution_time,
+            }
+        except Exception as e:
+            logger.error(f"Failed to execute task: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+     
+    @app.get("/api/workers/capabilities")
+    async def list_capabilities():
+        """List all available worker capabilities."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        caps = worker_registry.capability_registry.list_capabilities()
+        return {"capabilities": caps}
+     
+    @app.post("/api/workflows")
+    async def create_workflow(request: WorkflowRequest):
+        """Create and execute a workflow."""
+        if not worker_registry:
+            raise HTTPException(status_code=503, detail="Worker registry not available")
+         
+        try:
+            from pathlib import Path as PathlibPath
+            import importlib.util
+            _orch_module_path = PathlibPath(__file__).parent.parent / "sovereign-workers" / "orchestrator.py"
+            _orch_spec = importlib.util.spec_from_file_location("orchestrator", _orch_module_path)
+            _orch_module = importlib.util.module_from_spec(_orch_spec)
+            _orch_spec.loader.exec_module(_orch_module)
+            WorkerOrchestrator = _orch_module.WorkerOrchestrator
+             
+            orchestrator = WorkerOrchestrator(worker_registry=worker_registry)
+            result = await orchestrator.compose_and_execute(
+                workflow_name=request.name,
+                steps_config=request.steps,
+            )
+             
+            return result
+        except Exception as e:
+            logger.error(f"Failed to execute workflow: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+     
     return app
 
 
