@@ -309,6 +309,108 @@ using .TokenSimulator
             @test length(history) == 10
             @test history[10].period == 10
         end
+
+        @testset "Token State Transitions" begin
+            token = create_token("STATE-TEST", "State Testing Token")
+            @test token.phase == Genesis
+            
+            evolve_token!(token, 1.0)
+            @test token.phase != Genesis  # Should transition
+        end
+
+        @testset "Token Coherence Bounds" begin
+            for i in 1:5
+                token = create_token("COH-$i", "Coherence Test $i")
+                @test 0 <= token.coherence <= 1
+                evolve_token!(token, 0.5)
+                @test 0 <= token.coherence <= 1
+            end
+        end
+
+        @testset "Token Energy Decay" begin
+            token = create_token("ENERGY-001", "Energy Test")
+            initial_energy = token.energy
+            
+            for _ in 1:3
+                evolve_token!(token, 1.0)
+            end
+            
+            @test token.energy < initial_energy
+        end
+
+        @testset "Universe Token Metrics" begin
+            universe = TokenUniverse()
+            tokens = [create_token("MET-$i", "Metric Token $i") for i in 1:10]
+            
+            for token in tokens
+                add_token!(universe, token)
+            end
+            
+            metrics = calculate_metrics(universe)
+            @test metrics.total_tokens == 10
+            @test metrics.mean_energy > 0
+            @test metrics.mean_generation == 0  # All newly created
+        end
+    end
+
+    @testset "NeuralDynamics Extended" begin
+        @testset "Hebbian Learning Asymmetry" begin
+            heb = HebbianNetwork(5)
+            
+            heb.activations = [1.0, 0.5, 0.0, 0.5, 1.0]
+            w_initial = copy(heb.weights[1, 2])
+            
+            hebbian_learn!(heb, 1, 2)
+            hebbian_learn!(heb, 2, 1)
+            
+            # Weights should be symmetric for Hebbian learning
+            @test abs(heb.weights[1, 2] - heb.weights[2, 1]) < 1e-10
+        end
+
+        @testset "Neurochemistry Bounds" begin
+            chem = NeurochemistrySystem()
+            
+            fire_dopamine!(chem, 1.0)  # Max
+            @test chem.dopamine_level <= 1.0
+            @test chem.arousal_state <= 1.0
+            
+            fire_oxytocin!(chem, 1.0)  # Max
+            @test chem.oxytocin_level <= 1.0
+        end
+
+        @testset "Brain Coherence Evolution" begin
+            brain = create_brain(15, 20)
+            initial_coherence = brain.coherence
+            
+            for i in 1:5
+                input = sin.(collect(1:20) .* i * 0.1)
+                think!(brain, input)
+            end
+            
+            # Coherence should evolve
+            @test brain.time == 5
+            @test brain.decisions_made > 0
+        end
+    end
+
+    @testset "QuantumCoherence Extended" begin
+        @testset "Superposition Normalization" begin
+            # Verify superposition states are normalized
+            sup = create_superposition([0, 1, 2, 3], 2)
+            total_prob = sum(abs.(sup.amplitudes) .^ 2)
+            @test total_prob ≈ 1.0 atol=1e-10
+        end
+
+        @testset "Multiple Bell States" begin
+            for bell_type in [:bell_phi_plus, :bell_phi_minus, :bell_psi_plus, :bell_psi_minus]
+                bell = create_entangled_pair(bell_type)
+                @test length(bell.amplitudes) == 4
+                
+                # All Bell states should be normalized
+                total_prob = sum(abs.(bell.amplitudes) .^ 2)
+                @test total_prob ≈ 1.0 atol=1e-10
+            end
+        end
     end
 end
 

@@ -45,6 +45,6 @@ jupyter = [
     "ipython>=8.0.0",
 ]
 
-[[project.urls]]
+[project.urls]
 Repository = "https://github.com/FreddyCreates/JOURNAL"
 Documentation = "https://freddycreates.github.io/JOURNAL/"

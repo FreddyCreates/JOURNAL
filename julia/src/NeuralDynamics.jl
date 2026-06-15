@@ -31,7 +31,7 @@ export create_network, evolve!, kuramoto_step!, get_order_parameter
 export HebbianNetwork, hebbian_learn!, spike_timing_dependent_plasticity!
 export NeurochemistrySystem, fire_dopamine!, fire_oxytocin!, decay!
 export MiniBrain, create_brain, think!, get_arousal, get_bonding
-export EmergenceCascade, trigger_cascade!, cascade_complete?
+export EmergenceCascade, trigger_cascade!
 
 # ════════════════════════════════════════════════════════════════════════════════
 # NEURAL CONSTANTS
