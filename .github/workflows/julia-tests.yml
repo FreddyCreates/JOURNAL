@@ -1,0 +1,43 @@
+name: Julia Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'julia/**'
+      - '.github/workflows/julia-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'julia/**'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        julia-version: ['1.9', '1.10']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Julia
+      uses: julia-actions/setup-julia@v1
+      with:
+        version: ${{ matrix.julia-version }}
+    
+    - name: Install THESIS dependencies
+      run: |
+        julia --project=julia -e 'using Pkg; Pkg.instantiate()'
+    
+    - name: Run THESIS tests
+      run: |
+        julia --project=julia -e 'using Pkg; Pkg.test()'
+    
+    - name: Run THESIS verification
+      run: |
+        julia julia/thesis.jl --verify-mode
+      continue-on-error: true

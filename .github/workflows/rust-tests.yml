@@ -1,0 +1,58 @@
+name: Rust Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'rust/**'
+      - '.github/workflows/rust-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'rust/**'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust-version: ['stable', 'beta']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ matrix.rust-version }}
+        override: true
+    
+    - name: Cache cargo registry
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Cache cargo index
+      uses: actions/cache@v3
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Cache cargo build
+      uses: actions/cache@v3
+      with:
+        path: rust/target
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+    
+    - name: Run tests
+      run: |
+        cd rust && cargo test --all --verbose
+    
+    - name: Run clippy
+      run: |
+        cd rust && cargo clippy --all --all-targets -- -D warnings
+      continue-on-error: true
