@@ -1,0 +1,113 @@
+{
+  "$schema": "sovereign-vault-ledger/v1",
+  "version": "1.0.0",
+  "vault_id": "SVA-VAULT-001",
+  "owner": "Medina Sovereign Intelligence",
+  "created": "2026-06-13T21:35:00Z",
+  "description": "Sovereign Vault Ledger — token metadata registry. Secret values live in GitHub Secrets; this ledger tracks what exists, its purpose, scope, and access policy.",
+
+  "tokens": [
+    {
+      "token_id": "MEDINASITECH",
+      "alias": "Zenodo Write Token (Primary)",
+      "provider": "zenodo",
+      "scopes": ["deposit:write"],
+      "capabilities": ["create_deposit", "upload_files", "update_metadata"],
+      "restrictions": ["no_publish"],
+      "secret_ref": "secrets.MEDINASITECH",
+      "registered": "2026-06-13T21:35:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "Write-only Zenodo deposit token. Cannot publish — human approval required for publication."
+    },
+    {
+      "token_id": "COPILOT_CLAUDE_ZENODO",
+      "alias": "Copilot/Claude Zenodo Write Token",
+      "provider": "zenodo",
+      "scopes": ["deposit:write", "user:email"],
+      "capabilities": ["create_deposit", "upload_files", "update_metadata", "read_user_email"],
+      "restrictions": ["no_publish"],
+      "secret_ref": "secrets.COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING",
+      "registered": "2026-06-13T21:35:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "Agent-accessible write token with email scope. Used by Copilot and Claude for sovereign deposit operations."
+    },
+    {
+      "token_id": "NPM_PUBLISH_TOKEN",
+      "alias": "NPM Registry Publish Token",
+      "provider": "npmjs",
+      "scopes": ["publish:write", "read:packages"],
+      "capabilities": ["publish_package", "unpublish_package", "read_registry"],
+      "restrictions": ["scope:@medina"],
+      "secret_ref": "secrets.npm_token",
+      "registered": "2026-06-14T00:45:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "NPM registry token for automated package publishing in CI/CD workflows."
+    },
+    {
+      "token_id": "GITHUB_PAGES_DEPLOY",
+      "alias": "GitHub Pages Deployment Token",
+      "provider": "github",
+      "scopes": ["pages:write", "contents:read"],
+      "capabilities": ["deploy_pages", "read_repo"],
+      "restrictions": ["target:memory-vault-site"],
+      "secret_ref": "secrets.GITHUB_TOKEN",
+      "registered": "2026-06-14T00:45:00Z",
+      "status": "active",
+      "access_policy": "agent_write",
+      "notes": "GitHub Actions token for deploying GitHub Pages. Scoped to specific repository."
+    }
+  ],
+
+  "token_classes": {
+    "integration": {
+      "description": "Tokens for external service integration — Zenodo, NPM, GitHub, ICP, IPFS, etc.",
+      "tokens": ["MEDINASITECH", "COPILOT_CLAUDE_ZENODO", "NPM_PUBLISH_TOKEN", "GITHUB_PAGES_DEPLOY"]
+    },
+    "cognition": {
+      "description": "Tokens governing cognitive agent operations — memory read/write, reasoning chains, attention budgets.",
+      "tokens": []
+    },
+    "memory": {
+      "description": "Tokens governing memory persistence — vault reads, ledger writes, checkpoint creation.",
+      "tokens": []
+    },
+    "system": {
+      "description": "System-level tokens for platform operations — governance enforcement, organism fleet coordination.",
+      "tokens": []
+    },
+    "enterprise": {
+      "description": "Enterprise connector tokens — Salesforce, SAP, HubSpot, Stripe, Google, Shopify, Slack, Twilio, etc.",
+      "tokens": []
+    }
+  },
+
+  "access_policies": {
+    "agent_write": {
+      "description": "Agents may use token for write operations without human approval",
+      "requires_human": false,
+      "audit_trail": true,
+      "max_operations_per_hour": 60
+    },
+    "agent_read": {
+      "description": "Agents may use token for read-only operations",
+      "requires_human": false,
+      "audit_trail": false,
+      "max_operations_per_hour": 1000
+    },
+    "human_gate": {
+      "description": "Token usage requires explicit human approval per operation",
+      "requires_human": true,
+      "audit_trail": true,
+      "max_operations_per_hour": 10
+    },
+    "sovereign_only": {
+      "description": "Only the sovereign owner may invoke — no agent access",
+      "requires_human": true,
+      "audit_trail": true,
+      "max_operations_per_hour": 5
+    }
+  }
+}

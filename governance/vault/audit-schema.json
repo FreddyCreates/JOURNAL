@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sovereign Vault Audit Event",
+  "description": "Schema for vault token resolution audit events",
+  "type": "object",
+  "required": ["token_id", "caller", "operation", "timestamp", "phi_hash"],
+  "properties": {
+    "token_id": {
+      "type": "string",
+      "description": "The token identifier from the ledger"
+    },
+    "caller": {
+      "type": "string",
+      "description": "The agent or user that requested token resolution"
+    },
+    "operation": {
+      "type": "string",
+      "description": "What the token will be used for",
+      "examples": ["create_deposit", "upload_file", "resolve"]
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp in milliseconds"
+    },
+    "phi_hash": {
+      "type": "string",
+      "description": "Phi-weighted hash of the audit event for integrity verification",
+      "pattern": "^[0-9a-f]{8}$"
+    },
+    "result": {
+      "type": "string",
+      "enum": ["success", "denied", "rate_limited", "not_found", "error"],
+      "description": "Outcome of the resolution attempt"
+    },
+    "policy_applied": {
+      "type": "string",
+      "description": "The access policy that was evaluated"
+    }
+  }
+}

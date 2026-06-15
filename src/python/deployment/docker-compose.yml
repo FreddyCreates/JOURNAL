@@ -1,0 +1,70 @@
+# Deployment Docker Compose
+# Spins up entire Sovereign Organism stack locally
+
+version: '3.9'
+
+services:
+  # FastAPI backend
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: sovereign-api
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONUNBUFFERED: "1"
+      ENVIRONMENT: development
+    volumes:
+      - .:/app
+    command: python -m uvicorn src.python.deployed_app:app --host 0.0.0.0 --reload
+    depends_on:
+      - redis
+      - postgres
+
+  # Julia THESIS engine
+  julia-thesis:
+    image: julia:1.9
+    container_name: sovereign-thesis
+    volumes:
+      - ./julia:/workspace
+    working_dir: /workspace
+    command: julia -e "println(\"THESIS engine ready\")"
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    container_name: sovereign-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # PostgreSQL persistence
+  postgres:
+    image: postgres:15-alpine
+    container_name: sovereign-postgres
+    environment:
+      POSTGRES_PASSWORD: sovereign-organism
+      POSTGRES_DB: organism
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Static site (GitHub Pages mirror)
+  static:
+    image: nginx:alpine
+    container_name: sovereign-static
+    ports:
+      - "3000:80"
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+
+volumes:
+  redis_data:
+  postgres_data:
+
+networks:
+  default:
+    name: organism-network

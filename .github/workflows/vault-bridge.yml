@@ -1,0 +1,77 @@
+name: Sovereign Vault Bridge
+on:
+  workflow_call:
+    inputs:
+      token_id:
+        description: 'Token ID from the vault ledger to resolve'
+        required: true
+        type: string
+      operation:
+        description: 'Operation description for audit trail'
+        required: true
+        type: string
+    outputs:
+      resolved:
+        description: 'Whether the token was successfully resolved'
+        value: ${{ jobs.resolve.outputs.resolved }}
+  workflow_dispatch:
+    inputs:
+      token_id:
+        description: 'Token ID from the vault ledger'
+        required: true
+        type: string
+      operation:
+        description: 'Operation to perform'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    name: Vault Bridge — Resolve Token
+    runs-on: ubuntu-latest
+    outputs:
+      resolved: ${{ steps.bridge.outputs.resolved }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Resolve via Sovereign Vault Bridge
+        id: bridge
+        env:
+          MEDINASITECH: ${{ secrets.MEDINASITECH }}
+          COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING: ${{ secrets.COPILOT_AND_CLAUDE_TOKEN_FOR_WRITING }}
+        run: |
+          node --input-type=module << 'EOF'
+          import { SovereignVaultBridge } from './governance/vault/bridge.js';
+
+          const bridge = new SovereignVaultBridge();
+          const tokenId = process.env.INPUT_TOKEN_ID || '${{ inputs.token_id }}';
+          const operation = process.env.INPUT_OPERATION || '${{ inputs.operation }}';
+
+          try {
+            const result = bridge.resolve(tokenId, {
+              caller: 'github-actions',
+              operation: operation,
+            });
+
+            console.log(`✓ Token "${tokenId}" resolved successfully`);
+            console.log(`  Scopes: ${result.scopes.join(', ')}`);
+            console.log(`  Restrictions: ${result.restrictions.join(', ')}`);
+            console.log(`  Capabilities: ${result.capabilities.join(', ')}`);
+
+            // Set output — never expose the actual token value in logs
+            const fs = await import('node:fs');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `resolved=true\n`);
+          } catch (err) {
+            console.error(`✗ Vault bridge error: ${err.message}`);
+            const fs = await import('node:fs');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `resolved=false\n`);
+            process.exit(1);
+          }
+          EOF

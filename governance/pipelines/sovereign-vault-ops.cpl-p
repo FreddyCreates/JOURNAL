@@ -1,0 +1,189 @@
+PIPELINE SOVEREIGN_VAULT_OPS {
+  VERSION "1.0.0"
+  ENCODED_ID: "PIP.VAULT.OPS.001"
+  AUTHOR: "Medina Sovereign Intelligence"
+  CREATED: 2026-06-13
+
+  // ================================================================
+  // STAGE 1: Token Resolution Pipeline
+  // ================================================================
+  STAGE RESOLVE_TOKEN {
+    TRIGGER: vault.resolve_request
+    
+    STEP validate_caller {
+      ACTION: verify_identity
+      INPUT: context.caller
+      EXPECT: caller.authenticated == TRUE
+      ON_FAIL: ABORT "Unauthenticated caller cannot resolve tokens"
+    }
+
+    STEP load_ledger {
+      ACTION: read_ledger
+      INPUT: governance/vault/ledger.json
+      OUTPUT: ledger_state
+    }
+
+    STEP check_token_exists {
+      ACTION: lookup_token
+      INPUT: context.token_id, ledger_state
+      EXPECT: token.found == TRUE
+      ON_FAIL: ABORT "Token not found in sovereign vault ledger"
+    }
+
+    STEP evaluate_policy {
+      ACTION: enforce_law
+      LAW: SOVEREIGN_VAULT.ACCESS_POLICY
+      INPUT: token.access_policy, context
+      ON_FAIL: ABORT "Access policy violation"
+    }
+
+    STEP resolve_secret {
+      ACTION: env_lookup
+      INPUT: token.secret_ref
+      OUTPUT: resolved_value
+      ON_FAIL: ABORT "Secret not found in environment"
+    }
+
+    STEP emit_audit {
+      ACTION: create_audit_event
+      SCHEMA: governance/vault/audit-schema.json
+      INPUT: {
+        token_id: context.token_id,
+        caller: context.caller,
+        operation: context.operation,
+        result: "success",
+        policy_applied: token.access_policy
+      }
+    }
+
+    STEP return_token {
+      ACTION: respond
+      OUTPUT: {
+        token: resolved_value,
+        scopes: token.scopes,
+        restrictions: token.restrictions
+      }
+    }
+  }
+
+  // ================================================================
+  // STAGE 2: Token Registration Pipeline
+  // ================================================================
+  STAGE REGISTER_TOKEN {
+    TRIGGER: vault.register_request
+
+    STEP validate_owner {
+      ACTION: verify_identity
+      INPUT: context.caller
+      EXPECT: caller.is_owner == TRUE
+      ON_FAIL: ABORT "Only sovereign owner can register tokens"
+    }
+
+    STEP validate_metadata {
+      ACTION: schema_validate
+      INPUT: context.new_token
+      EXPECT: {
+        token_id: NOT NULL,
+        provider: NOT NULL,
+        scopes: NOT EMPTY,
+        access_policy: NOT NULL,
+        secret_ref: MATCHES "secrets\\..+"
+      }
+      ON_FAIL: ABORT "Token metadata validation failed"
+    }
+
+    STEP check_duplicate {
+      ACTION: lookup_token
+      INPUT: context.new_token.token_id, ledger_state
+      EXPECT: token.found == FALSE
+      ON_FAIL: ABORT "Token ID already exists in ledger"
+    }
+
+    STEP write_ledger {
+      ACTION: append_to_ledger
+      INPUT: context.new_token
+      OUTPUT: updated_ledger
+    }
+
+    STEP emit_registration_audit {
+      ACTION: create_audit_event
+      INPUT: {
+        token_id: context.new_token.token_id,
+        caller: context.caller,
+        operation: "register",
+        result: "success"
+      }
+    }
+  }
+
+  // ================================================================
+  // STAGE 3: Token Revocation Pipeline
+  // ================================================================
+  STAGE REVOKE_TOKEN {
+    TRIGGER: vault.revoke_request
+
+    STEP validate_owner {
+      ACTION: verify_identity
+      INPUT: context.caller
+      EXPECT: caller.is_owner == TRUE
+      ON_FAIL: ABORT "Only sovereign owner can revoke tokens"
+    }
+
+    STEP mark_revoked {
+      ACTION: update_ledger
+      INPUT: { token_id: context.token_id, status: "revoked" }
+      OUTPUT: updated_ledger
+    }
+
+    STEP emit_revocation_audit {
+      ACTION: create_audit_event
+      INPUT: {
+        token_id: context.token_id,
+        caller: context.caller,
+        operation: "revoke",
+        result: "success"
+      }
+    }
+
+    STEP notify_dependents {
+      ACTION: broadcast
+      TARGET: fleet
+      MESSAGE: "Token ${context.token_id} has been revoked. Update workflows."
+    }
+  }
+
+  // ================================================================
+  // STAGE 4: Vault Health Check
+  // ================================================================
+  STAGE HEALTH_CHECK {
+    TRIGGER: schedule.hourly OR vault.health_request
+
+    STEP verify_ledger_integrity {
+      ACTION: validate_json
+      INPUT: governance/vault/ledger.json
+      EXPECT: valid == TRUE
+    }
+
+    STEP check_secret_availability {
+      ACTION: env_check
+      INPUT: ledger.tokens[*].secret_ref
+      OUTPUT: availability_report
+    }
+
+    STEP check_rate_limits {
+      ACTION: audit_analysis
+      INPUT: audit_log, ledger.access_policies
+      OUTPUT: rate_limit_status
+    }
+
+    STEP report_health {
+      ACTION: respond
+      OUTPUT: {
+        ledger_valid: TRUE,
+        secrets_available: availability_report,
+        rate_limits: rate_limit_status,
+        timestamp: NOW()
+      }
+    }
+  }
+}
